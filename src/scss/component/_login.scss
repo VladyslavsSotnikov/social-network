@@ -1,0 +1,105 @@
+.login {
+    width: 440px;
+    height: 520px;
+    background-color: $white;
+    margin: 0 auto;
+    border-radius: 3px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        padding: 80px 0px;
+    }
+
+    &__icon {
+        width: 90px;
+        height: 90px;
+    }
+
+    &__title {
+        font-family: $oswald;
+        font-size: 24px;
+        margin: 15px 0;
+    }
+
+    &__form {
+        width: 100%;
+    }
+
+    &__input {
+        margin-bottom: 15px;
+    }
+
+
+    &__inputText {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid $grey;
+        border-radius: 2px;
+    }
+
+    &__inputText--error {
+        border: 1px solid $red;
+    }
+
+    &__inputText::-moz-placeholder {
+        color: $grey;
+    }
+
+    &__checkbox {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    &__inputCheckbox {
+        margin-right: 15px;
+
+    }
+
+    &__inputCheckbox:hover {
+        cursor: pointer;
+    }
+
+    &__inputCheckbox:checked {
+        background-color: $blue-dark;
+    }
+
+    &__checkboxLabel {
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    &__btn {
+        width: 100%;
+        padding: 14px 0;
+        background-color: $blue-dark;
+        color: $white;
+        border: none;
+        border-radius: 2px;
+        transition: filter 0.2s ease-in-out;
+    }
+
+    &__btn:hover {
+        cursor: pointer;
+        filter: brightness(120%);
+    }
+
+    &__error {
+        margin: 15px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    &__errorText {
+        color: $red;
+        font-size: 12px;
+        margin-left: 7px;
+    }
+}

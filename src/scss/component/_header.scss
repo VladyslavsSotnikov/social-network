@@ -1,0 +1,50 @@
+.header {
+
+    width: 100%;
+    height: 50px;
+    background-color: $blue-dark;
+
+    &__wraper {
+        width: 65%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 60px 0 30px;
+        margin: 0 auto;
+    }
+
+    &__auth {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 23%;
+    }
+
+    &__img {
+        width: 30px;
+        height: 30px;
+    }
+
+    &__manImg {
+        width: 100%;
+        height: 100%;
+    }
+
+    &__login {
+        color: $white;
+        font-weight: bold;
+    }
+
+    &__logout {
+        width: 25px;
+        height: 25px;
+
+        & img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__logout:hover {
+        cursor: pointer;
+    }
+}
