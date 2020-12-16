@@ -1,5 +1,5 @@
 import React, { useEffect, } from 'react'
-import { getUsers } from '../../redux/reducers/user-reducer'
+import { getUsers, followThunkCreator, unfollowThunkCreator } from '../../redux/reducers/user-reducer'
 
 
 
@@ -10,13 +10,25 @@ import Paginator from '../Paginator/Paginator'
 
 function Users() {
     const dispatch = useDispatch()
-    const { users, isFetching, count, page } = useSelector(({ users }) => users)
+
+    const { users, isFetching, count, page, followingInProgress } = useSelector(({ users }) => users)
+
     useEffect(() => {
         dispatch(getUsers(count, page))
     }, [page, count, dispatch])
+
     const onChangePage = (page) => {
         dispatch(getUsers(count, page))
     }
+
+    const onClickFollow = (userId) => {
+        followThunkCreator(userId)(dispatch)
+    }
+
+    const onClickUnfollow = (userId) => {
+        unfollowThunkCreator(userId)(dispatch)
+    }
+
     return (
         <div className="users">
             <div className="users__content">
@@ -29,6 +41,9 @@ function Users() {
                             status={user.status}
                             photo={user.photos.small}
                             followed={user.followed}
+                            follow={onClickFollow}
+                            unfollow={onClickUnfollow}
+                            followingInProgress={followingInProgress}
                         />)
 
                     })

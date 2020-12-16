@@ -23,7 +23,7 @@ function Paginator({ currentPage, onChangePage }) {
             <div className="paginator__pages">
                 {pages
                     .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
-                    .map(page => <div onClick={() => onChangePage(page)} className={currentPage === page ? 'paginator__page paginator__page--active' : 'paginator__page'}  >{page}</div>)}
+                    .map(page => <div key={page} onClick={() => onChangePage(page)} className={currentPage === page ? 'paginator__page paginator__page--active' : 'paginator__page'}  >{page}</div>)}
             </div>
             {portionNumber !== numberOfPortion && <div onClick={() => setPortionNumber(portionNumber + 1)} className="paginator__arrow-left"><img src={left} alt="left" /></div>}
 

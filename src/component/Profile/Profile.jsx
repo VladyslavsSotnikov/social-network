@@ -9,17 +9,27 @@ import { getUserProfile } from '../../redux/reducers/profile-reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileLoader from '../Loader/ProfileLoader/ProfileLoader'
 import { withRouter } from 'react-router-dom'
+import { compose } from 'redux'
+import { withAuthRedirect } from '../hoc/withAuthRedirect'
 
 function Profile({ match }) {
+
+    const { userData } = useSelector(({ auth }) => auth)
+
     let userId = match.params.userId
+
     if (!userId) {
-        userId = 2
+        userId = userData.id
     }
+
     const dispatch = useDispatch()
+
     const { profile, isFeaching } = useSelector(({ profile }) => profile)
+
     useEffect(() => {
         getUserProfile(userId)(dispatch)
     }, [dispatch, userId])
+
     const posts = [
         { id: 1, author: 'Vladyslav Sotnikov', date: '20 lis 2020', text: 'Junior front end developer', like: 20 },
         { id: 2, author: 'Kamil Bieniek', date: '25 lis 2020', text: 'Hi! How are you today?', like: 2 }
@@ -59,4 +69,7 @@ function Profile({ match }) {
     )
 }
 
-export default withRouter(Profile) 
+export default compose(
+    withAuthRedirect,
+    withRouter
+)(Profile)  

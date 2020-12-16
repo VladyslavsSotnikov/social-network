@@ -1,13 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 import man from '../../../assests/man.svg'
 
-function User({ id, name, status, photo, followed }) {
+function User({ id, name, status, photo, followed, follow, unfollow, followingInProgress }) {
     return (
         <div className="user">
             <div className="user__avatar">
                 <Link to={`/profile/${id}`}><img src={photo ? photo : man} alt="user" /></Link>
-                <button className="user__btn">{!followed ? 'Dodaj' : 'Usuń'}</button>
+                <button
+                    onClick={!followed ? () => follow(id) : () => unfollow(id)}
+                    className={classNames("user__btn", { "user__btn-disabled": followingInProgress.some(userId => userId === id) })}
+                > {!followed ? 'Dodaj' : 'Usuń'}
+                </button>
             </div>
             <div className="user__info">
                 <Link to={`profile/${id}`} >

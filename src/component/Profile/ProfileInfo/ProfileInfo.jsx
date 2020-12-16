@@ -14,7 +14,7 @@ function ProfileInfo({ profile }) {
                 }
                 {editMode &&
                     <form className="profile__form">
-                        <input autoFocus={true} onBlur={() => setEditMode(false)} className="profile__form-input" type="text" placeholder="Hello, I'm a junior React developer" />
+                        <input autoFocus={true} onBlur={() => setEditMode(false)} className="profile__form-input" type="text" placeholder={profile.aboutMe} />
                     </form>
                 }
 

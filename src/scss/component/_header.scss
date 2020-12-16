@@ -47,4 +47,16 @@
     &__logout:hover {
         cursor: pointer;
     }
+
+    &__login-btn {
+        color: $white;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        transition: .2s all ease-in-out;
+
+        &:hover {
+            color: $black;
+        }
+    }
 }

@@ -1,13 +1,16 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 import man from '../../assests/man.svg'
+import { withAuthRedirect } from '../hoc/withAuthRedirect'
 
 function Chats() {
     return (
         <div className="chats">
             <div className="chats__dialogs">
+
                 <ul className="chats__dialogs-list">
-                    <li className="chats__dialog-item chats__dialog-item--active">
+                    <NavLink to='/chats/1' className="chats__dialog-item" activeClassName="chats__dialog-item--active">
                         <div className="chats__dialog-photo">
                             <img src={man} alt="man" />
                         </div>
@@ -15,8 +18,8 @@ function Chats() {
                             <div className="chats__dialog-name">Vladyslav Sotnikov</div>
                             <div className="chats__dialog-text">Some messages...</div>
                         </div>
-                    </li>
-                    <li className="chats__dialog-item ">
+                    </NavLink>
+                    <NavLink to='/chats/2' className="chats__dialog-item" activeClassName="chats__dialog-item--active">
                         <div className="chats__dialog-photo">
                             <img src={man} alt="man" />
                         </div>
@@ -24,8 +27,8 @@ function Chats() {
                             <div className="chats__dialog-name">Vladyslav Sotnikov</div>
                             <div className="chats__dialog-text">Some messages...</div>
                         </div>
-                    </li>
-                    <li className="chats__dialog-item">
+                    </NavLink>
+                    <NavLink to='/chats/3' className="chats__dialog-item" activeClassName="chats__dialog-item--active">
                         <div className="chats__dialog-photo">
                             <img src={man} alt="man" />
                         </div>
@@ -33,7 +36,8 @@ function Chats() {
                             <div className="chats__dialog-name">Vladyslav Sotnikov</div>
                             <div className="chats__dialog-text">Some messages...</div>
                         </div>
-                    </li>
+                    </NavLink>
+
                 </ul>
             </div>
             <div className="chats__messages">
@@ -77,4 +81,4 @@ function Chats() {
     )
 }
 
-export default Chats
+export default withAuthRedirect(Chats) 

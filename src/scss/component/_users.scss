@@ -44,6 +44,11 @@
             cursor: pointer;
             background-color: $btn-hover;
         }
+
+        &-disabled {
+            pointer-events: none;
+            background-color: $grey;
+        }
     }
 
     &__info {

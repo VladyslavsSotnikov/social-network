@@ -1,45 +1,42 @@
 import React from 'react'
 import icon from '../../assests/loginIcon.svg'
-import error from '../../assests/error.svg'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import LoginForm from './LoginForm/LoginForm'
+import { login } from '../../redux/reducers/auth-reducer'
 function Login() {
+
+    const dispatch = useDispatch()
+
+    const { isAuth } = useSelector(({ auth }) => auth)
+
+    const onClickSubmit = (data) => {
+        dispatch(login(data.email, data.password, data.checkbox))
+    }
     return (
-        <div className="login">
-            <div className="login__content">
-                <div className="login__img">
-                    <img className="login__icon" src={icon} alt="Login icon" />
-                </div>
-                <h3 className="login__title">Zaloguj się</h3>
-                <div className="login__form">
-                    <form className="login__form">
-                        <div className="login__input">
-                            <input className="login__inputText login__inputText--error" type="text" placeholder="e-mail" />
-                            <div className="login__error">
-                                <img className="logo__errorIcon" src={error} alt="error" />
-                                <p className="login__errorText">
-                                    Wprowadź poprawny e-mail
-                                </p>
+        <div>
+            {
+                !isAuth
+                    ? <div className="login">
+                        <div className="login__content">
+                            <div className="login__img">
+                                <img className="login__icon" src={icon} alt="Login icon" />
+                            </div>
+                            <h3 className="login__title">Zaloguj się</h3>
+                            <div className="login__form">
+                                <LoginForm onSubmit={onClickSubmit} />
                             </div>
                         </div>
-                        <div className="login__input">
-                            <input className="login__inputText" type="text" placeholder="hasło" />
-                        </div>
-                        <div className="login__checkbox">
-                            <input type="checkbox" id="checkbox" className="login__inputCheckbox" />
-                            <label className="login__checkboxLabel" htmlFor="checkbox">Zapamiętaj mnie</label>
-                        </div>
+                    </div>
+                    : <Redirect to='/profile' />
+            }
 
-                        {/* <div className="login__error">
-                            <img className="logo__errorIcon" src={error} alt="error" />
-                            <p className="login__errorText">
-                                Wprowadź poprawny e-mail
-                            </p>
-                        </div> */}
-                        <button className="login__btn" type="submit">Zaloguj się</button>
-                    </form>
-                </div>
-            </div>
         </div>
+
     )
 }
+
+
 
 export default Login
