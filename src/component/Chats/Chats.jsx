@@ -73,7 +73,7 @@ function Chats() {
                 <div className="chats__message-form">
                     <form>
                         <input type="text" className="chats__message-input" placeholder="Wpisz wiadomość ..." />
-                        <button type="submit" className="chats__message-btn" > Odeśij <lij></lij></button>
+                        <button type="submit" className="chats__message-btn" > Odeśij</button>
                     </form>
                 </div>
             </div>

@@ -3,11 +3,11 @@ import { Field, reduxForm } from 'redux-form'
 
 
 import { CheckBoxLogin, InputLogin } from '../../common/FormControl/FormControl'
-import { emailValidator, minLengthCreator, required } from '../../common/validators/validators'
+// import { emailValidator, minLengthCreator, required } from '../../common/validators/validators'
 
 function LoginForm(props) {
 
-    const minLength8 = minLengthCreator(8)
+    // const minLength8 = minLengthCreator(8)
 
     return (
         <form className="login__form" onSubmit={props.handleSubmit}>
@@ -46,4 +46,4 @@ function LoginForm(props) {
     )
 }
 
-export default reduxForm({ form: "login-form" })(LoginForm) 
+export default reduxForm({ form: "loginForm" })(LoginForm) 
