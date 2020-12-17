@@ -23,14 +23,14 @@ function App() {
   }, [dispatch])
 
   if (!initialized) {
-      return <ProfileLoader/>
+      return  <div className ="content__wrapper" ><ProfileLoader/></div> 
   }
 
   return (
     <div>
       {
         !isAuth
-        ? <Login/>
+        ? <div className ="content__wrapper"><Login/></div> 
         : <div>
             <Header/>
             <div className="conteiner">

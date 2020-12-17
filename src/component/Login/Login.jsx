@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import LoginForm from './LoginForm/LoginForm'
 import { login } from '../../redux/reducers/auth-reducer'
+import { minLength } from '../common/validators/validators'
 function Login() {
 
     const dispatch = useDispatch()
@@ -14,6 +15,9 @@ function Login() {
     const onClickSubmit = (data) => {
         dispatch(login(data.email, data.password, data.checkbox))
     }
+
+    const minLength4 = minLength(4)
+
     return (
         <div>
             {
@@ -25,7 +29,7 @@ function Login() {
                             </div>
                             <h3 className="login__title">Zaloguj się</h3>
                             <div className="login__form">
-                                <LoginForm onSubmit={onClickSubmit} />
+                                <LoginForm onSubmit={onClickSubmit} minLength={minLength4} />
                             </div>
                         </div>
                     </div>

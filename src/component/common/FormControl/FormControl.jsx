@@ -20,6 +20,8 @@ export const InputLogin = ({ input, meta, ...props }) => {
     )
 }
 
+
+
 export const CheckBoxLogin = ({ input, meta, ...props }) => {
     return (
         <div className="login__checkbox">

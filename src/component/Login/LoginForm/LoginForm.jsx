@@ -2,22 +2,23 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
 
+
 import { CheckBoxLogin, InputLogin } from '../../common/FormControl/FormControl'
-// import { emailValidator, minLengthCreator, required } from '../../common/validators/validators'
+import { required, email } from '../../common/validators/validators'
 
+
+import errorSVG from '../../../assests/error.svg'
 function LoginForm(props) {
-
-    // const minLength8 = minLengthCreator(8)
 
     return (
         <form className="login__form" onSubmit={props.handleSubmit}>
 
             <Field
                 component={InputLogin}
-                type="text"
+                type="email"
                 name="email"
                 placeholder="e-mail"
-            // validate={[required, emailValidator]}
+                validate={[required, email]}
             />
 
             <Field
@@ -25,7 +26,7 @@ function LoginForm(props) {
                 type="password"
                 name="password"
                 placeholder="hasło"
-            // validate={[required, minLength8]}
+                validate={[required, props.minLength]}
             />
 
             <Field
@@ -34,16 +35,15 @@ function LoginForm(props) {
                 name="checkbox"
             />
 
-            {/* {login__inputText--error} */}
-            {/* <div className="login__error">
-                                    <img className="logo__errorIcon" src={error} alt="error" />
-                                    <p className="login__errorText">
-                                        Wprowadź poprawny e-mail
-                                    </p>
-                                        </div> */}
+            {props.error && <div className="login__error">
+                <img className="logo__errorIcon" src={errorSVG} alt="error" />
+                <p className="login__errorText">
+                    {props.error}
+                </p>
+            </div>}
             <button className="login__btn" type="submit">Zaloguj się</button>
         </form>
     )
 }
 
-export default reduxForm({ form: "loginForm" })(LoginForm) 
+export default reduxForm({ form: "login" })(LoginForm) 
