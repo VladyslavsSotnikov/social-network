@@ -6,7 +6,7 @@ function AddPost() {
     const postRef = useRef()
     const [editMode, setEditMode] = useState(false)
     useEffect(() => {
-        window.addEventListener('click', (e) => {
+        document.body.addEventListener('click', (e) => {
             if (!e.path.includes(postRef.current)) {
                 setEditMode(false)
             }
