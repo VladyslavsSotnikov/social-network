@@ -1,24 +1,46 @@
-import React, { useState } from 'react'
-function ProfileInfo({ profile }) {
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateStatus } from '../../../redux/reducers/profile-reducer'
+function ProfileInfo({ profile, currentUserId, authUserId }) {
+
+    const dispatch = useDispatch()
+    const { status } = useSelector(({ profile }) => profile.profile)
 
     const [editMode, setEditMode] = useState(false)
+    const [localStatus, setLocalStatus] = useState(status)
 
+    const onChangeStatus = () => {
+        setEditMode(false)
+        if (status !== localStatus) {
+            dispatch(updateStatus(localStatus, profile.userId))
+        }
+
+    }
+
+    useEffect(() => {
+        setLocalStatus(status)
+    }, [status])
 
     return (
         <div className="profile__info" >
             {profile && <div className="profile__top" >
                 <h4 className="profile__name">{profile.fullName}</h4>
-                {!editMode &&
-                    <span className="profile__status" onClick={() => setEditMode(true)} >
-                        {profile.aboutMe ? profile.aboutMe : '-'}</span>
+                {
+                    currentUserId === authUserId
+                        ? !editMode
+                            ? <span className="profile__status" onClick={() => setEditMode(true)} >
+                                {profile.status ? profile.status : null}</span>
+                            : <form className="profile__form">
+                                <input autoFocus={true}
+                                    onBlur={() => onChangeStatus()}
+                                    className="profile__form-input"
+                                    type="text" placeholder={profile.status}
+                                    value={localStatus}
+                                    onChange={e => setLocalStatus(e.target.value)}
+                                />
+                            </form>
+                        : <span className="profile__status profile__status--other">{profile.status ? profile.status : null}</span>
                 }
-                {editMode &&
-                    <form className="profile__form">
-                        <input autoFocus={true} onBlur={() => setEditMode(false)} className="profile__form-input" type="text" placeholder={profile.aboutMe} />
-                    </form>
-                }
-
-
             </div>}
 
             {profile && <div className="profile__about">

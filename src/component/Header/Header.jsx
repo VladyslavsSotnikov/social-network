@@ -5,7 +5,7 @@ import man from '../../assests/man.svg'
 import logoutIMG from '../../assests/logout.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { login, logout } from '../../redux/reducers/auth-reducer'
+import { logout } from '../../redux/reducers/auth-reducer'
 function Header() {
 
     const dispatch = useDispatch()

@@ -63,6 +63,13 @@
             background-color: $grey;
             cursor: pointer;
         }
+
+        &--other {
+            &:hover {
+                background-color: transparent;
+                cursor: context-menu;
+            }
+        }
     }
 
     &__edit-status {

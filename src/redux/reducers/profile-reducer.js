@@ -2,6 +2,7 @@ import { profileAPI } from '../../API/index'
 
 const SET_USER_PROFILE = 'profile/SET_USER_PROFILE'
 const SET_FEACHING = 'profile/SET_FEACHING'
+const SET_USER_STATUS = 'profile/SET_USER_STATUS'
 
 const initialState = {
     profile: null,
@@ -20,6 +21,11 @@ const profile = (state = initialState, action) => {
                 ...state,
                 isFeaching: action.payload
             }
+        case SET_USER_STATUS:
+            return {
+                ...state,
+                profile: {...state.profile, status: action.status}
+            }
         default: 
             return state
     }
@@ -27,6 +33,7 @@ const profile = (state = initialState, action) => {
 
 const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile})
 const setFeaching = (payload) => ({type: SET_FEACHING, payload})
+const setStatus = (status) => ({type: SET_USER_STATUS, status})
 
 export const getUserProfile = (userId) => (dispatch) => {
     dispatch(setFeaching(true))
@@ -36,7 +43,21 @@ export const getUserProfile = (userId) => (dispatch) => {
             dispatch(setUserProfile(data))
             dispatch(setFeaching(false))
         }
-    })
+    }).then(() => dispatch( getUserStatus(userId)))
  }
+
+ export const getUserStatus = (userId) => dispatch => {
+    profileAPI.getUserStatus(userId)
+    .then(({data}) => dispatch(setStatus(data)))
+ }
+
+export const updateStatus = (status, id) => dispatch => {
+    profileAPI.updateStatus(status)
+    .then(({data}) => {
+        if(data.resultCode === 0){
+            dispatch(getUserStatus(id)) 
+        }
+    })
+}
 
 export default profile

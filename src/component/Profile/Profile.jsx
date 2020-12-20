@@ -4,18 +4,18 @@ import ProfileInfo from './ProfileInfo/ProfileInfo'
 import AddPost from './AddPost/AddPost'
 import Post from './Post/Post'
 
-import profileAvatar from '../../assests/profile-photo.png'
 import { getUserProfile } from '../../redux/reducers/profile-reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileLoader from '../Loader/ProfileLoader/ProfileLoader'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { withAuthRedirect } from '../hoc/withAuthRedirect'
+import ProfilePhoto from './ProfilePhoto/ProfilePhoto'
 
 function Profile({ match }) {
 
     const { userData } = useSelector(({ auth }) => auth)
-
+    const { profile, isFeaching } = useSelector(({ profile }) => profile)
     let userId = match.params.userId
 
     if (!userId) {
@@ -24,10 +24,10 @@ function Profile({ match }) {
 
     const dispatch = useDispatch()
 
-    const { profile, isFeaching } = useSelector(({ profile }) => profile)
+
 
     useEffect(() => {
-        getUserProfile(userId)(dispatch)
+        dispatch(getUserProfile(userId))
     }, [dispatch, userId])
 
     const posts = [
@@ -40,16 +40,9 @@ function Profile({ match }) {
             {   isFeaching
                 ? <ProfileLoader />
                 : <div className="profile">
-                    <div className="profile__block">
-                        <div className="profile__avatar">
-                            <img className="profile__avatar_img" src={profile.photos.small ? profile.photos.small : profileAvatar} alt="avatar" />
-                        </div>
-                        <div className="profile__btn_block">
-                            <button className="profile__btn">Dodaj</button>
-                        </div>
-                    </div>
+                    <ProfilePhoto photo={profile.photos.small} currentUserId={userId} authUserId={userData.id} />
                     <div className="profile__page">
-                        {<ProfileInfo profile={profile} />}
+                        {<ProfileInfo profile={profile} currentUserId={userId} authUserId={userData.id} />}
 
                         <AddPost />
                         {posts.map(post => (
