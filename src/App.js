@@ -1,5 +1,5 @@
 import React , { useEffect } from 'react'
-import { Route} from "react-router-dom";
+import { Redirect, Route, withRouter} from "react-router-dom";
 import { useSelector,  useDispatch} from "react-redux";
 import { initializedTC } from './redux/reducers/app-reducer'
 
@@ -12,8 +12,7 @@ import Sidebar from "./component/Sidebar/Sidebar";
 import Login from './component/Login/Login'
 import ProfileLoader from './component/Loader/ProfileLoader/ProfileLoader';
 
-function App() {
-
+function App({location}) {
   const { initialized } = useSelector(({app}) => app)
   const { isAuth } = useSelector(({auth}) => auth)
   const dispatch = useDispatch()
@@ -36,8 +35,10 @@ function App() {
             <div className="conteiner">
               <Sidebar/>
               <div className="content">
+                {location.pathname === '/' && <Redirect to="/profile"/>}
                 <Route path='/profile/:userId?'> <Profile/> </Route>
-                <Route path='/chats/'> <Chats/></Route>
+                {location.pathname === '/chats' && <Redirect to = "/chats/1"/>}
+                <Route path='/chats'> <Chats/></Route>
                 <Route path='/users'><Users/></Route>
               </div>
             </div> 
@@ -49,4 +50,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App) ;

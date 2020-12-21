@@ -11,26 +11,35 @@ const instance = Axios.create({
 
 export const userAPI = {
     getUsers(count, page ){
-       return instance.get(`/users?count=${count}&page=${page}`)
+       return instance.get(`users?count=${count}&page=${page}`)
     },
     follow(userId){
-        return instance.post(`/follow/${userId}`)
+        return instance.post(`follow/${userId}`)
     },
     unfollow(userId){
-        return instance.delete(`/follow/${userId}`)
+        return instance.delete(`follow/${userId}`)
     }
 }
 
 
 export const profileAPI = {
     getUserProfile(userId){
-        return instance.get(`/profile/${userId}`)
+        return instance.get(`profile/${userId}`)
     },
     getUserStatus(userId){
-        return instance.get(`/profile/status/${userId}`)
+        return instance.get(`profile/status/${userId}`)
     },
     updateStatus(status){
-        return instance.put(`/profile/status/`, {status: status})
+        return instance.put(`profile/status/`, {status: status})
+    },
+    getFollowInfo(userId){
+        return instance.get(`follow/${userId}`)
+    },
+    follow(userId){
+        return instance.post(`follow/${userId}`)
+    },
+    unfollow(userId){
+        return instance.delete(`follow/${userId}`)
     }
 }
 

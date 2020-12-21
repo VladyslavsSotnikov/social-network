@@ -4,7 +4,7 @@ import ProfileInfo from './ProfileInfo/ProfileInfo'
 import AddPost from './AddPost/AddPost'
 import Post from './Post/Post'
 
-import { getUserProfile } from '../../redux/reducers/profile-reducer'
+import { follow, getUserProfile, unfollow } from '../../redux/reducers/profile-reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileLoader from '../Loader/ProfileLoader/ProfileLoader'
 import { withRouter } from 'react-router-dom'
@@ -13,16 +13,14 @@ import { withAuthRedirect } from '../hoc/withAuthRedirect'
 import ProfilePhoto from './ProfilePhoto/ProfilePhoto'
 
 function Profile({ match }) {
-
+    const dispatch = useDispatch()
     const { userData } = useSelector(({ auth }) => auth)
-    const { profile, isFeaching } = useSelector(({ profile }) => profile)
+    const { profile, isFeaching, followingInProgres } = useSelector(({ profile }) => profile)
     let userId = match.params.userId
 
     if (!userId) {
         userId = userData.id
     }
-
-    const dispatch = useDispatch()
 
 
 
@@ -35,12 +33,27 @@ function Profile({ match }) {
         { id: 2, author: 'Kamil Bieniek', date: '25 lis 2020', text: 'Hi! How are you today?', like: 2 }
     ]
 
+    const onClickFollow = (userId) => {
+        dispatch(follow(userId))
+    }
+
+    const onClickUnfollow = userId => {
+        dispatch(unfollow(userId))
+    }
+
     return (
         <div >
             {   isFeaching
                 ? <ProfileLoader />
                 : <div className="profile">
-                    <ProfilePhoto photo={profile.photos.small} currentUserId={userId} authUserId={userData.id} />
+                    <ProfilePhoto photo={profile.photos.small}
+                        currentUserId={userId}
+                        authUserId={userData.id}
+                        followInfo={profile.followInfo}
+                        followingInProgres={followingInProgres}
+                        follow={onClickFollow}
+                        unfollow={onClickUnfollow}
+                    />
                     <div className="profile__page">
                         {<ProfileInfo profile={profile} currentUserId={userId} authUserId={userData.id} />}
 
