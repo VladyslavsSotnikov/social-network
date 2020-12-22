@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateStatus } from '../../../redux/reducers/profile-reducer'
+import EditProfile from '../EditProfile/EditProfile'
 function ProfileInfo({ profile, currentUserId, authUserId }) {
 
     const dispatch = useDispatch()
+
     const { status } = useSelector(({ profile }) => profile.profile)
 
     const [editMode, setEditMode] = useState(false)
     const [localStatus, setLocalStatus] = useState(status)
+    const [profileEditMode, setProfileEditMode] = useState(false)
 
     const onChangeStatus = () => {
         setEditMode(false)
@@ -44,27 +47,39 @@ function ProfileInfo({ profile, currentUserId, authUserId }) {
             </div>}
 
             {profile && <div className="profile__about">
+
+                <div className="profile__btn-container">
+                    {currentUserId === authUserId && <button onClick={() => setProfileEditMode(true)} className="profile__btn profile__btn--edit">Edytuj</button>}
+                </div>
+
                 <ul className="profile__about-list">
+
+
+                    <li className="profile__about-item">
+                        <p className="profile__about-contact">O mnie:</p>
+                        <span className="profile__about-span">{profile.aboutMe ? profile.aboutMe : '-'}</span>
+                    </li>
+
                     <li className="profile__about-item">
                         <p className="profile__about-contact">Szukam pracy:</p>
                         <span className="profile__about-span">{profile.lookingForAJob ? 'Tak' : 'Nie'}</span>
                     </li>
+
                     <li className="profile__about-item">
-                        <p className="profile__about-contact">GitHub: </p>
-                        <span className="profile__about-span">{profile.contacts.github ? profile.contacts.github : '-'}</span>
+                        <p className="profile__about-contact">Moje umiejętności:</p>
+                        <span className="profile__about-span">{profile.lookingForAJobDescription ? profile.lookingForAJobDescription : '-'}</span>
                     </li>
-                    <li className="profile__about-item">
-                        <p className="profile__about-contact">Facebook:</p>
-                        <span className="profile__about-span">{profile.contacts.facebook ? profile.contacts.facebook : '-'}</span>
-                    </li>
-                    <li className="profile__about-item">
-                        <p className="profile__about-contact">Instagram:</p>
-                        <span className="profile__about-span">{profile.contacts.instagram ? profile.contacts.instagram : '-'}</span>
-                    </li>
+                    {Object.keys(profile.contacts).map((contact) => {
+                        return (
+                            <li key={contact} className="profile__about-item">
+                                <p className="profile__about-contact">{contact}: </p>
+                                <span className="profile__about-span">{profile.contacts[contact] ? profile.contacts[contact] : '-'}</span>
+                            </li>
+                        )
+                    })}
                 </ul>
             </div>}
-
-
+            { profileEditMode && <EditProfile setEditMode={setProfileEditMode} profile={profile} />}
         </div>
     )
 }

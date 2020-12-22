@@ -1,0 +1,8 @@
+.error {
+    border-bottom: 1px solid red;
+    color: red;
+}
+
+.error::placeholder {
+    color: red;
+}

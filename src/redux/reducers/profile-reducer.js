@@ -124,4 +124,16 @@ export const savePhoto = image => dispatch =>{
     })
 }
 
+export const saveProfile = (profile,userId) => dispatch => {
+    return profileAPI.updateProfileInfo(profile)
+    .then(({data}) => {
+        if(data.resultCode === 0){
+            dispatch(getUserProfile(userId))
+        }
+        else{
+            console.log(data)
+        }
+    })
+}
+
 export default profile
