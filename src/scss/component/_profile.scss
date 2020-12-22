@@ -32,6 +32,14 @@
             background-color: $btn-hover;
         }
 
+        &--photo {
+            display: block;
+            text-align: center;
+        }
+    }
+
+    &__photo-container {
+        width: 100%;
     }
 
     &__page {
@@ -225,4 +233,16 @@
         color: $like;
         font-weight: bold;
     }
+
+}
+
+#photo {
+    display: block;
+    width: 100%;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }

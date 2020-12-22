@@ -5,6 +5,7 @@ const SET_FEACHING = 'profile/SET_FEACHING'
 const SET_USER_STATUS = 'profile/SET_USER_STATUS'
 const SET_FOLLOW_INFO = 'profile/SET_FOLLOW_INFO'
 const SET_FOLLOWING_IN_PROGRES = 'profile/SET_FOLLOWING_IN_PROGRES'
+const SET_PHOTO = 'profile/SET_PHOTO'
 
 const initialState = {
     profile: null,
@@ -39,6 +40,11 @@ const profile = (state = initialState, action) => {
                 ...state,
                 followingInProgres: action.status
             }
+        case SET_PHOTO:
+            return{
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            }
         default: 
             return state
     }
@@ -49,6 +55,7 @@ const setFeaching = (payload) => ({type: SET_FEACHING, payload})
 const setStatus = (status) => ({type: SET_USER_STATUS, status})
 const setFollowInfo = (status) => ({type: SET_FOLLOW_INFO, status})
 const setFollowingInProgres = (status) => ({type: SET_FOLLOWING_IN_PROGRES, status}) 
+const setPhoto = (photos) => ({type: SET_PHOTO, photos})
 
 export const getUserProfile = (userId) => (dispatch) => {
 
@@ -106,4 +113,15 @@ export const unfollow = userId => dispatch => {
         }
     })
 }
+
+export const savePhoto = image => dispatch =>{
+    profileAPI.updatePhoto(image)
+    .then(({data}) =>{
+        if (data.resultCode === 0) {
+            dispatch(setPhoto(data.data.photos))
+            console.log(data.data.photos)
+        }
+    })
+}
+
 export default profile

@@ -44,9 +44,9 @@ function Profile({ match }) {
     return (
         <div >
             {   isFeaching
-                ? <ProfileLoader />
+                ? <div className="content__wrapper content__wrapper--profile"><ProfileLoader /></div>
                 : <div className="profile">
-                    <ProfilePhoto photo={profile.photos.small}
+                    <ProfilePhoto photo={profile.photos.large}
                         currentUserId={userId}
                         authUserId={userData.id}
                         followInfo={profile.followInfo}

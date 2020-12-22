@@ -40,6 +40,15 @@ export const profileAPI = {
     },
     unfollow(userId){
         return instance.delete(`follow/${userId}`)
+    },
+    updatePhoto(image){
+        const formData = new FormData()
+        formData.append("image", image)
+        return instance.put(`profile/photo`, formData , {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
 }
 
