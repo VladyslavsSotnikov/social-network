@@ -29,7 +29,7 @@ function Profile({ match }) {
     }, [dispatch, userId])
 
     const posts = [
-        { id: 1, author: 'Vladyslav Sotnikov', date: '20 lis 2020', text: 'Junior front end developer', like: 20 },
+        { id: 1, author: 'Vladyslav Sotnikov', date: '01 grd 2021', text: 'Junior Web UI developer', like: 20 },
         { id: 2, author: 'Kamil Bieniek', date: '25 lis 2020', text: 'Hi! How are you today?', like: 2 }
     ]
 
