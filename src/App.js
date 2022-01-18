@@ -1,5 +1,5 @@
 import React , { useEffect } from 'react'
-import { Redirect, Route, withRouter} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation} from "react-router-dom";
 import { useSelector,  useDispatch} from "react-redux";
 import { initializedTC } from './redux/reducers/app-reducer'
 
@@ -12,11 +12,12 @@ import Sidebar from "./component/Sidebar/Sidebar";
 import Login from './component/Login/Login'
 import ProfileLoader from './component/Loader/ProfileLoader/ProfileLoader';
 
-function App({location}) {
+function App() {
   const { initialized } = useSelector(({app}) => app)
   const { isAuth } = useSelector(({auth}) => auth)
   const dispatch = useDispatch()
-  
+  const location = useLocation();
+
   useEffect(() => {
     initializedTC()(dispatch)
   }, [dispatch])
@@ -24,6 +25,15 @@ function App({location}) {
   if (!initialized) {
       return  <div className ="content__wrapper" ><ProfileLoader/></div> 
   }
+
+  if (location.pathname === '/') {
+    return <Navigate to="/profile"/>
+  }
+
+  if (location.pathname === '/chats') {
+    return <Navigate to = "/chats/1"/>
+  }
+
 
   return (
     <div>
@@ -35,11 +45,16 @@ function App({location}) {
             <div className="conteiner">
               <Sidebar/>
               <div className="content">
-                {location.pathname === '/' && <Redirect to="/profile"/>}
-                <Route path='/profile/:userId?'> <Profile/> </Route>
-                {location.pathname === '/chats' && <Redirect to = "/chats/1"/>}
-                <Route path='/chats'> <Chats/></Route>
-                <Route path='/users'><Users/></Route>
+                <Routes>
+                  <Route  path='/profile' element={<Profile/>}>
+                    <Route  path=':userId' element={<Profile/>}/>
+                  </Route> 
+                  <Route  path='/chats' element={<Chats/>}>
+                    <Route  path=':id' element={<Chats/>}/>
+                  </Route>
+                  {/* <Route path='/chats' element={<Chats/>}/> */}
+                  <Route path='/users' element={<Users/>}/> 
+                </Routes>
               </div>
             </div> 
           </div>
@@ -50,4 +65,4 @@ function App({location}) {
   );
 }
 
-export default withRouter(App) ;
+export default App;

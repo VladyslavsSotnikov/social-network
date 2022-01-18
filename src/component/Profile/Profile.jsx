@@ -7,16 +7,17 @@ import Post from './Post/Post'
 import { follow, getUserProfile, unfollow } from '../../redux/reducers/profile-reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileLoader from '../Loader/ProfileLoader/ProfileLoader'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { withAuthRedirect } from '../hoc/withAuthRedirect'
 import ProfilePhoto from './ProfilePhoto/ProfilePhoto'
+import { useParams  } from 'react-router'
 
-function Profile({ match }) {
+function Profile() {
     const dispatch = useDispatch()
     const { userData } = useSelector(({ auth }) => auth)
     const { profile, isFeaching, followingInProgres } = useSelector(({ profile }) => profile)
-    let userId = match.params.userId
+    let params = useParams("/profile/:userId");
+    let userId = params.userId; 
 
     if (!userId) {
         userId = userData.id
@@ -78,5 +79,4 @@ function Profile({ match }) {
 
 export default compose(
     withAuthRedirect,
-    withRouter
 )(Profile)  
