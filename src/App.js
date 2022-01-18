@@ -13,7 +13,7 @@ import Login from './component/Login/Login'
 import ProfileLoader from './component/Loader/ProfileLoader/ProfileLoader';
 
 function App() {
-  const { initialized } = useSelector(({app}) => app)
+  const { initialized } = useSelector(({ app }) => app)
   const { isAuth } = useSelector(({auth}) => auth)
   const dispatch = useDispatch()
   const location = useLocation();
@@ -52,7 +52,6 @@ function App() {
                   <Route  path='/chats' element={<Chats/>}>
                     <Route  path=':id' element={<Chats/>}/>
                   </Route>
-                  {/* <Route path='/chats' element={<Chats/>}/> */}
                   <Route path='/users' element={<Users/>}/> 
                 </Routes>
               </div>
