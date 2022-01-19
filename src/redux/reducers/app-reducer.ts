@@ -1,12 +1,12 @@
 import { authMe } from './auth-reducer'
 
 
-type setInitializedType = {
+type SetInitializedType = {
     type: typeof SET_INITIALIZED,
     status: boolean
 }
 
-type ActionTypes = setInitializedType
+type ActionTypes = SetInitializedType
 
 const initialState = {
     initialized: false,
