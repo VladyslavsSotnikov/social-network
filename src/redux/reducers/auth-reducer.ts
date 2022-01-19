@@ -27,7 +27,7 @@ const initialState = {
     isAuth: false
 }
 
-export type initialStateType = typeof initialState
+type initialStateType = typeof initialState
 
 export const authReducer = (state = initialState, action: ActionsTypes): initialStateType => {
     switch (action.type){

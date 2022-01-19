@@ -12,7 +12,7 @@ const initialState = {
     initialized: false,
 }
 
-export type InitialStateType = typeof initialState
+type InitialStateType = typeof initialState
 
 const SET_INITIALIZED = 'app/SET_INITIALIZED'
 

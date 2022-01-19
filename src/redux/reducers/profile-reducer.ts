@@ -16,7 +16,7 @@ const initialState = {
     followInfo:false,
 }
 
-export type InitialStateType = typeof initialState
+type InitialStateType = typeof initialState
 
 export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type){
