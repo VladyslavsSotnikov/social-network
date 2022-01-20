@@ -2,7 +2,7 @@ import React from 'react'
 import icon from '../../assests/loginIcon.svg'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import LoginForm from './LoginForm/LoginForm'
 import { login } from '../../redux/reducers/auth-reducer'
 import { minLength } from '../common/validators/validators'
@@ -33,7 +33,7 @@ function Login() {
                             </div>
                         </div>
                     </div>
-                    : <Redirect to='/profile' />
+                    : <Navigate to='/profile' />
             }
 
         </div>

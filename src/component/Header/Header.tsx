@@ -6,15 +6,13 @@ import logoutIMG from '../../assests/logout.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../redux/reducers/auth-reducer'
-function Header() {
-
+import { AppStoreType } from '../../redux/store'
+const Header = () => {
     const dispatch = useDispatch()
 
-
-    const { isAuth, userData } = useSelector(({ auth }) => auth)
+    const { isAuth, userData } = useSelector(({ auth }: AppStoreType) => auth)
 
     const onClickLogout = () => dispatch(logout())
-
     return (
         <div className="header">
             <div className="header__wraper">
@@ -25,7 +23,7 @@ function Header() {
                     isAuth
                         ? <div className="header__auth">
                             <div className="header__login">
-                                {userData.login}
+                                {userData?.login}
                             </div>
                             <div className="header__img">
                                 <img className="header__manImg" src={man} alt="man" />

@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { VFC } from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import man from '../../../assests/man.svg'
+import { UserType } from '../../../models'
 
-function User({ id, name, status, photo, followed, follow, unfollow, followingInProgress }) {
+interface UserProps extends UserType {
+    photo?: string | null;
+    follow: (userId:number) => void;
+    unfollow: (userId:number) => void;
+    followingInProgress: number[];
+}
+
+const User:VFC<UserProps> = ({ id, name, status, photo, followed, follow, unfollow, followingInProgress }) => {
     return (
         <div className="user">
             <div className="user__avatar">

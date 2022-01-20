@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { ProfileDataType } from '../models'
 
 const instance = Axios.create({
     withCredentials: true, 
@@ -10,38 +11,46 @@ const instance = Axios.create({
 
 
 export const userAPI = {
-    getUsers(count, page ){
+    getUsers(count: number, page:number ){
        return instance.get(`users?count=${count}&page=${page}`)
     },
-    follow(userId){
+
+    follow(userId:number){
         return instance.post(`follow/${userId}`)
     },
-    unfollow(userId){
+
+    unfollow(userId:number){
         return instance.delete(`follow/${userId}`)
     }
 }
 
 
 export const profileAPI = {
-    getUserProfile(userId){
+    getUserProfile(userId:number){
         return instance.get(`profile/${userId}`)
     },
-    getUserStatus(userId){
+
+    getUserStatus(userId:number){
         return instance.get(`profile/status/${userId}`)
     },
-    updateStatus(status){
+
+    updateStatus(status:string){
         return instance.put(`profile/status/`, {status: status})
     },
-    getFollowInfo(userId){
+
+    getFollowInfo(userId:number){
         return instance.get(`follow/${userId}`)
     },
-    follow(userId){
+    
+    follow(userId:number){
         return instance.post(`follow/${userId}`)
     },
-    unfollow(userId){
+
+    unfollow(userId:number){
         return instance.delete(`follow/${userId}`)
     },
-    updatePhoto(image){
+
+    updatePhoto(image:File){
         const formData = new FormData()
         formData.append("image", image)
         return instance.put(`profile/photo`, formData , {
@@ -50,7 +59,8 @@ export const profileAPI = {
             }
         })
     },
-    updateProfileInfo(profile){
+
+    updateProfileInfo(profile:ProfileDataType){
         return instance.put(`profile`,profile)
     }
 }
@@ -59,9 +69,11 @@ export const authAPI = {
     authMe(){
         return instance.get(`/auth/me`)
     },
-    login(email,password,rememberMe = false){
+
+    login(email:string,password:string,rememberMe = false){
          return instance.post('/auth/login',{email, password, rememberMe})
     },
+    
     logout(){
         return instance.delete('/auth/login')
     }

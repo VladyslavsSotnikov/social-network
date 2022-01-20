@@ -1,7 +1,9 @@
-import React from "react"
+import React, { VFC } from "react"
 import ContentLoader from "react-content-loader"
 
-const UserSkeleton = (props) => (
+type UserSkeletonProps = {}
+
+const UserSkeleton: VFC<UserSkeletonProps> = (props) => (
     <ContentLoader
         className='user__skeleton'
         speed={2}

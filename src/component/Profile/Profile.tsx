@@ -7,39 +7,42 @@ import Post from './Post/Post'
 import { follow, getUserProfile, unfollow } from '../../redux/reducers/profile-reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileLoader from '../Loader/ProfileLoader/ProfileLoader'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
-import { withAuthRedirect } from '../hoc/withAuthRedirect'
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import ProfilePhoto from './ProfilePhoto/ProfilePhoto'
+import { useParams  } from 'react-router'
+import { AppStoreType } from '../../redux/store'
 
-function Profile({ match }) {
+const posts = [
+    { id: 1, author: 'Vladyslav Sotnikov', date: '01 grd 2021', text: 'Junior Web UI developer', like: 20 },
+    { id: 2, author: 'Vladyslav Sotnikov', date: '25 lis 2020', text: 'Hi! How are you today?', like: 2 }
+]
+
+const Profile = () =>  {
     const dispatch = useDispatch()
-    const { userData } = useSelector(({ auth }) => auth)
-    const { profile, isFeaching, followingInProgres } = useSelector(({ profile }) => profile)
-    let userId = match.params.userId
+    const { userData } = useSelector(({ auth }: AppStoreType) => auth)
+    const { profile, isFeaching, followingInProgres, followInfo} = useSelector(({ profile }: AppStoreType) => profile)
+    const params = useParams();
+    
+    let userId = Number(params.userId) as number | undefined; 
 
     if (!userId) {
-        userId = userData.id
+        userId = userData?.id
     }
 
-
-
-    useEffect(() => {
-        dispatch(getUserProfile(userId))
-    }, [dispatch, userId])
-
-    const posts = [
-        { id: 1, author: 'Vladyslav Sotnikov', date: '01 grd 2021', text: 'Junior Web UI developer', like: 20 },
-        { id: 2, author: 'Vladyslav Sotnikov', date: '25 lis 2020', text: 'Hi! How are you today?', like: 2 }
-    ]
-
-    const onClickFollow = (userId) => {
+    const onClickFollow = (userId: number) => {
         dispatch(follow(userId))
     }
 
-    const onClickUnfollow = userId => {
+    const onClickUnfollow = (userId: number) => {
         dispatch(unfollow(userId))
     }
+
+    useEffect(() => {
+        if(userId){
+            dispatch(getUserProfile(userId))
+        }
+    }, [dispatch, userId])
 
     return (
         <div >
@@ -47,16 +50,16 @@ function Profile({ match }) {
                 ? <div className="content__wrapper content__wrapper--profile"><ProfileLoader /></div>
                 : <div className="profile">
                     <ProfilePhoto
-                        photo={profile.photos.large}
+                        photo={profile?.photos.large}
                         currentUserId={userId}
-                        authUserId={userData.id}
-                        followInfo={profile.followInfo}
+                        authUserId={userData?.id}
+                        followInfo={followInfo}
                         followingInProgres={followingInProgres}
                         follow={onClickFollow}
                         unfollow={onClickUnfollow}
                     />
                     <div className="profile__page">
-                        {<ProfileInfo profile={profile} currentUserId={userId} authUserId={userData.id} />}
+                        {<ProfileInfo profile={profile} currentUserId={userId} authUserId={userData?.id} />}
 
                         <AddPost />
                         {posts.map(post => (
@@ -78,5 +81,4 @@ function Profile({ match }) {
 
 export default compose(
     withAuthRedirect,
-    withRouter
 )(Profile)  

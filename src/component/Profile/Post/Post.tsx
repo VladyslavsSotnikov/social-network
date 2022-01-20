@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { VFC } from 'react'
 
 import man from '../../../assests/man.svg'
 import likeImg from '../../../assests/like.svg'
 
-function Post({ author, date, text, like }) {
+type PostProps = {
+    author: string;
+    date: string;
+    text: string;
+    like: number; 
+}
+
+const Post: VFC<PostProps> = ({ author, date, text, like }) => {
     return (
         <div className="profile__post">
             <div className="profile__post-header">
