@@ -1,10 +1,10 @@
-import React , { useEffect } from 'react'
+import { useEffect } from "react"
 import { Navigate, Route, Routes, useLocation} from "react-router-dom";
 import { useSelector,  useDispatch} from "react-redux";
+
 import { initializedTC } from './redux/reducers/app-reducer'
-
-
-import Chats from "./component/Chats/Chats";
+import { AppStoreType } from './redux/store';
+import Chats from './component/Chats/Chats';
 import Users from "./component/Users/Users";
 import Header from "./component/Header/Header";
 import Profile from "./component/Profile/Profile";
@@ -12,14 +12,14 @@ import Sidebar from "./component/Sidebar/Sidebar";
 import Login from './component/Login/Login'
 import ProfileLoader from './component/Loader/ProfileLoader/ProfileLoader';
 
-function App() {
-  const { initialized } = useSelector(({ app }) => app)
-  const { isAuth } = useSelector(({auth}) => auth)
+const  App = () => {
+  const { initialized } = useSelector(({ app }: AppStoreType) => app)
+  const { isAuth } = useSelector(({ auth }: AppStoreType) => auth)
   const dispatch = useDispatch()
   const location = useLocation();
 
   useEffect(() => {
-    initializedTC()(dispatch)
+    dispatch(initializedTC())
   }, [dispatch])
 
   if (!initialized) {

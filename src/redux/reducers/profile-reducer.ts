@@ -110,7 +110,7 @@ export const follow = (userId: number):ThunkType => (dispatch) => {
     })
 };
 
-export const unfollow = (userId: boolean):ThunkType => (dispatch) => {
+export const unfollow = (userId: number):ThunkType => (dispatch) => {
     dispatch(actions.setFollowingInProgres(true))
 
     profileAPI.unfollow(userId)
@@ -122,7 +122,7 @@ export const unfollow = (userId: boolean):ThunkType => (dispatch) => {
     })
 };
 
-export const savePhoto = (image: File):ThunkType => (dispatch) =>{
+export const savePhoto = (image: File):ThunkType => (dispatch) => {
     profileAPI.updatePhoto(image)
     .then(({data}) =>{
         if (data.resultCode === 0) {

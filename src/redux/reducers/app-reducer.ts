@@ -25,7 +25,7 @@ export const actions = {
     setInitialized: (status: boolean) => ({type: SET_INITIALIZED, status} as const)
 };
 
-export const  initializedTC = ():ThunkType => (dispatch) => {
+export const  initializedTC = ():ThunkType => dispatch => {
     const promise = dispatch(authMe());
     Promise.all([promise]).then(() => dispatch(actions.setInitialized(true)))
 };

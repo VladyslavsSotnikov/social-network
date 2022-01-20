@@ -1,9 +1,16 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+
 import classes from '../EditProfileForm/EditProfileForm.module.css'
-import { required } from '../../../../component/common/validators/validators'
+import { required } from '../../../common/validators/validators'
 import { ProfileInputForm } from '../../../common/FormControl/FormControl'
-function EditProfileForm({ profile, handleSubmit }) {
+import { ProfileDataType } from '../../../../models'
+import { VFC } from 'react'
+
+type EditProfileFormProps = {
+    profile: ProfileDataType | null;
+}
+
+const EditProfileForm: VFC<InjectedFormProps<ProfileDataType,EditProfileFormProps> & EditProfileFormProps> = ({ profile, handleSubmit }) => {
     return (
         <form onSubmit={handleSubmit}>
             <ul>
@@ -23,7 +30,7 @@ function EditProfileForm({ profile, handleSubmit }) {
                     <p className={classes.title}>Twoje umiejętności: </p>
                     <Field component={ProfileInputForm} name="lookingForAJobDescription" type="text" validate={[required]} placeholder="Twoje umiejętności" classes={classes.input} />
                 </li>
-                {Object.keys(profile.contacts).map((contact) => {
+                {profile && Object.keys(profile.contacts).map((contact) => {
                     return (
                         <li key={contact} className={classes.flex}>
                             <p className={classes.title}>{contact}: </p>
@@ -40,4 +47,4 @@ function EditProfileForm({ profile, handleSubmit }) {
     )
 }
 
-export default reduxForm({ form: 'edit-form' })(EditProfileForm)
+export default reduxForm<ProfileDataType,EditProfileFormProps>({ form: 'edit-form' })(EditProfileForm)

@@ -1,20 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, VFC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { ContactsType, ProfileDataType } from '../../../models'
 import { updateStatus } from '../../../redux/reducers/profile-reducer'
+import { AppStoreType } from '../../../redux/store'
 import EditProfile from '../EditProfile/EditProfile'
-function ProfileInfo({ profile, currentUserId, authUserId }) {
 
+type ProfileInfoProps = {
+    profile: ProfileDataType | null;
+    currentUserId?: number;
+    authUserId?: number;
+}
+
+const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, authUserId }) => {
     const dispatch = useDispatch()
-
-    const { status } = useSelector(({ profile }) => profile.profile)
-
+    const { status } = useSelector(({ profile }: AppStoreType) => profile)
     const [editMode, setEditMode] = useState(false)
     const [localStatus, setLocalStatus] = useState(status)
     const [profileEditMode, setProfileEditMode] = useState(false)
 
     const onChangeStatus = () => {
         setEditMode(false)
-        if (status !== localStatus) {
+        if (status !== localStatus && profile?.userId) {
             dispatch(updateStatus(localStatus, profile.userId))
         }
 
@@ -32,17 +38,17 @@ function ProfileInfo({ profile, currentUserId, authUserId }) {
                     currentUserId === authUserId
                         ? !editMode
                             ? <span className="profile__status" onClick={() => setEditMode(true)} >
-                                {profile.status ? profile.status : null}</span>
+                                {status ? status : null}</span>
                             : <form className="profile__form">
                                 <input autoFocus={true}
                                     onBlur={() => onChangeStatus()}
                                     className="profile__form-input"
-                                    type="text" placeholder={profile.status}
+                                    type="text" placeholder={status}
                                     value={localStatus}
                                     onChange={e => setLocalStatus(e.target.value)}
                                 />
                             </form>
-                        : <span className="profile__status profile__status--other">{profile.status ? profile.status : null}</span>
+                        : <span className="profile__status profile__status--other">{status ? status : null}</span>
                 }
             </div>}
 
@@ -57,7 +63,7 @@ function ProfileInfo({ profile, currentUserId, authUserId }) {
 
                     <li className="profile__about-item">
                         <p className="profile__about-contact">O mnie:</p>
-                        <span className="profile__about-span">{profile.aboutMe ? profile.aboutMe : '-'}</span>
+                        {/* <span className="profile__about-span">{profile.aboutMe ? profile.aboutMe : '-'}</span> */}
                     </li>
 
                     <li className="profile__about-item">
@@ -73,7 +79,7 @@ function ProfileInfo({ profile, currentUserId, authUserId }) {
                         return (
                             <li key={contact} className="profile__about-item">
                                 <p className="profile__about-contact">{contact}: </p>
-                                <span className="profile__about-span">{profile.contacts[contact] ? profile.contacts[contact] : '-'}</span>
+                                <span className="profile__about-span">{profile.contacts[contact as keyof ContactsType] ? profile.contacts[contact as keyof ContactsType] : '-'}</span>
                             </li>
                         )
                     })}

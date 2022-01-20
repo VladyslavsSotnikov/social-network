@@ -1,14 +1,24 @@
-import React from 'react'
+import { ChangeEvent, VFC } from 'react'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 import profileAvatar from '../../../assests/profile-photo.png'
 import { savePhoto } from '../../../redux/reducers/profile-reducer'
 
-function ProfilePhoto({ photo, currentUserId, authUserId, followInfo, follow, unfollow, followingInProgres }) {
+type ProfilePhotoProps = {
+    photo?: string | null;
+    currentUserId?: number;
+    authUserId?: number;
+    followInfo: boolean;
+    follow: (userId: number) => void;
+    unfollow: (userId: number) => void;
+    followingInProgres: boolean;
+}
+
+const ProfilePhoto: VFC<ProfilePhotoProps> = ({ photo, currentUserId, authUserId, followInfo, follow, unfollow, followingInProgres }) => {
     const dispatch = useDispatch()
 
-    const sendPhotoToServer = (e) => {
-        if (e.target.files.length) {
+    const sendPhotoToServer = (e:ChangeEvent<HTMLInputElement> ) => {
+        if (e.target.files?.length) {
             dispatch(savePhoto(e.target.files[0]))
         }
     }
@@ -19,7 +29,7 @@ function ProfilePhoto({ photo, currentUserId, authUserId, followInfo, follow, un
                 <img className="profile__avatar_img" src={photo ? photo : profileAvatar} alt="avatar" />
             </div>
             <div className="profile__btn_block">
-                {
+                {currentUserId &&
                     currentUserId !== authUserId
                         ? !followInfo
                             ? <button className={classNames("profile__btn", { "user__btn-disabled": followingInProgres })} onClick={() => follow(currentUserId)}>Dodaj</button>
