@@ -2,35 +2,16 @@ import { FormAction, stopSubmit } from "redux-form"
 import { ThunkAction } from "redux-thunk"
 
 import { authAPI } from '../../API/index'
-import { AppStoreType } from '../store'
+import { AuthMeDataType } from '../../models'
+import { AppStoreType, InferActionsTypes } from '../store'
 
-const SET_USER_DATA = 'auth/SET_USER_DATA'
-const SET_IS_AUTH = 'auth/SET_IS_AUTH'
-
-type AuthMeDataType = {
-    id: number,
-    email: string,
-    login: string
-}
-
-type SetIsAuthType = {
-    type: typeof SET_IS_AUTH,
-    status: boolean
-}
-
-type SetUserDataType = {
-    type: typeof SET_USER_DATA,
-    data: AuthMeDataType
-}
-
-type ActionsTypes = SetIsAuthType | SetUserDataType;
+const SET_USER_DATA = 'auth/SET_USER_DATA';
+const SET_IS_AUTH = 'auth/SET_IS_AUTH';
 
 const initialState = {
     userData: null as AuthMeDataType | null,
     isAuth: false
-}
-
-type initialStateType = typeof initialState
+};
 
 export const authReducer = (state = initialState, action: ActionsTypes): initialStateType => {
     switch (action.type){
@@ -47,12 +28,12 @@ export const authReducer = (state = initialState, action: ActionsTypes): initial
         default: 
             return state
     }
-}
+};
 
 const actions = {
-    setUserData: (data: AuthMeDataType): SetUserDataType => ({type: SET_USER_DATA, data}),
-    setIsAuth: (status: boolean): SetIsAuthType => ({type: SET_IS_AUTH, status}),
-}
+    setUserData: (data: AuthMeDataType) => ({type: 'auth/SET_USER_DATA', data} as const),
+    setIsAuth: (status: boolean) => ({type: SET_IS_AUTH, status} as const),
+};
 
 export const authMe = (): ThunkType => dispatch => {
     dispatch(actions.setIsAuth(false))
@@ -62,7 +43,7 @@ export const authMe = (): ThunkType => dispatch => {
             dispatch(actions.setIsAuth(true))
         }
     }))
-}
+};
 
 export const login = (mail: string,password: string, remember: boolean): ThunkType => dispatch => {
     authAPI.login(mail,password, remember)
@@ -75,11 +56,13 @@ export const login = (mail: string,password: string, remember: boolean): ThunkTy
             dispatch(stopSubmit("login", {_error: error}))
         }
     })
-}
+};
 
 export const logout = (): ThunkType => dispatch => {
     authAPI.logout()
     .then(({data}) => data.resultCode === 0 && dispatch(authMe()))
-} 
+};
 
-type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsTypes | FormAction>
+type ActionsTypes = ReturnType<InferActionsTypes<typeof actions>>;
+type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsTypes | FormAction>;
+type initialStateType = typeof initialState;

@@ -11,6 +11,8 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)))
 
+export type InferActionsTypes<T> = T extends { [key: string]: infer U}? U : never; 
+
 export type AppStoreType = ReturnType<typeof rootReducer>
 
 export default store
