@@ -1,5 +1,8 @@
-import { stopSubmit } from 'redux-form'
+import { FormAction, stopSubmit } from "redux-form"
+import { ThunkAction } from "redux-thunk"
+
 import { authAPI } from '../../API/index'
+import { AppStoreType } from '../store'
 
 const SET_USER_DATA = 'auth/SET_USER_DATA'
 const SET_IS_AUTH = 'auth/SET_IS_AUTH'
@@ -47,11 +50,11 @@ export const authReducer = (state = initialState, action: ActionsTypes): initial
 }
 
 const actions = {
-    setUserData: (data: SetUserDataType) => ({type: SET_USER_DATA, data}),
-    setIsAuth: (status: boolean) => ({type: SET_IS_AUTH, status})
+    setUserData: (data: AuthMeDataType): SetUserDataType => ({type: SET_USER_DATA, data}),
+    setIsAuth: (status: boolean): SetIsAuthType => ({type: SET_IS_AUTH, status}),
 }
 
-export const authMe = () => (dispatch: any) => {
+export const authMe = (): ThunkType => dispatch => {
     dispatch(actions.setIsAuth(false))
     return  (authAPI.authMe().then(({data}) => {
         if(data.resultCode === 0){
@@ -61,7 +64,7 @@ export const authMe = () => (dispatch: any) => {
     }))
 }
 
-export const login = (mail: string,password: string, remember: boolean) => (dispatch:any) => {
+export const login = (mail: string,password: string, remember: boolean): ThunkType => dispatch => {
     authAPI.login(mail,password, remember)
     .then(({data}) => {
         if (data.resultCode === 0) {
@@ -74,7 +77,9 @@ export const login = (mail: string,password: string, remember: boolean) => (disp
     })
 }
 
-export const logout = () => (dispatch: any) => {
+export const logout = (): ThunkType => dispatch => {
     authAPI.logout()
     .then(({data}) => data.resultCode === 0 && dispatch(authMe()))
 } 
+
+type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsTypes | FormAction>

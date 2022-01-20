@@ -1,5 +1,9 @@
+import { ThunkAction } from "redux-thunk"
+import { TupleType } from "typescript"
+
 import { profileAPI } from '../../API/index'
 import { PhotosType, ProfileDataType } from '../../models'
+import { AppStoreType } from '../store'
 
 const SET_USER_PROFILE = 'profile/SET_USER_PROFILE'
 const SET_FEACHING = 'profile/SET_FEACHING'
@@ -55,7 +59,6 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
     }
 }
 
-
 type setUserProfileActionType = {
     type: typeof SET_USER_PROFILE;
     profile :ProfileDataType;
@@ -89,23 +92,22 @@ type SetPhotoActionType = {
 type ActionsTypes = setUserProfileActionType | SetFeachingActionType | SetStatusActionType | SetFollowInfoActionType | SetFollowingInProgresActionType | SetPhotoActionType;
 
 const actions = {
-    setUserProfile: (profile:ProfileDataType) => ({type: SET_USER_PROFILE, profile}),
-    setFeaching: (payload: boolean) => ({type: SET_FEACHING, payload}),
-    setStatus: (status:string) => ({type: SET_USER_STATUS, status}),
-    setFollowInfo: (status: boolean) => ({type: SET_FOLLOW_INFO, status}),
-    setFollowingInProgres: (status: boolean) => ({type: SET_FOLLOWING_IN_PROGRES, status}) ,
-    setPhoto: (photos: PhotosType) => ({type: SET_PHOTO, photos}),
+    setUserProfile: (profile:ProfileDataType):setUserProfileActionType => ({type: SET_USER_PROFILE, profile}),
+    setFeaching: (payload: boolean):SetFeachingActionType => ({type: SET_FEACHING, payload}),
+    setStatus: (status:string):SetStatusActionType => ({type: SET_USER_STATUS, status}),
+    setFollowInfo: (status: boolean):SetFollowInfoActionType => ({type: SET_FOLLOW_INFO, status}),
+    setFollowingInProgres: (status: boolean):SetFollowingInProgresActionType => ({type: SET_FOLLOWING_IN_PROGRES, status}) ,
+    setPhoto: (photos: PhotosType):SetPhotoActionType => ({type: SET_PHOTO, photos}),
 }
 
-export const getUserProfile = (userId: number) => (dispatch: any) => {
+export const getUserProfile = (userId: number):ThunkType => (dispatch) => {
     dispatch(actions.setFeaching(true))
-
     profileAPI.getUserProfile(userId)
     .then(({data, status}) => {
-
         if(status === 200){
             dispatch(actions.setUserProfile(data))
-            dispatch( getUserStatus(userId))
+            const promise = dispatch( getUserStatus(userId));
+            Promise.all([promise])
             .then(()=> dispatch(getFollowInfo(userId)))
             .then(() => dispatch(actions.setFeaching(false)))
         }
@@ -113,12 +115,12 @@ export const getUserProfile = (userId: number) => (dispatch: any) => {
     })
  }
 
- export const getUserStatus = (userId:number) => (dispatch: any) => {
+ export const getUserStatus = (userId:number):ThunkType => (dispatch) => {
     return profileAPI.getUserStatus(userId)
     .then(({data}) => dispatch(actions.setStatus(data)))
  }
 
-export const updateStatus = (status:string, id: number) => (dispatch: any) => {
+export const updateStatus = (status:string, id: number): ThunkType => (dispatch) => {
     profileAPI.updateStatus(status)
     .then(({data}) => {
         if(data.resultCode === 0){
@@ -127,12 +129,12 @@ export const updateStatus = (status:string, id: number) => (dispatch: any) => {
     })
 }
 
-export const getFollowInfo = (userId: number) => (dispatch:any) => {
+export const getFollowInfo = (userId: number):ThunkType => (dispatch) => {
     return profileAPI.getFollowInfo(userId)
     .then(({data}) => dispatch(actions.setFollowInfo(data)))
 }
 
-export const follow = (userId: number) => (dispatch:any) => {
+export const follow = (userId: number):ThunkType => (dispatch) => {
     dispatch(actions.setFollowingInProgres(true))
     profileAPI.follow(userId)
     .then(({data}) => {
@@ -142,8 +144,9 @@ export const follow = (userId: number) => (dispatch:any) => {
         }
     })
 }
-export const unfollow = (userId: boolean) => (dispatch:any) => {
+export const unfollow = (userId: boolean):ThunkType => (dispatch) => {
     dispatch(actions.setFollowingInProgres(true))
+
     profileAPI.unfollow(userId)
     .then(({data}) => {
         if( data.resultCode === 0) {
@@ -153,7 +156,7 @@ export const unfollow = (userId: boolean) => (dispatch:any) => {
     })
 }
 
-export const savePhoto = (image: File) => (dispatch:any) =>{
+export const savePhoto = (image: File):ThunkType => (dispatch) =>{
     profileAPI.updatePhoto(image)
     .then(({data}) =>{
         if (data.resultCode === 0) {
@@ -162,7 +165,7 @@ export const savePhoto = (image: File) => (dispatch:any) =>{
     })
 }
 
-export const saveProfile = (profile:ProfileDataType, userId: number) => (dispatch:any) => {
+export const saveProfile = (profile:ProfileDataType, userId: number):ThunkType => (dispatch) => {
     return profileAPI.updateProfileInfo(profile)
     .then(({data}) => {
         if(data.resultCode === 0){
@@ -173,3 +176,5 @@ export const saveProfile = (profile:ProfileDataType, userId: number) => (dispatc
         }
     })
 }
+
+type ThunkType = ThunkAction<void, AppStoreType,  unknown, ActionsTypes>
