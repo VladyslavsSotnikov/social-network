@@ -1,33 +1,31 @@
-import React, { useEffect, } from 'react'
-import { getUsers, followThunkCreator, unfollowThunkCreator } from '../../redux/reducers/user-reducer'
+import { useEffect, } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-
-
-import { useDispatch, useSelector } from 'react-redux'
-import { AppStoreType } from '../../redux/store'
-import { Paginator } from '../../component'
-import { User, UserSkeleton } from './components'
+import { Paginator } from '../../component';
+import { User, UserSkeleton } from './components';
+import { getUsers, followThunkCreator, unfollowThunkCreator } from '../../redux/reducers/user-reducer';
+import { AppStoreType } from '../../redux/store';
 
 export const Users = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    const { users, isFetching, count, page, followingInProgress } = useSelector(({ users }: AppStoreType) => users)
+    const { users, isFetching, count, page, followingInProgress } = useSelector(({ users }: AppStoreType) => users);
 
     useEffect(() => {
         dispatch(getUsers(count, page))
-    }, [page, count, dispatch])
+    }, [page, count, dispatch]);
 
     const onChangePage = (page:number) => {
         dispatch(getUsers(count, page))
-    }
+    };
 
     const onClickFollow = (userId:number) => {
         dispatch(followThunkCreator(userId))
-    }
+    };
 
     const onClickUnfollow = (userId:number) => {
         dispatch(unfollowThunkCreator(userId))
-    }
+    };
 
     return (
         <div className="users">

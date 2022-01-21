@@ -1,19 +1,19 @@
-import React from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import logo from '../../assests/logo.svg'
-import man from '../../assests/man.svg'
-import logoutIMG from '../../assests/logout.svg'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { logout } from '../../redux/reducers/auth-reducer'
-import { AppStoreType } from '../../redux/store'
+import { logout } from '../../redux/reducers/auth-reducer';
+import { AppStoreType } from '../../redux/store';
+
+import logo from '../../assests/logo.svg';
+import man from '../../assests/man.svg';
+import logoutIMG from '../../assests/logout.svg';
 
 export const Header = () => {
     const dispatch = useDispatch()
-
     const { isAuth, userData } = useSelector(({ auth }: AppStoreType) => auth)
 
     const onClickLogout = () => dispatch(logout())
+
     return (
         <div className="header">
             <div className="header__wraper">
@@ -41,4 +41,4 @@ export const Header = () => {
         </div>
 
     )
-}
+};

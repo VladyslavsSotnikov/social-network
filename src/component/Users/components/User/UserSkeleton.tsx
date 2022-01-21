@@ -1,7 +1,7 @@
-import React, { VFC } from "react"
-import ContentLoader from "react-content-loader"
+import { VFC } from "react";
+import ContentLoader from "react-content-loader";
 
-type UserSkeletonProps = {}
+type UserSkeletonProps = {};
 
 export const UserSkeleton: VFC<UserSkeletonProps> = (props) => (
     <ContentLoader

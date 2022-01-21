@@ -1,10 +1,10 @@
-import React, { useEffect, useState, VFC } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState, VFC } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import { EditProfile } from './components';
 import { ContactsType, ProfileDataType } from '../../../../models';
 import { updateStatus } from '../../../../redux/reducers';
 import { AppStoreType } from '../../../../redux/store';
-import { EditProfile } from './components';
 
 type ProfileInfoProps = {
     profile: ProfileDataType | null;

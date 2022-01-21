@@ -1,15 +1,15 @@
-import React, { VFC } from 'react'
-import { Link } from 'react-router-dom'
-import classNames from 'classnames'
-import man from '../../../../assests/man.svg'
-import { UserType } from '../../../../models'
+import { VFC } from "react";
+import { Link } from "react-router-dom";
+import classNames from "classnames";
 
+import man from '../../../../assests/man.svg';
+import { UserType } from '../../../../models';
 interface UserProps extends UserType {
     photo?: string | null;
     follow: (userId:number) => void;
     unfollow: (userId:number) => void;
     followingInProgress: number[];
-}
+};
 
 export const User:VFC<UserProps> = ({ id, name, status, photo, followed, follow, unfollow, followingInProgress }) => {
     return (

@@ -1,11 +1,11 @@
-import React from 'react'
-import icon from '../../assests/loginIcon.svg'
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
-import { useDispatch, useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom'
-import { login } from '../../redux/reducers/auth-reducer'
-import { minLength } from '../common/validators/validators'
-import { LoginForm } from '../../component'
+import { LoginForm } from '../../component';
+import { minLength } from '../common/validators/validators';
+import { login } from '../../redux/reducers/auth-reducer';
+
+import icon from '../../assests/loginIcon.svg';
 
 export const Login = () => {
 

@@ -1,18 +1,17 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams  } from "react-router";
 
-import { follow, getUserProfile, unfollow } from '../../redux/reducers/profile-reducer'
-import { withAuthRedirect } from '../../hoc/withAuthRedirect'
-
-import { useParams  } from 'react-router'
-import { AppStoreType } from '../../redux/store'
-import { ProfileLoader } from '..'
-import { AddPost, Post, ProfileInfo, ProfilePhoto } from './components'
+import { ProfileLoader } from '..';
+import { AddPost, Post, ProfileInfo, ProfilePhoto } from './components';
+import { AppStoreType } from '../../redux/store';
+import { follow, getUserProfile, unfollow } from '../../redux/reducers/profile-reducer';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 const posts = [
     { id: 1, author: 'Vladyslav Sotnikov', date: '01 grd 2021', text: 'Junior Web UI developer', like: 20 },
     { id: 2, author: 'Vladyslav Sotnikov', date: '25 lis 2020', text: 'Hi! How are you today?', like: 2 }
-]
+];
 
 export const Profile = withAuthRedirect(() =>  {
     const dispatch = useDispatch()
