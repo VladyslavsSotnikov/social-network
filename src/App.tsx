@@ -4,15 +4,9 @@ import { useSelector,  useDispatch} from "react-redux";
 
 import { initializedTC } from './redux/reducers/app-reducer'
 import { AppStoreType } from './redux/store';
-import Chats from './component/Chats/Chats';
-import Users from "./component/Users/Users";
-import Header from "./component/Header/Header";
-import Profile from "./component/Profile/Profile";
-import Sidebar from "./component/Sidebar/Sidebar";
-import Login from './component/Login/Login'
-import ProfileLoader from './component/Loader/ProfileLoader/ProfileLoader';
+import { Chats, Header, ProfileLoader, Login, Sidebar, Profile, Users } from "./component";
 
-const  App = () => {
+export const  App = () => {
   const { initialized } = useSelector(({ app }: AppStoreType) => app)
   const { isAuth } = useSelector(({ auth }: AppStoreType) => auth)
   const dispatch = useDispatch()
@@ -62,6 +56,4 @@ const  App = () => {
 
     </div>
   );
-}
-
-export default App;
+};

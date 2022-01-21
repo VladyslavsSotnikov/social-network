@@ -4,12 +4,11 @@ import { getUsers, followThunkCreator, unfollowThunkCreator } from '../../redux/
 
 
 import { useDispatch, useSelector } from 'react-redux'
-import User from './User/User'
-import UserSkeleton from './User/UserSkeleton'
-import Paginator from '../Paginator/Paginator'
 import { AppStoreType } from '../../redux/store'
+import { Paginator } from '../../component'
+import { User, UserSkeleton } from './components'
 
-const Users =() => {
+export const Users = () => {
     const dispatch = useDispatch()
 
     const { users, isFetching, count, page, followingInProgress } = useSelector(({ users }: AppStoreType) => users)
@@ -36,7 +35,7 @@ const Users =() => {
                 {isFetching
                     ? Array(count).fill(null).map((el, id) => <UserSkeleton key={id} />)
                     : users?.map(user => {
-                        return (<User 
+                        return (<User
                                 key={user.id}
                                 name={user.name}
                                 id={user.id}
@@ -55,6 +54,4 @@ const Users =() => {
             <Paginator currentPage={page} onChangePage={onChangePage} />
         </div>
     )
-}
-
-export default Users
+};

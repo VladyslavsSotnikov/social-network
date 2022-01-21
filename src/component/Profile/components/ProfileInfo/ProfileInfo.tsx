@@ -1,9 +1,10 @@
 import React, { useEffect, useState, VFC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { ContactsType, ProfileDataType } from '../../../models'
-import { updateStatus } from '../../../redux/reducers/profile-reducer'
-import { AppStoreType } from '../../../redux/store'
-import EditProfile from '../EditProfile/EditProfile'
+
+import { ContactsType, ProfileDataType } from '../../../../models';
+import { updateStatus } from '../../../../redux/reducers';
+import { AppStoreType } from '../../../../redux/store';
+import { EditProfile } from './components';
 
 type ProfileInfoProps = {
     profile: ProfileDataType | null;
@@ -11,7 +12,7 @@ type ProfileInfoProps = {
     authUserId?: number;
 }
 
-const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, authUserId }) => {
+export const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, authUserId }) => {
     const dispatch = useDispatch()
     const { status } = useSelector(({ profile }: AppStoreType) => profile)
     const [editMode, setEditMode] = useState(false)
@@ -88,6 +89,4 @@ const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, authUserId
             { profileEditMode && <EditProfile setEditMode={setProfileEditMode} profile={profile} />}
         </div>
     )
-}
-
-export default ProfileInfo
+};

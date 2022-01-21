@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../redux/reducers/auth-reducer'
 import { AppStoreType } from '../../redux/store'
-const Header = () => {
+
+export const Header = () => {
     const dispatch = useDispatch()
 
     const { isAuth, userData } = useSelector(({ auth }: AppStoreType) => auth)
@@ -41,5 +42,3 @@ const Header = () => {
 
     )
 }
-
-export default Header

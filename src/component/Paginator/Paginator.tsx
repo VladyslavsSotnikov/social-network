@@ -1,14 +1,15 @@
-import React, { useState, VFC } from 'react'
+import { useState, VFC } from 'react'
+import { useSelector } from 'react-redux'
+
 import right from '../../assests/right.svg'
 import left from '../../assests/left.svg'
-import { useSelector } from 'react-redux'
 import { AppStoreType } from '../../redux/store'
 
 type PaginatorProps = {
     currentPage: number;
     onChangePage: (page: number) => void
 }
-const Paginator: VFC<PaginatorProps> = ({ currentPage, onChangePage }) => {
+export const Paginator: VFC<PaginatorProps> = ({ currentPage, onChangePage }) => {
 
 
     const { totalPage } = useSelector(({ users }: AppStoreType) => users)
@@ -35,6 +36,4 @@ const Paginator: VFC<PaginatorProps> = ({ currentPage, onChangePage }) => {
 
         </div>
     )
-}
-
-export default Paginator
+};

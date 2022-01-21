@@ -9,7 +9,7 @@ const activeChatClassName = 'chats__dialog-item--active';
 const setClassName = ({ isActive } : { isActive: boolean }) => isActive ? `${chatClassNames} ${activeChatClassName}`: chatClassNames;
 
 
-const Chats = () => {
+export const Chats = withAuthRedirect(() => {
 
     return (
         <div className="chats">
@@ -85,6 +85,4 @@ const Chats = () => {
             </div>
         </div>
     )
-}
-
-export default withAuthRedirect(Chats) 
+}) 

@@ -1,7 +1,7 @@
 import React, { VFC } from 'react'
 
-import man from '../../../assests/man.svg'
-import likeImg from '../../../assests/like.svg'
+import likeImg from '../../../../assests/like.svg'
+import man from '../../../../assests/man.svg'
 
 type PostProps = {
     author: string;
@@ -10,7 +10,7 @@ type PostProps = {
     like: number; 
 }
 
-const Post: VFC<PostProps> = ({ author, date, text, like }) => {
+export const Post: VFC<PostProps> = ({ author, date, text, like }) => {
     return (
         <div className="profile__post">
             <div className="profile__post-header">
@@ -37,6 +37,4 @@ const Post: VFC<PostProps> = ({ author, date, text, like }) => {
             </div>
         </div>
     )
-}
-
-export default Post
+};

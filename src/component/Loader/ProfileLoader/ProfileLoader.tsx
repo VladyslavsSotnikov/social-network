@@ -1,9 +1,7 @@
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
-
-
-const ProfileLoader = () => {
+export const ProfileLoader = () => {
     return (
         <Loader
             type="Circles"
@@ -12,7 +10,4 @@ const ProfileLoader = () => {
             width={100}
         />
     )
-}
-
-export default ProfileLoader
-
+};

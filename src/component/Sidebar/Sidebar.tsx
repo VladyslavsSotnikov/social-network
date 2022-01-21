@@ -1,12 +1,10 @@
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const sidebarItemClassNames = 'sidebar__item';
 const sidebarItemActiveClassName = 'sidebar__item--active';
 const setClassName = ({ isActive } : { isActive: boolean }) => isActive ? `${sidebarItemClassNames} ${sidebarItemActiveClassName}`: sidebarItemClassNames;
 
-
-const Sidebar = () => {
+export const Sidebar = () => {
     return (
         <div className="sidebar">
             <ul className="sidebar__list">
@@ -46,6 +44,4 @@ const Sidebar = () => {
             </ul>
         </div >
     )
-}
-
-export default Sidebar
+};

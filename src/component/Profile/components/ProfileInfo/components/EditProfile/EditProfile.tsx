@@ -1,16 +1,16 @@
 import { VFC } from "react"
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux"
 
-import EditProfileForm from './EditProfileForm/EditProfileForm'
-import { saveProfile } from '../../../redux/reducers/profile-reducer'
-import { ProfileDataType } from "../../../models"
+import { ProfileDataType } from '../../../../../../models';
+import { saveProfile } from '../../../../../../redux/reducers';
+import { EditProfileForm } from './components';
 
 type EditProfileProps = {
     setEditMode: (isEditMode: boolean) => void;
     profile: ProfileDataType | null;
 }
 
-const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => {
+export const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => {
     const dispatch = useDispatch()
     
     const saveProfileInfo = (values: ProfileDataType ) => {
@@ -45,6 +45,4 @@ const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => {
             </div>
         </div>
     )
-}
-
-export default EditProfile
+};
