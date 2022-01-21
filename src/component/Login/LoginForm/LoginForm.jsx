@@ -8,7 +8,8 @@ import { required, email } from '../../common/validators/validators'
 
 
 import errorSVG from '../../../assests/error.svg'
-function LoginForm(props) {
+
+const Form = (props) => {
 
     return (
         <form className="login__form" onSubmit={props.handleSubmit}>
@@ -46,4 +47,4 @@ function LoginForm(props) {
     )
 }
 
-export default reduxForm({ form: "login" })(LoginForm) 
+export const LoginForm = () => reduxForm({ form: "login" })(Form) 

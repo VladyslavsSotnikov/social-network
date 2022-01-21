@@ -1,16 +1,16 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { VFC } from 'react'
 
 import classes from '../EditProfileForm/EditProfileForm.module.css'
-import { required } from '../../../common/validators/validators'
-import { ProfileInputForm } from '../../../common/FormControl/FormControl'
-import { ProfileDataType } from '../../../../models'
-import { VFC } from 'react'
+import { ProfileDataType } from '../../../../../../../../models';
+import { ProfileInputForm } from '../../../../../../../common/FormControl/FormControl';
+import { required } from '../../../../../../../common/validators/validators';
 
 type EditProfileFormProps = {
     profile: ProfileDataType | null;
 }
 
-const EditProfileForm: VFC<InjectedFormProps<ProfileDataType,EditProfileFormProps> & EditProfileFormProps> = ({ profile, handleSubmit }) => {
+const Form: VFC<InjectedFormProps<ProfileDataType,EditProfileFormProps> & EditProfileFormProps> = ({ profile, handleSubmit }) => {
     return (
         <form onSubmit={handleSubmit}>
             <ul>
@@ -45,6 +45,7 @@ const EditProfileForm: VFC<InjectedFormProps<ProfileDataType,EditProfileFormProp
             </ul>
         </form>
     )
-}
+};
 
-export default reduxForm<ProfileDataType,EditProfileFormProps>({ form: 'edit-form' })(EditProfileForm)
+export const EditProfileForm = reduxForm<ProfileDataType,EditProfileFormProps>({ form: 'edit-form' })(Form);
+

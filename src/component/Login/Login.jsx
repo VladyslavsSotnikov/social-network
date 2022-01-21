@@ -1,12 +1,13 @@
-import React from 'react'
-import icon from '../../assests/loginIcon.svg'
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
-import { useDispatch, useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom'
-import LoginForm from './LoginForm/LoginForm'
-import { login } from '../../redux/reducers/auth-reducer'
-import { minLength } from '../common/validators/validators'
-function Login() {
+import { LoginForm } from '../../component';
+import { minLength } from '../common/validators/validators';
+import { login } from '../../redux/reducers/auth-reducer';
+
+import icon from '../../assests/loginIcon.svg';
+
+export const Login = () => {
 
     const dispatch = useDispatch()
 
@@ -39,8 +40,4 @@ function Login() {
         </div>
 
     )
-}
-
-
-
-export default Login
+};

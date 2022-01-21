@@ -1,9 +1,9 @@
-import React, { VFC } from "react"
-import ContentLoader from "react-content-loader"
+import { VFC } from "react";
+import ContentLoader from "react-content-loader";
 
-type UserSkeletonProps = {}
+type UserSkeletonProps = {};
 
-const UserSkeleton: VFC<UserSkeletonProps> = (props) => (
+export const UserSkeleton: VFC<UserSkeletonProps> = (props) => (
     <ContentLoader
         className='user__skeleton'
         speed={2}
@@ -20,6 +20,4 @@ const UserSkeleton: VFC<UserSkeletonProps> = (props) => (
         <rect x="2" y="86" rx="2" ry="2" width="80" height="24" />
         <rect x="91" y="6" rx="2" ry="2" width="87" height="22" />
     </ContentLoader>
-)
-
-export default UserSkeleton
+);

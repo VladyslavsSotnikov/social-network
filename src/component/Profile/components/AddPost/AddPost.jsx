@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react';
 
+import man from '../../../../assests/man.svg'
 
-import man from '../../../assests/man.svg'
-function AddPost() {
+export const AddPost = () => {
     const postRef = useRef()
     const [editMode, setEditMode] = useState(false)
     useEffect(() => {
@@ -31,6 +31,4 @@ function AddPost() {
             </form>
         </div>
     )
-}
-
-export default AddPost
+};

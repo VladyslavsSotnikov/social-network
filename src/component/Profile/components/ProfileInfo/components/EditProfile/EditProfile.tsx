@@ -1,24 +1,24 @@
-import { VFC } from "react"
-import { useDispatch } from 'react-redux'
+import { VFC } from "react";
+import { useDispatch } from "react-redux";
 
-import EditProfileForm from './EditProfileForm/EditProfileForm'
-import { saveProfile } from '../../../redux/reducers/profile-reducer'
-import { ProfileDataType } from "../../../models"
+import { ProfileDataType } from '../../../../../../models';
+import { saveProfile } from '../../../../../../redux/reducers';
+import { EditProfileForm } from './components';
 
 type EditProfileProps = {
     setEditMode: (isEditMode: boolean) => void;
     profile: ProfileDataType | null;
-}
+};
 
-const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => {
-    const dispatch = useDispatch()
+export const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => {
+    const dispatch = useDispatch();
     
     const saveProfileInfo = (values: ProfileDataType ) => {
         if( profile?.userId) {
             const promise = dispatch(saveProfile(values, profile.userId));
             Promise.all([promise]).then(() => setEditMode(false));
         } 
-    }
+    };
 
     return (
         <div className="profile__edit-profile">
@@ -45,6 +45,4 @@ const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => {
             </div>
         </div>
     )
-}
-
-export default EditProfile
+};

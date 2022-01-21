@@ -2,17 +2,11 @@ import { useEffect } from "react"
 import { Navigate, Route, Routes, useLocation} from "react-router-dom";
 import { useSelector,  useDispatch} from "react-redux";
 
+import { Chats, Header, ProfileLoader, Login, Sidebar, Profile, Users } from './component';
 import { initializedTC } from './redux/reducers/app-reducer'
 import { AppStoreType } from './redux/store';
-import Chats from './component/Chats/Chats';
-import Users from "./component/Users/Users";
-import Header from "./component/Header/Header";
-import Profile from "./component/Profile/Profile";
-import Sidebar from "./component/Sidebar/Sidebar";
-import Login from './component/Login/Login'
-import ProfileLoader from './component/Loader/ProfileLoader/ProfileLoader';
 
-const  App = () => {
+export const  App = () => {
   const { initialized } = useSelector(({ app }: AppStoreType) => app)
   const { isAuth } = useSelector(({ auth }: AppStoreType) => auth)
   const dispatch = useDispatch()
@@ -21,7 +15,7 @@ const  App = () => {
   useEffect(() => {
     dispatch(initializedTC())
   }, [dispatch])
-
+  
   if (!initialized) {
       return  <div className ="content__wrapper" ><ProfileLoader/></div> 
   }
@@ -33,7 +27,6 @@ const  App = () => {
   if (location.pathname === '/chats') {
     return <Navigate to = "/chats/1"/>
   }
-
 
   return (
     <div>
@@ -62,6 +55,4 @@ const  App = () => {
 
     </div>
   );
-}
-
-export default App;
+};

@@ -1,16 +1,13 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from "react-router-dom";
 
-import man from '../../assests/man.svg'
-import { withAuthRedirect } from '../../hoc/withAuthRedirect'
+import man from '../../assests/man.svg';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 const chatClassNames = 'chats__dialog-item';
 const activeChatClassName = 'chats__dialog-item--active';
 const setClassName = ({ isActive } : { isActive: boolean }) => isActive ? `${chatClassNames} ${activeChatClassName}`: chatClassNames;
 
-
-const Chats = () => {
-
+export const Chats = withAuthRedirect(() => {
     return (
         <div className="chats">
             <div className="chats__dialogs">
@@ -85,6 +82,4 @@ const Chats = () => {
             </div>
         </div>
     )
-}
-
-export default withAuthRedirect(Chats) 
+});

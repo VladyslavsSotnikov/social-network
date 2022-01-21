@@ -1,8 +1,9 @@
-import { ChangeEvent, VFC } from 'react'
-import classNames from 'classnames'
-import { useDispatch } from 'react-redux'
-import profileAvatar from '../../../assests/profile-photo.png'
-import { savePhoto } from '../../../redux/reducers/profile-reducer'
+import { ChangeEvent, VFC } from "react";
+import { useDispatch } from "react-redux";
+import classNames from "classnames";
+
+import profileAvatar from '../../../../assests/profile-photo.png';
+import { savePhoto } from '../../../../redux/reducers';
 
 type ProfilePhotoProps = {
     photo?: string | null;
@@ -12,16 +13,16 @@ type ProfilePhotoProps = {
     follow: (userId: number) => void;
     unfollow: (userId: number) => void;
     followingInProgres: boolean;
-}
+};
 
-const ProfilePhoto: VFC<ProfilePhotoProps> = ({ photo, currentUserId, authUserId, followInfo, follow, unfollow, followingInProgres }) => {
-    const dispatch = useDispatch()
+export const ProfilePhoto: VFC<ProfilePhotoProps> = ({ photo, currentUserId, authUserId, followInfo, follow, unfollow, followingInProgres }) => {
+    const dispatch = useDispatch();
 
     const sendPhotoToServer = (e:ChangeEvent<HTMLInputElement> ) => {
         if (e.target.files?.length) {
             dispatch(savePhoto(e.target.files[0]))
         }
-    }
+    };
 
     return (
         <div className="profile__block">
@@ -43,6 +44,4 @@ const ProfilePhoto: VFC<ProfilePhotoProps> = ({ photo, currentUserId, authUserId
             </div>
         </div>
     )
-}
-
-export default ProfilePhoto
+};
