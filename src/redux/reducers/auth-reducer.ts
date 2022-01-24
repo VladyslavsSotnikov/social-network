@@ -37,6 +37,7 @@ const actions = {
 
 export const authMe = (): ThunkType => dispatch => {
     dispatch(actions.setIsAuth(false))
+    
     return  (authAPI.authMe().then(({data}) => {
         if(data.resultCode === 0){
             dispatch(actions.setUserData(data.data))
@@ -46,14 +47,15 @@ export const authMe = (): ThunkType => dispatch => {
 };
 
 export const login = (mail: string,password: string, remember: boolean): ThunkType => dispatch => {
-    authAPI.login(mail,password, remember)
+    console.log(mail,password, remember);
+    return authAPI.login(mail,password, remember)
     .then(({data}) => {
         if (data.resultCode === 0) {
             dispatch(authMe())
         }
         else{
             const error = data.messages.length > 0 ? data.messages[0] : "Some error"
-            dispatch(stopSubmit("login", {_error: error}))
+            return dispatch(stopSubmit("login", {_error: error}))
         }
     })
 };

@@ -12,7 +12,6 @@ type EditProfileProps = {
 
 export const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => {
     const dispatch = useDispatch();
-    
     const saveProfileInfo = (values: ProfileDataType ) => {
         if( profile?.userId) {
             const promise = dispatch(saveProfile(values, profile.userId));

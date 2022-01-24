@@ -1,27 +1,31 @@
 import { useEffect } from "react"
-import { Navigate, Route, Routes, useLocation} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import { useSelector,  useDispatch} from "react-redux";
 
-import { Chats, Header, ProfileLoader, Login, Sidebar, Profile, Users } from './component';
+import { Chats, Header, ProfileLoader, Login, Sidebar, Users, Profile } from './component';
 import { initializedTC } from './redux/reducers/app-reducer'
 import { AppStoreType } from './redux/store';
 
 export const  App = () => {
-  const { initialized } = useSelector(({ app }: AppStoreType) => app)
-  const { isAuth } = useSelector(({ auth }: AppStoreType) => auth)
-  const dispatch = useDispatch()
+  const { initialized } = useSelector(({ app }: AppStoreType) => app);
+  const { isAuth } = useSelector(({ auth }: AppStoreType) => auth);
+  const dispatch = useDispatch();
   const location = useLocation();
+  const navigate =  useNavigate();
 
   useEffect(() => {
     dispatch(initializedTC())
   }, [dispatch])
   
+  useEffect(() => {
+    console.log('isAuth', isAuth);
+    if (!isAuth) {
+      navigate('/login');
+    }
+  },[isAuth, navigate])
+
   if (!initialized) {
       return  <div className ="content__wrapper" ><ProfileLoader/></div> 
-  }
-
-  if (location.pathname === '/') {
-    return <Navigate to="/profile"/>
   }
 
   if (location.pathname === '/chats') {
@@ -30,9 +34,12 @@ export const  App = () => {
 
   return (
     <div>
-      {
-        !isAuth
-        ? <div className ="content__wrapper"><Login/></div> 
+      { !isAuth
+        ? <div className ="content__wrapper">
+              <Routes>
+                  <Route path='/login' element={<Login/>}/> 
+              </Routes>
+          </div> 
         : <div>
             <Header/>
             <div className="conteiner">
@@ -51,8 +58,6 @@ export const  App = () => {
             </div> 
           </div>
       }
-      
-
     </div>
   );
 };

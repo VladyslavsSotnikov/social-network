@@ -3,6 +3,7 @@ import c from '../FormControl/FormControl.module.css'
 import errorSVG from '../../../assests/error.svg'
 
 export const InputLogin = ({ input, meta, className, ...props }) => {
+    console.log('input', input);
     const { touched, error } = meta
     return (
         <div className={`login__input ${className}`}>

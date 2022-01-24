@@ -1,43 +1,76 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { makeStyles } from "@mui/styles";
 
-import { LoginForm } from '../../component';
+import { LoginForm } from '..';
 import { minLength } from '../common/validators/validators';
 import { login } from '../../redux/reducers/auth-reducer';
 
-import icon from '../../assests/loginIcon.svg';
+import loginIcon from '../../assests/loginIcon.svg';
+import { useNavigate } from "react-router-dom";
+
+const useStyles = makeStyles ({
+    root: {
+        width: '440px',
+        height:' 520px',
+        backgroundColor: '#fff',
+        borderRadius: '3px',
+        boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    content: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        width: '50%',
+    },
+
+    loginIcon: {
+        width: '90px',
+        height: '90px',
+    },
+
+    header: {
+        fontFamily: 'Oswald',
+        fontSize: '24px',
+        margin: '15px 0',
+    },
+
+    form: {
+        width: '100%',
+    }
+});
+
+
 
 export const Login = () => {
-
-    const dispatch = useDispatch()
-
-    const { isAuth } = useSelector(({ auth }) => auth)
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const classes = useStyles();
+    
     const onClickSubmit = (data) => {
-        dispatch(login(data.email, data.password, data.checkbox))
-    }
+        dispatch(login(data.email, data.password, data.checkbox)).then((data) => {
+            if(!data?.error) {
+                navigate('/profile')
+            }
+        });
+    };
 
     const minLength4 = minLength(4)
 
     return (
-        <div>
-            {
-                !isAuth
-                    ? <div className="login">
-                        <div className="login__content">
-                            <div className="login__img">
-                                <img className="login__icon" src={icon} alt="Login icon" />
-                            </div>
-                            <h3 className="login__title">Zaloguj się</h3>
-                            <div className="login__form">
-                                <LoginForm onSubmit={onClickSubmit} minLength={minLength4} />
-                            </div>
-                        </div>
-                    </div>
-                    : <Navigate to='/profile' />
-            }
-
+        <div className={classes.root}>
+            <div className={classes.content}>
+                <img className={classes.loginIcon} src={loginIcon} alt='login icon' />
+                <h3 className={classes.header}>Zaloguj się</h3>
+                <div className={classes.form}>
+                    <LoginForm onSubmit={onClickSubmit} minLength={minLength4} />
+                </div>
+            </div>
         </div>
+
 
     )
 };

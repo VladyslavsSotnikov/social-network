@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { logout } from '../../redux/reducers/auth-reducer';
 import { AppStoreType } from '../../redux/store';
@@ -10,9 +10,13 @@ import logoutIMG from '../../assests/logout.svg';
 
 export const Header = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const { isAuth, userData } = useSelector(({ auth }: AppStoreType) => auth)
 
-    const onClickLogout = () => dispatch(logout())
+    const onClickLogout = () => {
+        dispatch(logout());
+        navigate('/login');
+    }  
 
     return (
         <div className="header">
