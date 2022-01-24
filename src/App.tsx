@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation} from "react-router-dom";
 import { useSelector,  useDispatch} from "react-redux";
 
 import { Chats, Header, ProfileLoader, Login, Sidebar, Users, Profile } from './component';
@@ -11,18 +11,10 @@ export const  App = () => {
   const { isAuth } = useSelector(({ auth }: AppStoreType) => auth);
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate =  useNavigate();
 
   useEffect(() => {
     dispatch(initializedTC())
   }, [dispatch])
-  
-  useEffect(() => {
-    console.log('isAuth', isAuth);
-    if (!isAuth) {
-      navigate('/login');
-    }
-  },[isAuth, navigate])
 
   if (!initialized) {
       return  <div className ="content__wrapper" ><ProfileLoader/></div> 
@@ -38,6 +30,7 @@ export const  App = () => {
         ? <div className ="content__wrapper">
               <Routes>
                   <Route path='/login' element={<Login/>}/> 
+                  <Route path='/' element={<Navigate to="/login" replace />}/> 
               </Routes>
           </div> 
         : <div>

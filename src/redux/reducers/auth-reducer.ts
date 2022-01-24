@@ -47,7 +47,6 @@ export const authMe = (): ThunkType => dispatch => {
 };
 
 export const login = (mail: string,password: string, remember: boolean): ThunkType => dispatch => {
-    console.log(mail,password, remember);
     return authAPI.login(mail,password, remember)
     .then(({data}) => {
         if (data.resultCode === 0) {
