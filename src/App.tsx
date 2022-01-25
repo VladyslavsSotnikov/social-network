@@ -28,7 +28,7 @@ export const  App = () => {
                   <Route path='/' element={<Navigate to="/login" replace />}/> 
               </Routes>
           </div> 
-        : <div>
+        : <>
             <Header/>
             <div className="conteiner">
               <Sidebar/>
@@ -42,7 +42,7 @@ export const  App = () => {
                 </Routes>
               </div>
             </div> 
-          </div>
+          </>
       }
     </div>
   );
