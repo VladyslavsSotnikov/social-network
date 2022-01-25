@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Navigate, Route, Routes, useLocation} from "react-router-dom";
+import { Navigate, Route, Routes} from "react-router-dom";
 import { useSelector,  useDispatch} from "react-redux";
 
 import { Chats, Header, ProfileLoader, Login, Sidebar, Users, Profile } from './component';
@@ -10,7 +10,6 @@ export const  App = () => {
   const { initialized } = useSelector(({ app }: AppStoreType) => app);
   const { isAuth } = useSelector(({ auth }: AppStoreType) => auth);
   const dispatch = useDispatch();
-  const location = useLocation();
 
   useEffect(() => {
     dispatch(initializedTC())
@@ -18,10 +17,6 @@ export const  App = () => {
 
   if (!initialized) {
       return  <div className ="content__wrapper" ><ProfileLoader/></div> 
-  }
-
-  if (location.pathname === '/chats') {
-    return <Navigate to = "/chats/1"/>
   }
 
   return (
@@ -39,12 +34,10 @@ export const  App = () => {
               <Sidebar/>
               <div className="content">
                 <Routes>
-                  <Route  path='/profile' element={<Profile/>}>
-                    <Route  path=':userId' element={<Profile/>}/>
-                  </Route> 
-                  <Route  path='/chats' element={<Chats/>}>
-                    <Route  path=':id' element={<Chats/>}/>
-                  </Route>
+                  <Route path='/profile' element={<Profile/>}/>
+                  <Route path='/profile/:userId' element={<Profile/>}/>
+                  <Route path='/chats' element={<Navigate to="/chats/1" replace />}/>
+                  <Route path='/chats/:id' element={<Chats/>}/>
                   <Route path='/users' element={<Users/>}/> 
                 </Routes>
               </div>
