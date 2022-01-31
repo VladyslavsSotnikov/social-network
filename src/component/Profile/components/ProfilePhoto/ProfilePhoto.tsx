@@ -1,13 +1,13 @@
 import { ChangeEvent, VFC } from "react";
 import { useDispatch } from "react-redux";
-import classNames from "classnames";
 
 import profileAvatar from '../../../../assests/profile-photo.png';
 import { savePhoto } from '../../../../redux/reducers';
+import { makeStyles } from "@mui/styles";
 
 type ProfilePhotoProps = {
     photo?: string | null;
-    currentUserId?: number;
+    currentUserId: number;
     authUserId?: number;
     followInfo: boolean;
     follow: (userId: number) => void;
@@ -15,8 +15,50 @@ type ProfilePhotoProps = {
     followingInProgres: boolean;
 };
 
+type ButtonType = {
+    followingInProgres: boolean;
+}
+
+const useStyles = makeStyles({
+    leftPanel:{
+        width: '230px',
+        height: '100%',
+        backgroundColor: '#fff',
+        borderRadius: '5px',
+        padding: '10px',
+        marginRight: '25px',
+    },
+
+    mainPhoto: {
+        marginBottom: '5px',
+
+        '&>img': {
+            width: '100%',
+        }
+    },
+
+    commonButton: ({ followingInProgres }:ButtonType) => ({
+        width: '100%',
+        padding: '8px 0',
+        border: 'none',
+        borderRadius: '2px',
+        color: '#fff',
+        pointerEvents: followingInProgres ? 'none': 'auto',
+        backgroundColor: followingInProgres? '#D5D5D6' : '#5181B8',
+        cursor: followingInProgres? 'none': 'pointer',
+        display: 'block',
+        textAlign: 'center',
+
+        '&:hover': {
+            backgroundColor: '#6A98CC',
+        }
+    }),
+});
+
 export const ProfilePhoto: VFC<ProfilePhotoProps> = ({ photo, currentUserId, authUserId, followInfo, follow, unfollow, followingInProgres }) => {
     const dispatch = useDispatch();
+    const classes = useStyles({followingInProgres});
+    const isAuthorizedUser = currentUserId === authUserId; 
 
     const sendPhotoToServer = (e:ChangeEvent<HTMLInputElement> ) => {
         if (e.target.files?.length) {
@@ -25,23 +67,22 @@ export const ProfilePhoto: VFC<ProfilePhotoProps> = ({ photo, currentUserId, aut
     };
 
     return (
-        <div className="profile__block">
-            <div className="profile__avatar">
-                <img className="profile__avatar_img" src={photo ? photo : profileAvatar} alt="avatar" />
+        <div className={classes.leftPanel}>
+            <div className={classes.mainPhoto}>
+                <img src={photo ? photo : profileAvatar} alt="mainPhoto" />
             </div>
-            <div className="profile__btn_block">
-                {currentUserId &&
-                    currentUserId !== authUserId
-                        ? !followInfo
-                            ? <button className={classNames("profile__btn", { "user__btn-disabled": followingInProgres })} onClick={() => follow(currentUserId)}>Dodaj</button>
-                            : <button className={classNames("profile__btn", { "user__btn-disabled": followingInProgres })} onClick={() => unfollow(currentUserId)}>Usuń</button>
-                        : <div>
-                            <div className="profile__photo-container"><label htmlFor="photo" className="profile__btn profile__btn--photo">Zmień zdięcie</label></div>
-                            <div><input type="file" id="photo" onChange={sendPhotoToServer} /></div>
+            { !isAuthorizedUser
+                    ? !followInfo
+                        ? <button className={classes.commonButton} onClick={() => follow(currentUserId)}>Dodaj</button>
+                        : <button className={classes.commonButton} onClick={() => unfollow(currentUserId)}>Usuń</button>
+                    : 
+                        <div>
+                            <label htmlFor="photo" className={classes.commonButton}>Zmień zdięcie</label>
+                            <input type="file" id="photo" onChange={sendPhotoToServer} />
                         </div>
-                }
-
-            </div>
+                    
+                        
+            }
         </div>
     )
 };
