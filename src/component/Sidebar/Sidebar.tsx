@@ -4,10 +4,8 @@ import clsx from "clsx";
 import { Home, Man, Message } from "./icons";
 
 const useStyle = makeStyles({
-    root: {},
-
-    navigation: {
-        paddingLeft: '30px',
+    sidebar: {
+        width: '120px',
     },
 
     navItem: {
@@ -17,6 +15,7 @@ const useStyle = makeStyles({
         padding: '10px 14px',
         borderRadius: '4px',
         color: '#5D748A',
+        fontWeight: 'bold',
 
         '&:hover': {
             backgroundColor:'#DCE1DD',
@@ -31,10 +30,7 @@ const useStyle = makeStyles({
     },
 
     activeNavItem: {
-        display: 'flex',
         backgroundColor: '#DCE1DD',
-        width: '100%',
-        height: '100%',
     }
 });
 
@@ -43,8 +39,8 @@ export const Sidebar = () => {
     const setClassName = ({ isActive } : { isActive: boolean }) => isActive ? clsx(classes.navItem, classes.activeNavItem): classes.navItem;
 
     return (
-        <div className={classes.root}>
-            <nav className={classes.navigation}>
+        <div className={classes.sidebar}>
+            <nav>
                 <NavLink to='/profile' className={setClassName}>
                     <Home/>
                     Profil

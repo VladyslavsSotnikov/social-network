@@ -1,5 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import { VFC } from "react"
+import { Fragment, VFC } from "react"
 import { ContactsType, ProfileDataType } from "../../../../../../models"
 
 type ProfileDescriptionProps = {
@@ -11,17 +11,23 @@ type ProfileDescriptionProps = {
 const useStyles = makeStyles({
     aboutItem: {
         display: 'flex',
+        justifyContent: 'space-between',
         marginBottom: '15px',
-        marginLeft: '15px',
     },
 
     aboutItemKey: {
-        width: '30%',
+        width: '100px',
         color: '#D5D5D6',
     },
 
     aboutItemValue: {
+        display: 'flex',
+        alignItems: 'center',
+        maxWidth: '300px',
         color: '#4A76A8',
+        textAlign: 'right',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
     },
 
     buttonWrapper: {
@@ -55,8 +61,7 @@ export const ProfileDescription: VFC<ProfileDescriptionProps> = ({ profile, isAu
     }
 
     return (
-        <>
-
+        <Fragment>
             <div className={classes.buttonWrapper}>
                 {isAuthorizedUser && <button onClick={openEditProfileDialog} className={classes.editButton}>Edytuj</button>}
             </div>
@@ -85,6 +90,6 @@ export const ProfileDescription: VFC<ProfileDescriptionProps> = ({ profile, isAu
                     )
                 })}
             </ul>
-        </>
+        </Fragment>
     )
 }

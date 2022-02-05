@@ -15,11 +15,10 @@ type ProfileInfoProps = {
 }
 
 const useStyles = makeStyles({
-    rightPanel: {
-        width: '100%',
+    profileInfo: {
         backgroundColor: '#fff',
         borderRadius: '5px',
-        padding: '15px 25px',
+        padding: '15px',
     },
 
     info: {
@@ -27,13 +26,13 @@ const useStyles = makeStyles({
     },
 
     name: {
-        margin: '0 0 10px 15px',
+        marginBottom: '10px',
     },
 
     status: ({ isAuthorizedUser }:{ isAuthorizedUser: boolean }) => ({
         display: 'block',
         width: '100%',
-        padding: '7px 15px',
+        padding: '7px 0',
 
         '&:hover': {
             backgroundColor: isAuthorizedUser? '#D5D5D6': 'transparent',
@@ -41,12 +40,8 @@ const useStyles = makeStyles({
         },
     }),
 
-    statusForm: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-
     statusInput: {
+        width: '100%',
         border: '1px solid #DDDDDD',
         marginBottom: '8px',
         padding: '5px 10px',
@@ -64,7 +59,7 @@ export const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, aut
     const [profileEditMode, setProfileEditMode] = useState(false)
     const classes = useStyles({isAuthorizedUser});
 
-    const onChangeStatus = () => {
+    const onBlurStatus = () => {
         setEditMode(false)
         if (status !== localStatus && profile?.userId) {
             dispatch(updateStatus(localStatus, profile.userId))
@@ -78,25 +73,24 @@ export const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, aut
     }, [status])
 
     return (
-        <div className={classes.rightPanel} >
+        <div className={classes.profileInfo} >
             {profile && 
                 <div className={classes.info}>
                 <h4 className={classes.name}>{profile.fullName}</h4>
                 {
                     isAuthorizedUser
                         ? !editMode
-                            ? <span className={classes.status} onClick={() => setEditMode(true)} >
-                                {status ? status : null}</span>
-                            : <form className={classes.statusForm}>
-                                <input autoFocus={true}
-                                    onBlur={onChangeStatus}
+                            ?   <span className={classes.status} onClick={() => setEditMode(true)} >
+                                    {status ? status : null}
+                                </span>
+                            :   <input autoFocus={true}
+                                    onBlur={onBlurStatus}
                                     className={classes.statusInput}
                                     type="text" 
                                     placeholder={status}
                                     value={localStatus}
                                     onChange={e => setLocalStatus(e.target.value)}
                                 />
-                            </form>
                         : <span className={classes.status}>{status ? status : null}</span>
                 }
                 </div>

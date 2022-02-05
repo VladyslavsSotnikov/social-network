@@ -7,7 +7,6 @@ import { AppStoreType } from '../../redux/store';
 
 import logo from '../../assests/logo.svg';
 import profilePhoto from '../../assests/man.svg';
-import logoutImg from '../../assests/logout.svg';
 
 
 const useStyle = makeStyles({
@@ -28,12 +27,14 @@ const useStyle = makeStyles({
 
     userName: {
         color: '#fff',
+        fontWeight: 'bold',
+        letterSpacing: '1px',
     },
 
     profilePhoto: {
         width:'30px',
         height: '30px',
-        marginLeft: '25px',
+        margin: '0 25px',
 
         '&>img': { 
             width:'100%',
@@ -41,16 +42,16 @@ const useStyle = makeStyles({
     },
 
     logout: {
-        width: '25px',
-        height: '25px',
-        marginLeft: '25px',
-
-        '&>img': { 
-            width:'100%',
-        },
-
+        color: 'white',
+        border: '2px solid white ',
+        borderRadius: '40px',
+        padding: '7px 25px',
+        backgroundColor: 'transparent',
+        fontSize: '16px',
+        
         '&:hover': {
             cursor: 'pointer',
+            filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
         }
     }
 });
@@ -77,9 +78,7 @@ export const Header = () => {
                     <div className={classes.profilePhoto}>
                         <img src={profilePhoto} alt="profilePhoto" />
                     </div>
-                    <div className={classes.logout} onClick={onClickLogout}>
-                        <img src={logoutImg} alt="logout" />
-                    </div>
+                    <button className={classes.logout} onClick={onClickLogout}>Log out</button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams  } from "react-router";
+import { useParams } from "react-router";
 import { makeStyles } from "@mui/styles";
 
 import { ProfileLoader } from '..';
@@ -14,18 +14,24 @@ const posts = [
 ];
 
 const useStyles = makeStyles({
-    root:{
+    profile:{
         display: 'flex',
+    },
+
+    leftPanel: {
+        width: '230px',
+        marginRight: '25px',
+    },
+
+    rightPanel: {
+        flex: 1,
     },
 
     wrapper: {
         display: 'flex',
         justifyContent: 'center',
+        width: '100%'
     },
-
-    wall: {
-        width: '600px',
-    }
 });
 
 export const Profile = () =>  {
@@ -40,35 +46,36 @@ export const Profile = () =>  {
 
     const onClickFollow = (userId: number) => {
         dispatch(follow(userId))
-    }
+    };
 
     const onClickUnfollow = (userId: number) => {
         dispatch(unfollow(userId))
-    }
+    };
 
     useEffect(() => {
         if(userId){
             dispatch(getUserProfile(userId))
         }
-    }, [dispatch, userId])
+    }, [dispatch, userId]);
 
     return (
-        <div >
+        <Fragment>
             {   isFeaching
                 ? <div className={classes.wrapper}><ProfileLoader /></div>
-                : <div className={classes.root}>
-                    <ProfilePhoto
-                        photo={profile?.photos.large}
-                        currentUserId={userId}
-                        authUserId={authorizedUserId}
-                        followInfo={followInfo}
-                        followingInProgres={followingInProgres}
-                        follow={onClickFollow}
-                        unfollow={onClickUnfollow}
-                    />
-                    <div className={classes.wall}>
+                : <div className={classes.profile}>
+                    <div className={classes.leftPanel}>
+                        <ProfilePhoto
+                            photo={profile?.photos.large}
+                            currentUserId={userId}
+                            authUserId={authorizedUserId}
+                            followInfo={followInfo}
+                            followingInProgres={followingInProgres}
+                            follow={onClickFollow}
+                            unfollow={onClickUnfollow}
+                        />
+                    </div>
+                    <div className={classes.rightPanel}>
                         <ProfileInfo profile={profile} currentUserId={userId} authUserId={authorizedUserId} />
-
                         <AddPost />
                         {posts.map(post => (
                             <Post
@@ -76,10 +83,12 @@ export const Profile = () =>  {
                                 author={post.author}
                                 date={post.date}
                                 text={post.text}
-                                like={post.like} />
+                                like={post.like} 
+                            />
                         ))}
                     </div>
-                </div>}
-        </div>
+                </div>
+            }
+        </Fragment>
     )
 };

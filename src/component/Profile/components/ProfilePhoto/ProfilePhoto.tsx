@@ -21,12 +21,9 @@ type ButtonType = {
 
 const useStyles = makeStyles({
     leftPanel:{
-        width: '230px',
-        height: '100%',
         backgroundColor: '#fff',
         borderRadius: '5px',
         padding: '10px',
-        marginRight: '25px',
     },
 
     mainPhoto: {

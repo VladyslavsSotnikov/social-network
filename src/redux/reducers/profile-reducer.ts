@@ -10,6 +10,7 @@ const SET_USER_STATUS = 'profile/SET_USER_STATUS';
 const SET_FOLLOW_INFO = 'profile/SET_FOLLOW_INFO';
 const SET_FOLLOWING_IN_PROGRES = 'profile/SET_FOLLOWING_IN_PROGRES';
 const SET_PHOTO = 'profile/SET_PHOTO';
+const RESET_PROFILE_STATE = 'profile/RESET_PROFILE_STATE';
 
 const initialState = {
     profile: null as ProfileDataType | null,
@@ -51,6 +52,9 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
                 ...state,
                 profile: {...state.profile, photos: action.photos} as ProfileDataType,
             }
+        case RESET_PROFILE_STATE: {
+            return initialState
+        }
         default: 
             return state
     }
@@ -63,12 +67,13 @@ const actions = {
     setFollowInfo: (status: boolean) => ({type: SET_FOLLOW_INFO, status} as const),
     setFollowingInProgres: (status: boolean) => ({type: SET_FOLLOWING_IN_PROGRES, status} as const) ,
     setPhoto: (photos: PhotosType) => ({type: SET_PHOTO, photos} as const),
+    resetProfileState: ()  => ({type: RESET_PROFILE_STATE} as const),
 };
 
 export const getUserProfile = (userId: number):ThunkType => (dispatch) => {
     dispatch(actions.setFeaching(true))
     profileAPI.getUserProfile(userId)
-    .then(({data, status}) => {
+    .then(({ data, status }) => {
         if(status === 200){
             dispatch(actions.setUserProfile(data))
             const promise = dispatch( getUserStatus(userId));
@@ -142,6 +147,10 @@ export const saveProfile = (profile:ProfileDataType, userId: number):ThunkType =
         }
     })
 };
+
+export const resetProfileState = ():ThunkType => dispatch => {
+    dispatch(actions.resetProfileState());
+}
 
 type ActionsTypes = ReturnType<InferActionsTypes<typeof actions>>;
 type ThunkType = ThunkAction<void, AppStoreType,  unknown, ActionsTypes>;
