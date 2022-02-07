@@ -1,10 +1,9 @@
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { makeStyles } from "@mui/styles";
 
-import { ProfileLoader } from '..';
-import { AddPost, Post, ProfileInfo, ProfilePhoto } from './components';
+import { AddPost, Post, ProfileInfo, ProfileInfoLoader, ProfilePhoto, ProfilePhotoLoader } from './components';
 import { AppStoreType } from '../../redux/store';
 import { follow, getUserProfile, unfollow } from '../../redux/reducers/profile-reducer';
 
@@ -43,6 +42,7 @@ export const Profile = () =>  {
 
     const authorizedUserId = userData?.id;
     const userId = Number(params?.userId ?? authorizedUserId); 
+    const profileInfoLoaderHeight = authorizedUserId === userId? 559 : 517;
 
     const onClickFollow = (userId: number) => {
         dispatch(follow(userId))
@@ -59,36 +59,39 @@ export const Profile = () =>  {
     }, [dispatch, userId]);
 
     return (
-        <Fragment>
-            {   isFeaching
-                ? <div className={classes.wrapper}><ProfileLoader /></div>
-                : <div className={classes.profile}>
-                    <div className={classes.leftPanel}>
-                        <ProfilePhoto
-                            photo={profile?.photos.large}
-                            currentUserId={userId}
-                            authUserId={authorizedUserId}
-                            followInfo={followInfo}
-                            followingInProgres={followingInProgres}
-                            follow={onClickFollow}
-                            unfollow={onClickUnfollow}
-                        />
-                    </div>
-                    <div className={classes.rightPanel}>
-                        <ProfileInfo profile={profile} currentUserId={userId} authUserId={authorizedUserId} />
-                        <AddPost />
-                        {posts.map(post => (
-                            <Post
-                                key={post.id}
-                                author={post.author}
-                                date={post.date}
-                                text={post.text}
-                                like={post.like} 
-                            />
-                        ))}
-                    </div>
-                </div>
-            }
-        </Fragment>
+        <div className={classes.profile}>
+            <div className={classes.leftPanel}>
+                {
+                    isFeaching 
+                    ? <ProfilePhotoLoader/>
+                    : <ProfilePhoto
+                        photo={profile?.photos.large}
+                        currentUserId={userId}
+                        authUserId={authorizedUserId}
+                        followInfo={followInfo}
+                        followingInProgres={followingInProgres}
+                        follow={onClickFollow}
+                        unfollow={onClickUnfollow}
+                    />
+                }      
+            </div>
+            <div className={classes.rightPanel}>
+                {
+                    isFeaching
+                    ? <ProfileInfoLoader height={profileInfoLoaderHeight}/>
+                    : <ProfileInfo profile={profile} currentUserId={userId} authUserId={authorizedUserId} />
+                }
+                <AddPost />
+                {posts.map(post => (
+                    <Post
+                        key={post.id}
+                        author={post.author}
+                        date={post.date}
+                        text={post.text}
+                        like={post.like} 
+                    />
+                ))}
+            </div>
+        </div>
     )
 };

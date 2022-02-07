@@ -19,10 +19,12 @@ const useStyles = makeStyles({
         backgroundColor: '#fff',
         borderRadius: '5px',
         padding: '15px',
+        marginBottom: '11px'
     },
 
     info: {
         borderBottom: '1px solid #D5D5D6',
+        paddingBottom: '10px',
     },
 
     name: {
@@ -33,6 +35,9 @@ const useStyles = makeStyles({
         display: 'block',
         width: '100%',
         padding: '7px 0',
+        height: '25px',
+        maxWidth: '685px',
+        overflow: 'hidden',
 
         '&:hover': {
             backgroundColor: isAuthorizedUser? '#D5D5D6': 'transparent',
@@ -91,7 +96,7 @@ export const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, aut
                                     value={localStatus}
                                     onChange={e => setLocalStatus(e.target.value)}
                                 />
-                        : <span className={classes.status}>{status ? status : null}</span>
+                        : <span className={classes.status}>{status ? status : 'Ja jeszcze nie mam statusu :('}</span>
                 }
                 </div>
             }

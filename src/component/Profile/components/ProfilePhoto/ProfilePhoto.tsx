@@ -66,7 +66,7 @@ export const ProfilePhoto: VFC<ProfilePhotoProps> = ({ photo, currentUserId, aut
     return (
         <div className={classes.leftPanel}>
             <div className={classes.mainPhoto}>
-                <img src={photo ? photo : profileAvatar} alt="mainPhoto" />
+                <img width={210} height={200} src={photo ? photo : profileAvatar} alt="mainPhoto" />
             </div>
             { !isAuthorizedUser
                     ? !followInfo
