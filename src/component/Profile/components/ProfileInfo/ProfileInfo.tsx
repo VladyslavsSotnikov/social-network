@@ -1,10 +1,12 @@
 import { useEffect, useState, VFC } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { makeStyles } from "@mui/styles";
 
-import { EditProfile } from './components';
-import { ContactsType, ProfileDataType } from '../../../../models';
+import { EditProfile, ProfileDescription } from './components';
+import { ProfileDataType } from '../../../../models';
 import { updateStatus } from '../../../../redux/reducers';
 import { AppStoreType } from '../../../../redux/store';
+
 
 type ProfileInfoProps = {
     profile: ProfileDataType | null;
@@ -12,80 +14,88 @@ type ProfileInfoProps = {
     authUserId?: number;
 }
 
+const useStyles = makeStyles({
+    profileInfo: {
+        backgroundColor: '#fff',
+        borderRadius: '5px',
+        padding: '15px',
+    },
+
+    info: {
+        borderBottom: '1px solid #D5D5D6',
+    },
+
+    name: {
+        marginBottom: '10px',
+    },
+
+    status: ({ isAuthorizedUser }:{ isAuthorizedUser: boolean }) => ({
+        display: 'block',
+        width: '100%',
+        padding: '7px 0',
+
+        '&:hover': {
+            backgroundColor: isAuthorizedUser? '#D5D5D6': 'transparent',
+            cursor: isAuthorizedUser? 'pointer': 'context-menu',
+        },
+    }),
+
+    statusInput: {
+        width: '100%',
+        border: '1px solid #DDDDDD',
+        marginBottom: '8px',
+        padding: '5px 10px',
+        borderRadius: '2px',
+    },
+});
+
 export const ProfileInfo: VFC<ProfileInfoProps> = ({ profile, currentUserId, authUserId }) => {
+    const isAuthorizedUser = currentUserId === authUserId;
+
     const dispatch = useDispatch()
     const { status } = useSelector(({ profile }: AppStoreType) => profile)
     const [editMode, setEditMode] = useState(false)
     const [localStatus, setLocalStatus] = useState(status)
     const [profileEditMode, setProfileEditMode] = useState(false)
+    const classes = useStyles({isAuthorizedUser});
 
-    const onChangeStatus = () => {
+    const onBlurStatus = () => {
         setEditMode(false)
         if (status !== localStatus && profile?.userId) {
             dispatch(updateStatus(localStatus, profile.userId))
         }
-
     }
+
+    const openEditProfileDialog = () => setProfileEditMode(true)
 
     useEffect(() => {
         setLocalStatus(status)
     }, [status])
 
     return (
-        <div className="profile__info" >
-            {profile && <div className="profile__top" >
-                <h4 className="profile__name">{profile.fullName}</h4>
+        <div className={classes.profileInfo} >
+            {profile && 
+                <div className={classes.info}>
+                <h4 className={classes.name}>{profile.fullName}</h4>
                 {
-                    currentUserId === authUserId
+                    isAuthorizedUser
                         ? !editMode
-                            ? <span className="profile__status" onClick={() => setEditMode(true)} >
-                                {status ? status : null}</span>
-                            : <form className="profile__form">
-                                <input autoFocus={true}
-                                    onBlur={() => onChangeStatus()}
-                                    className="profile__form-input"
-                                    type="text" placeholder={status}
+                            ?   <span className={classes.status} onClick={() => setEditMode(true)} >
+                                    {status ? status : null}
+                                </span>
+                            :   <input autoFocus={true}
+                                    onBlur={onBlurStatus}
+                                    className={classes.statusInput}
+                                    type="text" 
+                                    placeholder={status}
                                     value={localStatus}
                                     onChange={e => setLocalStatus(e.target.value)}
                                 />
-                            </form>
-                        : <span className="profile__status profile__status--other">{status ? status : null}</span>
+                        : <span className={classes.status}>{status ? status : null}</span>
                 }
-            </div>}
-
-            {profile && <div className="profile__about">
-
-                <div className="profile__btn-container">
-                    {currentUserId === authUserId && <button onClick={() => setProfileEditMode(true)} className="profile__btn profile__btn--edit">Edytuj</button>}
                 </div>
-
-                <ul className="profile__about-list">
-
-
-                    <li className="profile__about-item">
-                        <p className="profile__about-contact">O mnie:</p>
-                        {/* <span className="profile__about-span">{profile.aboutMe ? profile.aboutMe : '-'}</span> */}
-                    </li>
-
-                    <li className="profile__about-item">
-                        <p className="profile__about-contact">Szukam pracy:</p>
-                        <span className="profile__about-span">{profile.lookingForAJob ? 'Tak' : 'Nie'}</span>
-                    </li>
-
-                    <li className="profile__about-item">
-                        <p className="profile__about-contact">Moje umiejętności:</p>
-                        <span className="profile__about-span">{profile.lookingForAJobDescription ? profile.lookingForAJobDescription : '-'}</span>
-                    </li>
-                    {Object.keys(profile.contacts).map((contact) => {
-                        return (
-                            <li key={contact} className="profile__about-item">
-                                <p className="profile__about-contact">{contact}: </p>
-                                <span className="profile__about-span">{profile.contacts[contact as keyof ContactsType] ? profile.contacts[contact as keyof ContactsType] : '-'}</span>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>}
+            }
+            <ProfileDescription profile={profile} isAuthorizedUser={isAuthorizedUser} openEditProfileDialog={openEditProfileDialog}/>
             { profileEditMode && <EditProfile setEditMode={setProfileEditMode} profile={profile} />}
         </div>
     )

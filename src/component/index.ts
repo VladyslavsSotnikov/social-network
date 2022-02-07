@@ -2,7 +2,7 @@ export * from './Chats';
 export * from './Header';
 export * from './Loader/ProfileLoader';
 export * from './Login';
-export * from './Login/LoginForm';
+export * from './Login/components/LoginForm';
 export * from './Paginator';
 export * from './Profile';
 export * from './Sidebar';

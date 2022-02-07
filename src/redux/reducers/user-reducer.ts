@@ -11,11 +11,13 @@ const SET_PAGE = 'user/SET_PAGE';
 const FOLLOW = 'user/FOLLOW';
 const UNFOLLOW = 'user/UNFOLLOW';
 const FOLLOWING_IN_PROGRESS = 'user/FOLLOWING_IN_PROGRESS';
+const SET_INITIAL_STATE = 'user/SET_INITIAL_STATE';
+
 
 const initialState = {
     users: null as UserType[] | null,
     isFetching: true,
-    count: 99,
+    count: 40,
     page: 1,
     totalPage: 0,
     followingInProgress: [] as number[]
@@ -72,6 +74,9 @@ export const usersReducer = (state = initialState, action: ActionsTypes):Initial
                 followingInProgress: action.status? [...state.followingInProgress, action.userId] : state.followingInProgress.filter(userId => userId!== action.userId)
             }
         }
+        case SET_INITIAL_STATE: {
+            return initialState
+        }
         default: 
             return state
     }
@@ -85,6 +90,7 @@ const actions = {
     follow: (userId: number) => ({type: FOLLOW, userId} as const),
     unfollow: (userId: number) => ({type: UNFOLLOW, userId} as const),
     followingInProgress: (status: boolean, userId: number) => ({type: FOLLOWING_IN_PROGRESS, status, userId} as const),
+    setInitialState: () => ({type: SET_INITIAL_STATE} as const)
 };
 
 export const getUsers = (count:number, page:number):ThunkType => (dispatch) => {
@@ -121,6 +127,10 @@ export const unfollowThunkCreator = (userId: number):ThunkType => (dispatch) => 
         }
     })
 };
+
+export const resetUsersState = ():ThunkType => (dispatch) => {
+    dispatch(actions.setInitialState())
+} ;
 
 type ActionsTypes =  ReturnType<InferActionsTypes<typeof actions>>;
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsTypes>;
