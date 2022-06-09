@@ -1,4 +1,5 @@
 export * from './Chats';
+export * from './Content';
 export * from './Header';
 export * from './Loader/ProfileLoader';
 export * from './Login';

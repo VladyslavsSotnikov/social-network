@@ -1,21 +1,21 @@
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from '@mui/styles';
 
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { Dialogs, Messages } from "./components";
+import { Dialogs, Messages } from './components';
 
 const useStyles = makeStyles({
-    chats: {
-        display: 'flex',
-    },
+  chats: {
+    display: 'flex',
+  },
 });
 
 export const Chats = withAuthRedirect(() => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <div className={classes.chats}>
-            <Dialogs/>
-            <Messages/>
-        </div>
-    )
+  return (
+    <div className={classes.chats}>
+      <Dialogs />
+      <Messages />
+    </div>
+  );
 });
