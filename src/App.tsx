@@ -58,11 +58,16 @@ export const App = () => {
   }
 
   if (!isAuth) {
+    const isLoginPage = location.pathname === '/login';
+
+    if (!isLoginPage) {
+      return <Navigate to='/login' replace />;
+    }
+
     return (
       <div className={classes.wrapper}>
         <Routes>
           <Route path='/login' element={<Login />} />
-          <Route path='/' element={<Navigate to='/login' replace />} />
         </Routes>
       </div>
     );
