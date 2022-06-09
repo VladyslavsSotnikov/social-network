@@ -1,9 +1,9 @@
-import { PhotosType } from "./Profile";
+import { PhotosType } from './Profile';
 
 export type UserType = {
-    id: number;
-    name: string;
-    status: string | null;
-    photos?: PhotosType;
-    followed: boolean;
-}
+  id: number;
+  name: string;
+  status: string | null;
+  photos?: PhotosType;
+  followed: boolean;
+};

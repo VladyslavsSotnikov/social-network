@@ -1,5 +1,5 @@
 export type LoginDataType = {
-    email: string;
-    password: string;
-    checkbox: boolean;
-}
+  email: string;
+  password: string;
+  checkbox: boolean;
+};

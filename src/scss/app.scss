@@ -3,15 +3,15 @@
 @import 'component/all';
 
 body {
-    background-color: $background;
-    font-family: $roboto;
+  background-color: $background;
+  font-family: $roboto;
 }
 
 // Remove the page shift to the left when the scrollbar appears
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 .content__wrapper--profile {
-    height: auto;
+  height: auto;
 }

@@ -1,20 +1,19 @@
-
 .user {
-    &__btn {
-        background-color: $btn;
-        border: none;
-        border-radius: 2px;
-        color: $white;
-        padding: 8px 0;
+  &__btn {
+    background-color: $btn;
+    border: none;
+    border-radius: 2px;
+    color: $white;
+    padding: 8px 0;
 
-        &:hover {
-            cursor: pointer;
-            background-color: $btn-hover;
-        }
-
-        &-disabled {
-            pointer-events: none;
-            background-color: $grey;
-        }
+    &:hover {
+      cursor: pointer;
+      background-color: $btn-hover;
     }
+
+    &-disabled {
+      pointer-events: none;
+      background-color: $grey;
+    }
+  }
 }

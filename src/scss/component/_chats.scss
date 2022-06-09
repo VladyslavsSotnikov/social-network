@@ -1,16 +1,15 @@
 .chats {
-    &__message-btn {
-        width: 100px;
-        padding: 5px 0;
-        color: $white;
-        background-color: $btn;
-        border: none;
-        border-radius: 2px;
+  &__message-btn {
+    width: 100px;
+    padding: 5px 0;
+    color: $white;
+    background-color: $btn;
+    border: none;
+    border-radius: 2px;
 
-        &:hover {
-            cursor: pointer;
-            background-color: $btn-hover;
-
-        }
+    &:hover {
+      cursor: pointer;
+      background-color: $btn-hover;
     }
+  }
 }
