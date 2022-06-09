@@ -1,5 +1,5 @@
-import { Fragment, useEffect } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material';
@@ -7,6 +7,7 @@ import { Theme } from '@mui/material';
 import { Header, ProfileLoader, Login, Sidebar, Content } from './component';
 import { initializedTC } from './redux/reducers/app-reducer';
 import { AppStoreType } from './redux/store';
+import { useNavigate } from 'react-router-dom';
 import { resetProfileState, resetUsersState } from './redux/reducers';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,6 +36,9 @@ export const App = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const isLoginPage = location.pathname === '/login';
 
   useEffect(() => {
     dispatch(initializedTC());
@@ -58,10 +62,8 @@ export const App = () => {
   }
 
   if (!isAuth) {
-    const isLoginPage = location.pathname === '/login';
-
     if (!isLoginPage) {
-      return <Navigate to='/login' replace />;
+      navigate('/login');
     }
 
     return (
@@ -71,6 +73,10 @@ export const App = () => {
         </Routes>
       </div>
     );
+  }
+
+  if (isLoginPage) {
+    navigate('/profile');
   }
 
   return (

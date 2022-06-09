@@ -1,5 +1,6 @@
 import { FormAction, stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
+import { ResultCodesEnum } from '../../API/API';
 
 import { authAPI } from '../../API/index';
 import { AuthMeDataType } from '../../models';
@@ -31,36 +32,39 @@ export const authReducer = (state = initialState, action: ActionsTypes): initial
 };
 
 const actions = {
-  setUserData: (data: AuthMeDataType) => ({ type: 'auth/SET_USER_DATA', data } as const),
+  setUserData: (data: AuthMeDataType | null) => ({ type: 'auth/SET_USER_DATA', data } as const),
   setIsAuth: (status: boolean) => ({ type: SET_IS_AUTH, status } as const),
 };
 
-export const authMe = (): ThunkType => (dispatch) => {
-  dispatch(actions.setIsAuth(false));
+export const authMe = (): ThunkType => async (dispatch) => {
+  const { data, resultCode } = await authAPI.authMe();
 
-  return authAPI.authMe().then(({ data }) => {
-    if (data.resultCode === 0) {
-      dispatch(actions.setUserData(data.data));
-      dispatch(actions.setIsAuth(true));
-    }
-  });
+  if (resultCode === ResultCodesEnum.Success) {
+    dispatch(actions.setUserData(data));
+    dispatch(actions.setIsAuth(true));
+  }
 };
 
 export const login =
   (mail: string, password: string, remember: boolean): ThunkType =>
-  (dispatch) => {
-    return authAPI.login(mail, password, remember).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(authMe());
-      } else {
-        const error = data.messages.length > 0 ? data.messages[0] : 'Some error';
-        return dispatch(stopSubmit('login', { _error: error }));
-      }
-    });
+  async (dispatch) => {
+    const { resultCode, messages } = await authAPI.login(mail, password, remember);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      dispatch(authMe());
+    } else {
+      const error = messages.length > 0 ? messages[0] : 'Some error';
+      dispatch(stopSubmit('login', { _error: error }));
+    }
   };
 
 export const logout = (): ThunkType => (dispatch) => {
-  authAPI.logout().then(({ data }) => data.resultCode === 0 && dispatch(authMe()));
+  authAPI.logout().then(({ data }) => {
+    if (data.resultCode === 0) {
+      dispatch(actions.setUserData(null));
+      dispatch(actions.setIsAuth(false));
+    }
+  });
 };
 
 type ActionsTypes = ReturnType<InferActionsTypes<typeof actions>>;

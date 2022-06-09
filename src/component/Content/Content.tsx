@@ -13,6 +13,7 @@ const useStyles = makeStyles({
 
 export const Content = () => {
   const classes = useStyles();
+
   return (
     <div className={classes.content}>
       <Routes>
