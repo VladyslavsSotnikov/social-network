@@ -8,7 +8,6 @@ import { Header, ProfileLoader, Login, Sidebar, Content } from './component';
 import { initializedTC } from './redux/reducers/app-reducer';
 import { AppStoreType } from './redux/store';
 import { useNavigate } from 'react-router-dom';
-import { resetProfileState, resetUsersState } from './redux/reducers';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -43,15 +42,6 @@ export const App = () => {
   useEffect(() => {
     dispatch(initializedTC());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (location.pathname !== '/profile') {
-      dispatch(resetProfileState());
-    }
-    if (location.pathname !== '/users') {
-      dispatch(resetUsersState());
-    }
-  }, [location.pathname, dispatch]);
 
   if (!initialized) {
     return (

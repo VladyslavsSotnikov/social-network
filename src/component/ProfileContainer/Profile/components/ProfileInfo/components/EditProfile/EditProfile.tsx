@@ -2,8 +2,8 @@ import { makeStyles } from '@mui/styles';
 import { VFC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { ProfileDataType } from '../../../../../../models';
-import { saveProfile } from '../../../../../../redux/reducers';
+import { ProfileDataType } from '../../../../../../../models';
+import { saveProfile } from '../../../../../../../redux/reducers';
 import { EditProfileForm } from './components';
 import { Close } from './icons';
 

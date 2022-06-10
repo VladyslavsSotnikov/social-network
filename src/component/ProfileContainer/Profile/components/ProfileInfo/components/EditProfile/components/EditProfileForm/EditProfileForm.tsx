@@ -2,9 +2,9 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { VFC } from 'react';
 import { makeStyles } from '@mui/styles';
 
-import { ProfileDataType } from '../../../../../../../../models';
-import { ProfileInputForm } from '../../../../../../../common/FormControl/FormControl';
-import { required } from '../../../../../../../common/validators/validators';
+import { ProfileDataType } from '../../../../../../../../../models';
+import { ProfileInputForm } from '../../../../../../../../common/FormControl/FormControl';
+import { required } from '../../../../../../../../common/validators/validators';
 
 type EditProfileFormProps = {
   profile: ProfileDataType | null;

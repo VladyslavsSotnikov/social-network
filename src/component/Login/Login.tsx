@@ -46,11 +46,11 @@ export const Login = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const minLength4 = minLength(4);
+
   const onClickSubmit = (data: any) => {
     dispatch(login(data.email, data.password, data.checkbox));
   };
-
-  const minLength4 = minLength(4);
 
   return (
     <div className={classes.root}>

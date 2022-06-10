@@ -1,8 +1,8 @@
 import { ChangeEvent, VFC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import profileAvatar from '../../../../assests/profile-photo.png';
-import { savePhoto } from '../../../../redux/reducers';
+import profileAvatar from '../../../../../assests/profile-photo.png';
+import { savePhoto } from '../../../../../redux/reducers';
 import { makeStyles } from '@mui/styles';
 
 type ProfilePhotoProps = {

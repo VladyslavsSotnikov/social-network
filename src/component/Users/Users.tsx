@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles';
 
 import { Paginator } from '../../component';
 import { User, UserSkeleton } from './components';
-import { getUsers, followThunkCreator, unfollowThunkCreator } from '../../redux/reducers/user-reducer';
+import { getUsers, followThunkCreator, unfollowThunkCreator, resetUsersState } from '../../redux/reducers/user-reducer';
 import { AppStoreType } from '../../redux/store';
 
 const useStyles = makeStyles({
@@ -36,6 +36,10 @@ export const Users = () => {
 
   useEffect(() => {
     dispatch(getUsers(count, page));
+
+    return function () {
+      dispatch(resetUsersState());
+    };
   }, [page, count, dispatch]);
 
   return (

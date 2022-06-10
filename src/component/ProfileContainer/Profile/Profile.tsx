@@ -1,11 +1,18 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { VFC } from 'react';
 import { makeStyles } from '@mui/styles';
-
 import { AddPost, Post, ProfileInfo, ProfileInfoLoader, ProfilePhoto, ProfilePhotoLoader } from './components';
-import { AppStoreType } from '../../redux/store';
-import { follow, getUserProfile, unfollow } from '../../redux/reducers/profile-reducer';
+import { ProfileDataType } from '../../../models';
+
+interface ProfileProps {
+  authorizedUserId?: number;
+  userId: number;
+  isFeaching: boolean;
+  profile: ProfileDataType | null;
+  followInfo: boolean;
+  followingInProgres: boolean;
+  onClickFollow: (userId: number) => void;
+  onClickUnfollow: (userId: number) => void;
+}
 
 const posts = [
   { id: 1, author: 'Vladyslav Sotnikov', date: '01 grd 2021', text: 'Junior Web UI developer', like: 20 },
@@ -34,33 +41,22 @@ const useStyles = makeStyles({
 });
 
 const AUTHORIZED_USER_INFO_HEIGHT = 559;
-const NOT_AUTHORIZED_USER_INFO_HEIGHT = 559;
+const NOT_AUTHORIZED_USER_INFO_HEIGHT = 517;
 
-export const Profile = () => {
-  const { userData } = useSelector(({ auth }: AppStoreType) => auth);
-  const { profile, isFeaching, followingInProgres, followInfo } = useSelector(({ profile }: AppStoreType) => profile);
-  const params = useParams();
-  const dispatch = useDispatch();
+export const Profile: VFC<ProfileProps> = ({
+  authorizedUserId,
+  userId,
+  isFeaching,
+  profile,
+  followInfo,
+  followingInProgres,
+  onClickUnfollow,
+  onClickFollow,
+}) => {
   const classes = useStyles();
 
-  const authorizedUserId = userData?.id;
-  const userId = Number(params?.userId ?? authorizedUserId);
   const profileInfoLoaderHeight =
     authorizedUserId === userId ? AUTHORIZED_USER_INFO_HEIGHT : NOT_AUTHORIZED_USER_INFO_HEIGHT;
-
-  const onClickFollow = (userId: number) => {
-    dispatch(follow(userId));
-  };
-
-  const onClickUnfollow = (userId: number) => {
-    dispatch(unfollow(userId));
-  };
-
-  useEffect(() => {
-    if (userId) {
-      dispatch(getUserProfile(userId));
-    }
-  }, [dispatch, userId]);
 
   return (
     <div className={classes.profile}>

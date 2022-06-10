@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 import { Fragment, VFC } from 'react';
-import { ContactsType, ProfileDataType } from '../../../../../../models';
+import { ContactsType, ProfileDataType } from '../../../../../../../models';
 
 type ProfileDescriptionProps = {
   profile: ProfileDataType | null;

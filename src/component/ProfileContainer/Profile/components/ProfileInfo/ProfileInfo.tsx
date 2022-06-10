@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 
 import { EditProfile, ProfileDescription } from './components';
-import { ProfileDataType } from '../../../../models';
-import { updateStatus } from '../../../../redux/reducers';
-import { AppStoreType } from '../../../../redux/store';
+import { ProfileDataType } from '../../../../../models';
+import { updateStatus } from '../../../../../redux/reducers';
+import { AppStoreType } from '../../../../../redux/store';
 
 type ProfileInfoProps = {
   profile: ProfileDataType | null;

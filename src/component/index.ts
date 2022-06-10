@@ -5,6 +5,6 @@ export * from './Loader/ProfileLoader';
 export * from './Login';
 export * from './Login/components/LoginForm';
 export * from './Paginator';
-export * from './Profile';
+export * from './ProfileContainer';
 export * from './Sidebar';
 export * from './Users';
