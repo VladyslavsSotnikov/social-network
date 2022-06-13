@@ -1,17 +1,12 @@
 import { VFC } from 'react';
 import { makeStyles } from '@mui/styles';
-import { AddPost, Post, ProfileInfo, ProfileInfoLoader, ProfilePhoto, ProfilePhotoLoader } from './components';
-import { ProfileDataType } from '../../../models';
+import { AddPost, Post, ProfileInfo, ProfileInfoLoader, ProfileLeftPanel } from './components';
+import { useSelector } from 'react-redux';
+import { AppStoreType } from '../../../redux/store';
 
 interface ProfileProps {
   authorizedUserId?: number;
   userId: number;
-  isFeaching: boolean;
-  profile: ProfileDataType | null;
-  followInfo: boolean;
-  followingInProgres: boolean;
-  onClickFollow: (userId: number) => void;
-  onClickUnfollow: (userId: number) => void;
 }
 
 const posts = [
@@ -43,38 +38,22 @@ const useStyles = makeStyles({
 const AUTHORIZED_USER_INFO_HEIGHT = 559;
 const NOT_AUTHORIZED_USER_INFO_HEIGHT = 517;
 
-export const Profile: VFC<ProfileProps> = ({
-  authorizedUserId,
-  userId,
-  isFeaching,
-  profile,
-  followInfo,
-  followingInProgres,
-  onClickUnfollow,
-  onClickFollow,
-}) => {
+export const Profile: VFC<ProfileProps> = ({ authorizedUserId, userId }) => {
+  const { profile, isFeaching } = useSelector(({ profile }: AppStoreType) => profile);
   const classes = useStyles();
 
   const profileInfoLoaderHeight =
     authorizedUserId === userId ? AUTHORIZED_USER_INFO_HEIGHT : NOT_AUTHORIZED_USER_INFO_HEIGHT;
+  const isAuthorizedUser = userId === authorizedUserId;
 
   return (
     <div className={classes.profile}>
-      <div className={classes.leftPanel}>
-        {isFeaching ? (
-          <ProfilePhotoLoader />
-        ) : (
-          <ProfilePhoto
-            photo={profile?.photos.large}
-            currentUserId={userId}
-            authUserId={authorizedUserId}
-            followInfo={followInfo}
-            followingInProgres={followingInProgres}
-            follow={onClickFollow}
-            unfollow={onClickUnfollow}
-          />
-        )}
-      </div>
+      <ProfileLeftPanel
+        profilePhoto={profile?.photos.large}
+        isFeaching={isFeaching}
+        isAuthorizedUser={isAuthorizedUser}
+        userId={userId}
+      />
       <div className={classes.rightPanel}>
         {isFeaching ? (
           <ProfileInfoLoader height={profileInfoLoaderHeight} />
