@@ -7,9 +7,6 @@ import { Photo, PhotoButton } from './components';
 
 type ProfilePhotoProps = {
   profilePhoto?: string | null;
-
-  isAuthorizedUser: boolean;
-  userId: number;
 };
 
 const useStyles = makeStyles({
@@ -20,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ProfilePhoto: VFC<ProfilePhotoProps> = ({ profilePhoto, isAuthorizedUser, userId }) => {
+export const ProfilePhoto: VFC<ProfilePhotoProps> = ({ profilePhoto }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -33,7 +30,7 @@ export const ProfilePhoto: VFC<ProfilePhotoProps> = ({ profilePhoto, isAuthorize
   return (
     <div className={classes.leftPanel}>
       <Photo profilePhoto={profilePhoto} />
-      <PhotoButton isAuthorizedUser={isAuthorizedUser} sendPhotoToServer={sendPhotoToServer} userId={userId} />
+      <PhotoButton sendPhotoToServer={sendPhotoToServer} />
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { makeStyles } from '@mui/styles';
 import { VFC } from 'react';
 
-import likeImg from '../../../../../assests/like.svg';
-import man from '../../../../../assests/man.svg';
+import likeImg from '../../../../../../../../../assests/like.svg';
+import man from '../../../../../../../../../assests/man.svg';
 
 type PostProps = {
   author: string;

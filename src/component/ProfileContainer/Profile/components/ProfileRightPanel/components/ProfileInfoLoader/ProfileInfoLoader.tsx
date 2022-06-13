@@ -1,10 +1,7 @@
 import { makeStyles } from '@mui/styles';
-import { VFC } from 'react';
 import ContentLoader from 'react-content-loader';
-
-type ProfileInfoLoaderProps = {
-  height: number;
-};
+import { useSelector } from 'react-redux';
+import { AppStoreType } from '../../../../../../../redux/store';
 
 const useStyles = makeStyles({
   loader: {
@@ -17,8 +14,14 @@ const useStyles = makeStyles({
   },
 });
 
-export const ProfileInfoLoader: VFC<ProfileInfoLoaderProps> = ({ height }) => {
+const AUTHORIZED_USER_INFO_HEIGHT = 567;
+const NOT_AUTHORIZED_USER_INFO_HEIGHT = 525;
+
+export const ProfileInfoLoader = () => {
+  const { isAuthorizedUser } = useSelector(({ profile }: AppStoreType) => profile);
   const classes = useStyles();
+
+  const height = isAuthorizedUser ? AUTHORIZED_USER_INFO_HEIGHT : NOT_AUTHORIZED_USER_INFO_HEIGHT;
 
   return (
     <ContentLoader

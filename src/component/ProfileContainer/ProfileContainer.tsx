@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getUserProfile, resetProfileState } from '../../redux/reducers';
+
+import { getUserProfile } from '../../redux/reducers';
+import { profileActions } from '../../redux/reducers/profile-reducer';
 import { AppStoreType } from '../../redux/store';
 import { Profile } from './Profile';
 
@@ -15,11 +17,16 @@ export const ProfileContainer = () => {
 
   useEffect(() => {
     dispatch(getUserProfile(userId));
+    dispatch(profileActions.setUserId(userId));
 
     return function () {
-      dispatch(resetProfileState());
+      dispatch(profileActions.resetProfileState());
     };
-  }, [dispatch, userId]);
+  }, [dispatch, userId, authorizedUserId]);
+
+  useEffect(() => {
+    dispatch(profileActions.setIsAuthorizedUser(userId, authorizedUserId));
+  }, [dispatch, userId, authorizedUserId]);
 
   return <Profile authorizedUserId={authorizedUserId} userId={userId} />;
 };

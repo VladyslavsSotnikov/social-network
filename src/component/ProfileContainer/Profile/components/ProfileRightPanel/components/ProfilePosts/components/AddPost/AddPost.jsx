@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles';
 import { useState, useRef } from 'react';
 
-import man from '../../../../../assests/man.svg';
+import man from '../../../../../../../../../assests/man.svg';
 
 const useStyles = makeStyles({
   root: {

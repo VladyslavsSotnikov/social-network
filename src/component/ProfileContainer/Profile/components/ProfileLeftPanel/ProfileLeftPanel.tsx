@@ -5,8 +5,6 @@ import { ProfilePhoto, ProfilePhotoLoader } from './components';
 type PropsType = {
   profilePhoto?: string | null;
   isFeaching: boolean;
-  isAuthorizedUser: boolean;
-  userId: number;
 };
 
 const useStyles = makeStyles({
@@ -16,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ProfileLeftPanel: VFC<PropsType> = ({ profilePhoto, isFeaching, isAuthorizedUser, userId }) => {
+export const ProfileLeftPanel: VFC<PropsType> = ({ profilePhoto, isFeaching }) => {
   const classes = useStyles();
 
   if (isFeaching) {
@@ -29,7 +27,7 @@ export const ProfileLeftPanel: VFC<PropsType> = ({ profilePhoto, isFeaching, isA
 
   return (
     <div className={classes.root}>
-      <ProfilePhoto profilePhoto={profilePhoto} isAuthorizedUser={isAuthorizedUser} userId={userId} />
+      <ProfilePhoto profilePhoto={profilePhoto} />
     </div>
   );
 };

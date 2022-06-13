@@ -2,10 +2,9 @@ import { makeStyles } from '@mui/styles';
 import { VFC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { ProfileDataType } from '../../../../../../../models';
-import { saveProfile } from '../../../../../../../redux/reducers';
-import { EditProfileForm } from './components';
-import { Close } from './icons';
+import { ProfileDataType } from '../../../../../../../../../models';
+import { saveProfile } from '../../../../../../../../../redux/reducers';
+import { CloseButton, EditProfileForm } from './components';
 
 type EditProfileProps = {
   setEditMode: (isEditMode: boolean) => void;
@@ -74,11 +73,7 @@ export const EditProfile: VFC<EditProfileProps> = ({ setEditMode, profile }) => 
   return (
     <div className={classes.root}>
       <div className={classes.wrapper}>
-        <div className={classes.buttonWrapper}>
-          <button className={classes.closeButton} onClick={() => setEditMode(false)}>
-            <Close />
-          </button>
-        </div>
+        <CloseButton setEditMode={setEditMode} />
         <EditProfileForm initialValues={profile ?? undefined} profile={profile} onSubmit={saveProfileInfo} />
       </div>
     </div>

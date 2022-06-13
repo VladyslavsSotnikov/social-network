@@ -1,12 +1,7 @@
 import { makeStyles } from '@mui/styles';
-import { VFC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { follow, unfollow } from '../../../../../../../../../../../redux/reducers';
 import { AppStoreType } from '../../../../../../../../../../../redux/store';
-
-type PropsType = {
-  userId: number;
-};
 
 type ButtonType = {
   followingInProgres: boolean;
@@ -31,8 +26,8 @@ const useStyles = makeStyles({
   }),
 });
 
-export const FollowingButton: VFC<PropsType> = ({ userId }) => {
-  const { followingInProgres, followInfo } = useSelector(({ profile }: AppStoreType) => profile);
+export const FollowingButton = () => {
+  const { followingInProgres, followInfo, userId } = useSelector(({ profile }: AppStoreType) => profile);
   const classes = useStyles({ followingInProgres });
   const dispatch = useDispatch();
 
