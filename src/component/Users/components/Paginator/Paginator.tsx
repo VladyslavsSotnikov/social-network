@@ -1,11 +1,10 @@
 import { useState, VFC } from 'react';
 import { useSelector } from 'react-redux';
 
-import right from '../../assests/right.svg';
-import left from '../../assests/left.svg';
-import { AppStoreType } from '../../redux/store';
+import { AppStoreType } from '../../../../redux/store';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
+import { LeftArrow, Pages, RightArrow } from './components';
 
 type PaginatorProps = {
   currentPage: number;
@@ -52,18 +51,6 @@ const useStyles = makeStyles({
       borderRadius: '100%',
     },
   },
-
-  rightArrow: {
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-
-  leftArrow: {
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
 });
 
 export const Paginator: VFC<PaginatorProps> = ({ currentPage, onChangePage }) => {
@@ -80,34 +67,24 @@ export const Paginator: VFC<PaginatorProps> = ({ currentPage, onChangePage }) =>
   const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
   const rightPortionPageNumber = portionNumber * portionSize;
 
+  const handleLeftPortionNumber = () => setPortionNumber((prevState) => prevState - 1);
+  const handleRightPortionNumber = () => setPortionNumber((prevState) => prevState + 1);
+
   return (
     <div className={classes.paginator}>
-      {leftPortionPageNumber > 1 && (
-        <div onClick={() => setPortionNumber(portionNumber - 1)} className={classes.rightArrow}>
-          <img src={right} alt='right' />
-        </div>
-      )}
-
-      <div className={classes.pages}>
-        {pages
-          .filter((page) => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
-          .map((page) => {
-            return (
-              <div
-                key={page}
-                onClick={() => onChangePage(page)}
-                className={currentPage === page ? clsx(classes.page, classes.activePage) : classes.page}
-              >
-                {page}
-              </div>
-            );
-          })}
-      </div>
-      {portionNumber !== numberOfPortion && (
-        <div onClick={() => setPortionNumber(portionNumber + 1)} className={classes.leftArrow}>
-          <img src={left} alt='left' />
-        </div>
-      )}
+      <LeftArrow leftPortionPageNumber={leftPortionPageNumber} handlePortionNumber={handleLeftPortionNumber} />
+      <Pages
+        currentPage={currentPage}
+        leftPortionPageNumber={leftPortionPageNumber}
+        onChangePage={onChangePage}
+        pages={pages}
+        rightPortionPageNumber={rightPortionPageNumber}
+      />
+      <RightArrow
+        numberOfPortion={numberOfPortion}
+        portionNumber={portionNumber}
+        handleRightPortionNumber={handleRightPortionNumber}
+      />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Chats } from '../Chats';
 import { ProfileContainer } from '../ProfileContainer';
-import { Users } from '../Users';
+import { Users } from '../Users/Users';
 
 const useStyles = makeStyles({
   content: {

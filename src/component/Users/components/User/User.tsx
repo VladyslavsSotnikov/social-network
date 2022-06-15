@@ -1,10 +1,10 @@
 import { VFC } from 'react';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
-
-import man from '../../../../assests/man.svg';
-import { UserType } from '../../../../models';
 import { makeStyles } from '@mui/styles';
+
+import { UserType } from '../../../../models';
+
+import { UserLeftPanel } from './components/UserLeftPanel/UserLeftPanel';
+import { UserRightPanel } from './components/UserRightPanel';
 interface UserProps extends UserType {
   photo?: string | null;
   follow: (userId: number) => void;
@@ -20,61 +20,23 @@ const useStyles = makeStyles({
     width: '200px',
     overflow: 'hidden',
   },
-
-  avatar: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginRight: '20px',
-    width: '80px',
-
-    '& img': {
-      display: 'block',
-      width: '80px',
-      height: '80px',
-      borderRadius: '100%',
-      marginBottom: '7px',
-    },
-  },
-  name: {
-    fontSize: '12px',
-    color: '#2A5885',
-    fontWeight: 'bold',
-    marginBottom: '7px',
-  },
-
-  status: {
-    display: 'block',
-    color: 'grey',
-    fontWeight: 'normal',
-    fontSize: '12px',
-    marginTop: '5px',
-  },
 });
 
 export const User: VFC<UserProps> = ({ id, name, status, photo, followed, follow, unfollow, followingInProgress }) => {
-  const classes = useStyles();
-
   const isDisabledButton = followingInProgress.some((userId) => userId === id);
+  const classes = useStyles({ isDisabledButton });
 
   return (
     <div className={classes.user}>
-      <div className={classes.avatar}>
-        <Link to={`/profile/${id}`}>
-          <img src={photo ? photo : man} alt='user' />
-        </Link>
-        <button
-          onClick={!followed ? () => follow(id) : () => unfollow(id)}
-          className={classNames('user__btn', { 'user__btn-disabled': isDisabledButton })}
-        >
-          {!followed ? 'Dodaj' : 'Usuń'}
-        </button>
-      </div>
-      <div>
-        <Link className={classes.name} to={`/profile/${id}`}>
-          {name}
-        </Link>
-        {status && <span className={classes.status}>{status}</span>}
-      </div>
+      <UserLeftPanel
+        userId={id}
+        userPhoto={photo}
+        followed={followed}
+        follow={follow}
+        unfollow={unfollow}
+        isDisabledButton={isDisabledButton}
+      />
+      <UserRightPanel name={name} status={status} userId={id} />
     </div>
   );
 };

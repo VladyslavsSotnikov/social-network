@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 
 import { LoginForm } from '../Login/components';
@@ -6,6 +6,14 @@ import { minLength } from '../common/validators/validators';
 import { login } from '../../redux/reducers/auth-reducer';
 
 import loginIcon from '../../assests/loginIcon.svg';
+import { AppStoreType } from '../../redux/store';
+
+type LoginFormValuesType = {
+  rememberMe: boolean;
+  password: string;
+  email: string;
+  captcha: string;
+};
 
 const useStyles = makeStyles({
   root: {
@@ -45,11 +53,11 @@ const useStyles = makeStyles({
 export const Login = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-
+  const { captchaUrl } = useSelector(({ auth }: AppStoreType) => auth);
   const minLength4 = minLength(4);
 
-  const onClickSubmit = (data: any) => {
-    dispatch(login(data.email, data.password, data.checkbox));
+  const onClickSubmit = (data: LoginFormValuesType) => {
+    dispatch(login(data.email, data.password, data.rememberMe, data.captcha));
   };
 
   return (
@@ -58,7 +66,7 @@ export const Login = () => {
         <img className={classes.loginIcon} src={loginIcon} alt='login icon' />
         <h3 className={classes.header}>Zaloguj się</h3>
         <div className={classes.form}>
-          <LoginForm onSubmit={onClickSubmit} minLength={minLength4} />
+          <LoginForm onSubmit={onClickSubmit} minLength={minLength4} captchaUrl={captchaUrl} />
         </div>
       </div>
     </div>

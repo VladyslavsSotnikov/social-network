@@ -7,3 +7,7 @@ export type AuthMeDataType = {
 export type LoginResponseDataType = {
   userId: number;
 };
+
+export type SecurityResponseDataType = {
+  url: string;
+};

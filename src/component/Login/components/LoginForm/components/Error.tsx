@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 import { VFC } from 'react';
-import errorIcon from '../../../../../../assests/error.svg';
+import errorIcon from '../../../../../assests/error.svg';
 
 const useStyles = makeStyles({
   errorWraper: {

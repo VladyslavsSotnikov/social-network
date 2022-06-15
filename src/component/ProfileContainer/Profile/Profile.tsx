@@ -1,13 +1,7 @@
-import { VFC } from 'react';
 import { makeStyles } from '@mui/styles';
 import { ProfileLeftPanel, ProfileRightPanel } from './components';
 import { useSelector } from 'react-redux';
 import { AppStoreType } from '../../../redux/store';
-
-interface ProfileProps {
-  authorizedUserId?: number;
-  userId: number;
-}
 
 const useStyles = makeStyles({
   profile: {
@@ -15,7 +9,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Profile: VFC<ProfileProps> = ({ authorizedUserId, userId }) => {
+export const Profile = () => {
   const { profile, isFeaching } = useSelector(({ profile }: AppStoreType) => profile);
   const classes = useStyles();
 

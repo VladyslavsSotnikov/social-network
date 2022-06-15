@@ -1,9 +1,8 @@
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 
-import { Paginator } from '../../component';
-import { User, UserSkeleton } from './components';
+import { User, UserSkeleton, Paginator } from './components';
 import { getUsers, followThunkCreator, unfollowThunkCreator, resetUsersState } from '../../redux/reducers/user-reducer';
 import { AppStoreType } from '../../redux/store';
 
@@ -20,8 +19,6 @@ export const Users = () => {
   const { users, isFetching, count, page, followingInProgress } = useSelector(({ users }: AppStoreType) => users);
   const classes = useStyles();
 
-  const emptyUsers = Array(count).fill(null);
-
   const onChangePage = (page: number) => {
     dispatch(getUsers(count, page));
   };
@@ -36,17 +33,21 @@ export const Users = () => {
 
   useEffect(() => {
     dispatch(getUsers(count, page));
+  }, [page, count, dispatch]);
 
+  useEffect(() => {
     return function () {
       dispatch(resetUsersState());
     };
-  }, [page, count, dispatch]);
+  }, [dispatch]);
 
   return (
-    <Fragment>
+    <>
       <div className={classes.users}>
         {isFetching
-          ? emptyUsers.map((el, id) => <UserSkeleton key={id} />)
+          ? Array(count)
+              .fill(null)
+              .map((el, id) => <UserSkeleton key={id} />)
           : users?.map((user) => {
               return (
                 <User
@@ -64,6 +65,6 @@ export const Users = () => {
             })}
       </div>
       <Paginator currentPage={page} onChangePage={onChangePage} />
-    </Fragment>
+    </>
   );
 };

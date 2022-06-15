@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
 
     '&:hover': {
-      backgroundColor: '#6A98CC',
+      backgroundColor: followingInProgres ? '#D5D5D6' : '#5181B8',
     },
   }),
 });

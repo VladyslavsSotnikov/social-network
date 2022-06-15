@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import { AuthMeDataType, LoginResponseDataType, ProfileDataType } from '../models';
-import { APIResponseType } from './API';
+import { AuthMeDataType, LoginResponseDataType, ProfileDataType, SecurityResponseDataType } from '../models';
+import { APIResponseType, CapcthaCodeResult, ResultCodesEnum } from './API';
 
 const instance = Axios.create({
   withCredentials: true,
@@ -69,10 +69,19 @@ export const authAPI = {
     return instance.get<APIResponseType<AuthMeDataType>>(`/auth/me`).then(({ data }) => data);
   },
 
-  login(email: string, password: string, rememberMe = false) {
+  login(email: string, password: string, rememberMe = false, captcha: null | string = null) {
     return instance
-      .post<APIResponseType<LoginResponseDataType>>('/auth/login', { email, password, rememberMe })
+      .post<APIResponseType<LoginResponseDataType, ResultCodesEnum | CapcthaCodeResult>>('/auth/login', {
+        email,
+        password,
+        rememberMe,
+        captcha,
+      })
       .then(({ data }) => data);
+  },
+
+  getCaptchaUrl() {
+    return instance.get<SecurityResponseDataType>('/security/get-captcha-url').then(({ data }) => data);
   },
 
   logout() {

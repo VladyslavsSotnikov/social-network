@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material';
 
-import { Header, ProfileLoader, Login, Sidebar, Content } from './component';
+import { Header, Loader, Login, Sidebar, Content } from './component';
 import { initializedTC } from './redux/reducers/app-reducer';
 import { AppStoreType } from './redux/store';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +46,7 @@ export const App = () => {
   if (!initialized) {
     return (
       <div className={classes.wrapper}>
-        <ProfileLoader />
+        <Loader />
       </div>
     );
   }

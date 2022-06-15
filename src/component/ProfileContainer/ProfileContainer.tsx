@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getUserProfile } from '../../redux/reducers';
 import { profileActions } from '../../redux/reducers/profile-reducer';
 import { AppStoreType } from '../../redux/store';
-import { Profile } from './Profile';
+import { Profile } from './Profile/Profile';
 
 export const ProfileContainer = () => {
   const { userData } = useSelector(({ auth }: AppStoreType) => auth);
@@ -28,5 +28,5 @@ export const ProfileContainer = () => {
     dispatch(profileActions.setIsAuthorizedUser(userId, authorizedUserId));
   }, [dispatch, userId, authorizedUserId]);
 
-  return <Profile authorizedUserId={authorizedUserId} userId={userId} />;
+  return <Profile />;
 };

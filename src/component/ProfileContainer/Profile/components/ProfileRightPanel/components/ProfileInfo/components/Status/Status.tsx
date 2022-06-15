@@ -40,7 +40,7 @@ export const Status: VFC<PropsTypes> = ({ isAuthorizedUser }) => {
 
   const onBlurStatus = () => {
     setEditMode(false);
-    if (status !== localStatus && profile?.userId) {
+    if (profile?.userId) {
       dispatch(updateStatus(localStatus, profile.userId));
     }
   };

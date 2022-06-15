@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Form = ({ handleSubmit, minLength, error }: any) => {
+const Form = ({ handleSubmit, minLength, captchaUrl, error }: any) => {
   const classes = useStyles();
 
   return (
@@ -37,8 +37,10 @@ const Form = ({ handleSubmit, minLength, error }: any) => {
         placeholder='hasło'
         validate={[required, minLength]}
       />
+      {captchaUrl && <img src={captchaUrl} alt='captcha' />}
+      {captchaUrl && <Field component={InputLogin} name='captcha' validate={[required]} />}
 
-      <Field component={CheckBoxLogin} type='checkbox' name='checkbox' />
+      <Field component={CheckBoxLogin} type='checkbox' name='rememberMe' />
 
       {error && <Error error={error} />}
 
