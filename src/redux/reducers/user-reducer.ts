@@ -1,4 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
+import { ResultCodesEnum } from '../../API/API';
 
 import { userAPI } from '../../API/index';
 import { UserType } from '../../models';
@@ -83,7 +84,7 @@ export const usersReducer = (state = initialState, action: ActionsTypes): Initia
   }
 };
 
-const actions = {
+export const usersActions = {
   setUsers: (users: UserType[]) => ({ type: SET_USERS, users } as const),
   setFetching: (status: boolean) => ({ type: SET_FETCHING, status } as const),
   setTotalUserCount: (count: number) => ({ type: SET_TOTAL_USER_COUNT, count } as const),
@@ -96,46 +97,40 @@ const actions = {
 
 export const getUsers =
   (count: number, page: number): ThunkType =>
-  (dispatch) => {
-    dispatch(actions.setFetching(true));
-    userAPI.getUsers(count, page).then(({ data, status }) => {
-      if (status === 200) {
-        dispatch(actions.setTotalUserCount(data.totalCount));
-        dispatch(actions.setUsers(data.items));
-        dispatch(actions.setFetching(false));
-        dispatch(actions.setPage(page));
-      }
-    });
+  async (dispatch) => {
+    dispatch(usersActions.setFetching(true));
+    const { items, totalCount } = await userAPI.getUsers(count, page);
+
+    dispatch(usersActions.setTotalUserCount(totalCount));
+    dispatch(usersActions.setUsers(items));
+    dispatch(usersActions.setFetching(false));
+    dispatch(usersActions.setPage(page));
   };
 
 export const followThunkCreator =
   (userId: number): ThunkType =>
-  (dispatch) => {
-    dispatch(actions.followingInProgress(true, userId));
-    userAPI.follow(userId).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(actions.follow(userId));
-        dispatch(actions.followingInProgress(false, userId));
-      }
-    });
+  async (dispatch) => {
+    dispatch(usersActions.followingInProgress(true, userId));
+    const { resultCode } = await userAPI.follow(userId);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      dispatch(usersActions.follow(userId));
+      dispatch(usersActions.followingInProgress(false, userId));
+    }
   };
 
 export const unfollowThunkCreator =
   (userId: number): ThunkType =>
-  (dispatch) => {
-    dispatch(actions.followingInProgress(true, userId));
-    userAPI.unfollow(userId).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(actions.unfollow(userId));
-        dispatch(actions.followingInProgress(false, userId));
-      }
-    });
+  async (dispatch) => {
+    dispatch(usersActions.followingInProgress(true, userId));
+    const { resultCode } = await userAPI.unfollow(userId);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      dispatch(usersActions.unfollow(userId));
+      dispatch(usersActions.followingInProgress(false, userId));
+    }
   };
 
-export const resetUsersState = (): ThunkType => (dispatch) => {
-  dispatch(actions.setInitialState());
-};
-
-type ActionsTypes = ReturnType<InferActionsTypes<typeof actions>>;
+type ActionsTypes = ReturnType<InferActionsTypes<typeof usersActions>>;
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsTypes>;
 type InitialStateType = typeof initialState;

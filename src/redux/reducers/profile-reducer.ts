@@ -1,4 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
+import { ResultCodesEnum } from '../../API/API';
 
 import { profileAPI } from '../../API/index';
 import { PhotosType, ProfileDataType } from '../../models';
@@ -54,7 +55,10 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
     case SET_PHOTO:
       return {
         ...state,
-        profile: { ...state.profile, photos: action.photos } as ProfileDataType,
+        profile: {
+          ...state.profile,
+          photos: { large: action.photos.large, small: action.photos.small },
+        } as ProfileDataType,
       };
     case SET_IS_AUTHORIZED_USER:
       return {
@@ -89,86 +93,89 @@ export const profileActions = {
 
 export const getUserProfile =
   (userId: number): ThunkType =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(profileActions.setFeaching(true));
-    profileAPI.getUserProfile(userId).then(({ data, status }) => {
-      if (status === 200) {
-        dispatch(profileActions.setUserProfile(data));
-        const promise = dispatch(getUserStatus(userId));
-        Promise.all([promise])
-          .then(() => dispatch(getFollowInfo(userId)))
-          .then(() => dispatch(profileActions.setFeaching(false)));
-      }
-    });
+    const data = await profileAPI.getUserProfile(userId);
+
+    dispatch(profileActions.setUserProfile(data));
+    dispatch(getUserStatus(userId));
+    dispatch(getFollowInfo(userId));
+    dispatch(profileActions.setFeaching(false));
   };
 
 export const getUserStatus =
   (userId: number): ThunkType =>
-  (dispatch) => {
-    return profileAPI.getUserStatus(userId).then(({ data }) => dispatch(profileActions.setStatus(data)));
+  async (dispatch) => {
+    const status = await profileAPI.getUserStatus(userId);
+
+    dispatch(profileActions.setStatus(status));
   };
 
 export const updateStatus =
   (status: string, id: number): ThunkType =>
-  (dispatch) => {
-    profileAPI.updateStatus(status).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(getUserStatus(id));
-      }
-    });
+  async (dispatch) => {
+    const { resultCode } = await profileAPI.updateStatus(status);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      dispatch(getUserStatus(id));
+    }
   };
 
 export const getFollowInfo =
   (userId: number): ThunkType =>
-  (dispatch) => {
-    return profileAPI.getFollowInfo(userId).then(({ data }) => dispatch(profileActions.setFollowInfo(data)));
+  async (dispatch) => {
+    const status = await profileAPI.getFollowInfo(userId);
+
+    dispatch(profileActions.setFollowInfo(status));
   };
 
 export const follow =
   (userId: number): ThunkType =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(profileActions.setFollowingInProgres(true));
-    profileAPI.follow(userId).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(profileActions.setFollowInfo(true));
-        dispatch(profileActions.setFollowingInProgres(false));
-      }
-    });
+
+    const { resultCode } = await profileAPI.follow(userId);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      dispatch(profileActions.setFollowInfo(true));
+      dispatch(profileActions.setFollowingInProgres(false));
+    }
   };
 
 export const unfollow =
   (userId: number): ThunkType =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(profileActions.setFollowingInProgres(true));
 
-    profileAPI.unfollow(userId).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(profileActions.setFollowInfo(false));
-        dispatch(profileActions.setFollowingInProgres(false));
-      }
-    });
+    const { resultCode } = await profileAPI.unfollow(userId);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      dispatch(profileActions.setFollowInfo(false));
+      dispatch(profileActions.setFollowingInProgres(false));
+    }
   };
 
 export const savePhoto =
   (image: File): ThunkType =>
-  (dispatch) => {
-    profileAPI.updatePhoto(image).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(profileActions.setPhoto(data.data.photos));
-      }
-    });
+  async (dispatch) => {
+    const { data, resultCode } = await profileAPI.updatePhoto(image);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      debugger;
+      dispatch(profileActions.setPhoto(data));
+    }
   };
 
 export const saveProfile =
   (profile: ProfileDataType, userId: number): ThunkType =>
-  (dispatch) => {
-    return profileAPI.updateProfileInfo(profile).then(({ data }) => {
-      if (data.resultCode === 0) {
-        dispatch(getUserProfile(userId));
-      } else {
-        console.log(data);
-      }
-    });
+  async (dispatch) => {
+    const { data, resultCode } = await profileAPI.updateProfileInfo(profile);
+
+    if (resultCode === ResultCodesEnum.Success) {
+      dispatch(getUserProfile(userId));
+    } else {
+      console.log(data);
+    }
   };
 
 type ActionsTypes = ReturnType<InferActionsTypes<typeof profileActions>>;

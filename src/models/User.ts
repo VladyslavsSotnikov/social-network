@@ -7,3 +7,9 @@ export type UserType = {
   photos?: PhotosType;
   followed: boolean;
 };
+
+export type UsersResponseType = {
+  items: UserType[];
+  totalCount: number;
+  error: string | null;
+};

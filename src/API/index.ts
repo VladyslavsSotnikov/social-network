@@ -1,5 +1,12 @@
 import Axios from 'axios';
-import { AuthMeDataType, LoginResponseDataType, ProfileDataType, SecurityResponseDataType } from '../models';
+import {
+  AuthMeDataType,
+  LoginResponseDataType,
+  PhotosType,
+  ProfileDataType,
+  SecurityResponseDataType,
+  UsersResponseType,
+} from '../models';
 import { APIResponseType, CapcthaCodeResult, ResultCodesEnum } from './API';
 
 const instance = Axios.create({
@@ -12,55 +19,59 @@ const instance = Axios.create({
 
 export const userAPI = {
   getUsers(count: number, page: number) {
-    return instance.get(`users?count=${count}&page=${page}`);
+    return instance.get<UsersResponseType>(`users?count=${count}&page=${page}`).then(({ data }) => data);
   },
 
   follow(userId: number) {
-    return instance.post(`follow/${userId}`);
+    return instance.post<APIResponseType<{}, ResultCodesEnum>>(`follow/${userId}`).then(({ data }) => data);
   },
 
   unfollow(userId: number) {
-    return instance.delete(`follow/${userId}`);
+    return instance.delete<APIResponseType<{}, ResultCodesEnum>>(`follow/${userId}`).then(({ data }) => data);
   },
 };
 
 export const profileAPI = {
   getUserProfile(userId: number) {
-    return instance.get(`profile/${userId}`);
+    return instance.get<ProfileDataType>(`profile/${userId}`).then(({ data }) => data);
   },
 
   getUserStatus(userId: number) {
-    return instance.get(`profile/status/${userId}`);
+    return instance.get<string>(`profile/status/${userId}`).then(({ data }) => data);
   },
 
   updateStatus(status: string) {
-    return instance.put(`profile/status/`, { status: status });
+    return instance
+      .put<APIResponseType<{}, ResultCodesEnum>>(`profile/status/`, { status: status })
+      .then(({ data }) => data);
   },
 
   getFollowInfo(userId: number) {
-    return instance.get(`follow/${userId}`);
+    return instance.get<boolean>(`follow/${userId}`).then(({ data }) => data);
   },
 
   follow(userId: number) {
-    return instance.post(`follow/${userId}`);
+    return instance.post<APIResponseType<{}, ResultCodesEnum>>(`follow/${userId}`).then(({ data }) => data);
   },
 
   unfollow(userId: number) {
-    return instance.delete(`follow/${userId}`);
+    return instance.delete<APIResponseType<{}, ResultCodesEnum>>(`follow/${userId}`).then(({ data }) => data);
   },
 
   updatePhoto(image: File) {
     const formData = new FormData();
     formData.append('image', image);
-    return instance.put(`profile/photo`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return instance
+      .put<APIResponseType<PhotosType, ResultCodesEnum>>(`profile/photo`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(({ data }) => data);
   },
 
   updateProfileInfo(profile: ProfileDataType) {
-    return instance.put(`profile`, profile);
+    return instance.put<APIResponseType<{}, ResultCodesEnum>>(`profile`, profile).then(({ data }) => data);
   },
 };
 
@@ -80,11 +91,11 @@ export const authAPI = {
       .then(({ data }) => data);
   },
 
-  getCaptchaUrl() {
-    return instance.get<SecurityResponseDataType>('/security/get-captcha-url').then(({ data }) => data);
+  logout() {
+    return instance.delete<APIResponseType<{}, ResultCodesEnum>>('/auth/login').then(({ data }) => data);
   },
 
-  logout() {
-    return instance.delete('/auth/login');
+  getCaptchaUrl() {
+    return instance.get<SecurityResponseDataType>('/security/get-captcha-url').then(({ data }) => data);
   },
 };

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 
 import { User, UserSkeleton, Paginator } from './components';
-import { getUsers, followThunkCreator, unfollowThunkCreator, resetUsersState } from '../../redux/reducers/user-reducer';
+import { getUsers, followThunkCreator, unfollowThunkCreator, usersActions } from '../../redux/reducers/user-reducer';
 import { AppStoreType } from '../../redux/store';
 
 const useStyles = makeStyles({
@@ -37,7 +37,7 @@ export const Users = () => {
 
   useEffect(() => {
     return function () {
-      dispatch(resetUsersState());
+      dispatch(usersActions.setInitialState());
     };
   }, [dispatch]);
 

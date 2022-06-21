@@ -54,7 +54,7 @@ export const authMe = (): ThunkType => async (dispatch) => {
 };
 
 export const login =
-  (mail: string, password: string, remember: boolean, captcha?: string): ThunkType =>
+  (mail: string, password: string, remember: boolean, captcha: string | null): ThunkType =>
   async (dispatch) => {
     const { resultCode, messages } = await authAPI.login(mail, password, remember, captcha);
 
@@ -71,16 +71,17 @@ export const login =
 
 const getCaptchaUrl = (): ThunkType => async (dispatch) => {
   const { url } = await authAPI.getCaptchaUrl();
+
   dispatch(actions.setCaptchaUrl(url));
 };
 
-export const logout = (): ThunkType => (dispatch) => {
-  authAPI.logout().then(({ data }) => {
-    if (data.resultCode === 0) {
-      dispatch(actions.setUserData(null));
-      dispatch(actions.setIsAuth(false));
-    }
-  });
+export const logout = (): ThunkType => async (dispatch) => {
+  const { resultCode } = await authAPI.logout();
+
+  if (resultCode === ResultCodesEnum.Success) {
+    dispatch(actions.setUserData(null));
+    dispatch(actions.setIsAuth(false));
+  }
 };
 
 type ActionsTypes = ReturnType<InferActionsTypes<typeof actions>>;
