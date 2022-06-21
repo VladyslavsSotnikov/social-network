@@ -1,7 +1,7 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { makeStyles } from '@mui/styles';
 
-import { required, email } from '../../../common/validators/validators';
+import { required, email } from '../../../../helpers/validators';
 import { CheckBoxLogin, InputLogin, Error } from './components';
 import { VFC } from 'react';
 import { LoginFormValuesType } from '../../../../models';

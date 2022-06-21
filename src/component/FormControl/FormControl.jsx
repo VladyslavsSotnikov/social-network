@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import c from '../FormControl/FormControl.module.css';
-import errorSVG from '../../../assests/error.svg';
+import errorSVG from '../../assests/error.svg';
 
 export const InputLogin = ({ input, meta, className, ...props }) => {
   console.log('input', input);

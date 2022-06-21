@@ -1,9 +1,8 @@
 import { useState, VFC } from 'react';
 import { useSelector } from 'react-redux';
+import { makeStyles } from '@mui/styles';
 
 import { AppStoreType } from '../../../../redux/store';
-import { makeStyles } from '@mui/styles';
-import clsx from 'clsx';
 import { LeftArrow, Pages, RightArrow } from './components';
 
 type PaginatorProps = {

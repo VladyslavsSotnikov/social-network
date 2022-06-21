@@ -29,10 +29,10 @@ const useStyles = makeStyles({
 
 export const ProfileInfo: VFC<ProfileInfoProps> = ({ profile }) => {
   const { isAuthorizedUser } = useSelector(({ profile }: AppStoreType) => profile);
-
-  const openEditProfileDialog = () => setProfileEditMode(true);
   const [profileEditMode, setProfileEditMode] = useState(false);
   const classes = useStyles({ isAuthorizedUser });
+
+  const openEditProfileDialog = () => setProfileEditMode(true);
 
   return (
     <div className={classes.profileInfo}>

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 
 import { LoginForm } from '../Login/components';
-import { minLength } from '../common/validators/validators';
+import { minLength } from '../../helpers/validators';
 import { login } from '../../redux/reducers/auth-reducer';
 
 import loginIcon from '../../assests/loginIcon.svg';

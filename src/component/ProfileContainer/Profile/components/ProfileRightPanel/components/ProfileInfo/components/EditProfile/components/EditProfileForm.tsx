@@ -3,8 +3,8 @@ import { VFC } from 'react';
 import { makeStyles } from '@mui/styles';
 
 import { ProfileDataType } from '../../../../../../../../../../models';
-import { ProfileInputForm } from '../../../../../../../../../common/FormControl/FormControl';
-import { required } from '../../../../../../../../../common/validators/validators';
+import { ProfileInputForm } from '../../../../../../../../../FormControl/FormControl';
+import { required } from '../../../../../../../../../../helpers/validators';
 
 type EditProfileFormProps = {
   profile: ProfileDataType | null;
