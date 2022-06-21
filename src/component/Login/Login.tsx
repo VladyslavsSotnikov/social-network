@@ -39,6 +39,10 @@ const useStyles = makeStyles({
     margin: '15px 0',
   },
 
+  description: {
+    marginBottom: '10px',
+  },
+
   form: {
     width: '100%',
   },
@@ -59,6 +63,9 @@ export const Login = () => {
       <div className={classes.content}>
         <img className={classes.loginIcon} src={loginIcon} alt='login icon' />
         <h3 className={classes.header}>Zaloguj się</h3>
+        <span className={classes.description}>
+          <strong>Email</strong>: free@samuraijs.com <strong>Password:</strong> free
+        </span>
         <div className={classes.form}>
           <LoginForm onSubmit={onClickSubmit} minLength={minLength4} captchaUrl={captchaUrl} />
         </div>
