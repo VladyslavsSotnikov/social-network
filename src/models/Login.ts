@@ -1,5 +1,6 @@
-export type LoginDataType = {
-  email: string;
+export type LoginFormValuesType = {
+  rememberMe: boolean;
   password: string;
-  checkbox: boolean;
+  email: string;
+  captcha: string;
 };

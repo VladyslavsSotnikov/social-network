@@ -7,13 +7,7 @@ import { login } from '../../redux/reducers/auth-reducer';
 
 import loginIcon from '../../assests/loginIcon.svg';
 import { AppStoreType } from '../../redux/store';
-
-type LoginFormValuesType = {
-  rememberMe: boolean;
-  password: string;
-  email: string;
-  captcha: string;
-};
+import { LoginFormValuesType } from '../../models';
 
 const useStyles = makeStyles({
   root: {

@@ -1,9 +1,15 @@
-import { Field, reduxForm } from 'redux-form';
+import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { makeStyles } from '@mui/styles';
 
 import { required, email } from '../../../common/validators/validators';
 import { CheckBoxLogin, InputLogin, Error } from './components';
-import { FC } from 'react';
+import { VFC } from 'react';
+import { LoginFormValuesType } from '../../../../models';
+
+type PropsType = {
+  captchaUrl: string | null;
+  minLength: (value: string) => string | undefined;
+};
 
 const useStyles = makeStyles({
   submitButton: {
@@ -23,7 +29,12 @@ const useStyles = makeStyles({
   },
 });
 
-const Form = ({ handleSubmit, minLength, captchaUrl, error }: any) => {
+const Form: VFC<InjectedFormProps<LoginFormValuesType, PropsType> & PropsType> = ({
+  handleSubmit,
+  minLength,
+  captchaUrl,
+  error,
+}: any) => {
   const classes = useStyles();
 
   return (
@@ -51,5 +62,4 @@ const Form = ({ handleSubmit, minLength, captchaUrl, error }: any) => {
   );
 };
 
-// @ts-ignore
-export const LoginForm: FC<any> = reduxForm({ form: 'login' })(Form);
+export const LoginForm = reduxForm<LoginFormValuesType, PropsType>({ form: 'login' })(Form);
