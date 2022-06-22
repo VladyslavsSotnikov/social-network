@@ -22,3 +22,7 @@ export type ProfileDataType = {
   contacts: ContactsType;
   photos: PhotosType;
 };
+
+export type PhotosResponseType = {
+  photos: PhotosType;
+};

@@ -2,7 +2,7 @@ import Axios from 'axios';
 import {
   AuthMeDataType,
   LoginResponseDataType,
-  PhotosType,
+  PhotosResponseType,
   ProfileDataType,
   SecurityResponseDataType,
   UsersResponseType,
@@ -62,7 +62,7 @@ export const profileAPI = {
     const formData = new FormData();
     formData.append('image', image);
     return instance
-      .put<APIResponseType<PhotosType, ResultCodesEnum>>(`profile/photo`, formData, {
+      .put<APIResponseType<PhotosResponseType, ResultCodesEnum>>(`profile/photo`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

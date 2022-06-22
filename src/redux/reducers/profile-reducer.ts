@@ -57,7 +57,7 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
         ...state,
         profile: {
           ...state.profile,
-          photos: { large: action.photos.large, small: action.photos.small },
+          photos: action.photos,
         } as ProfileDataType,
       };
     case SET_IS_AUTHORIZED_USER:
@@ -161,8 +161,7 @@ export const savePhoto =
     const { data, resultCode } = await profileAPI.updatePhoto(image);
 
     if (resultCode === ResultCodesEnum.Success) {
-      debugger;
-      dispatch(profileActions.setPhoto(data));
+      dispatch(profileActions.setPhoto(data.photos));
     }
   };
 
