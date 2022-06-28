@@ -16,7 +16,9 @@ const useStyles = makeStyles({
 
 export const Users = () => {
   const dispatch = useDispatch();
-  const { users, isFetching, count, page, followingInProgress } = useSelector(({ users }: AppStoreType) => users);
+  const { users, isFetching, count, page, totalPage, followingInProgress } = useSelector(
+    ({ users }: AppStoreType) => users
+  );
   const classes = useStyles();
 
   const onChangePage = (page: number) => {
@@ -34,6 +36,10 @@ export const Users = () => {
   useEffect(() => {
     dispatch(getUsers(count, page));
   }, [page, count, dispatch]);
+
+  useEffect(() => {
+    dispatch(usersActions.setPages(totalPage));
+  }, [totalPage, dispatch]);
 
   useEffect(() => {
     return function () {

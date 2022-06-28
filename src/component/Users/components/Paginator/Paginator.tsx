@@ -53,13 +53,9 @@ const useStyles = makeStyles({
 });
 
 export const Paginator: VFC<PaginatorProps> = ({ currentPage, onChangePage }) => {
-  const { totalPage } = useSelector(({ users }: AppStoreType) => users);
+  const { pages, totalPage } = useSelector(({ users }: AppStoreType) => users);
   const classes = useStyles();
 
-  let pages = Array(totalPage).fill(null);
-  for (let i = 0; i < pages.length; i++) {
-    pages[i] = i + 1;
-  }
   const portionSize = 5;
   const [portionNumber, setPortionNumber] = useState(Math.ceil(currentPage / portionSize));
   const numberOfPortion = Math.ceil(totalPage / portionSize);

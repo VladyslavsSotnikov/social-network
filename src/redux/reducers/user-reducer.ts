@@ -13,12 +13,14 @@ const FOLLOW = 'user/FOLLOW';
 const UNFOLLOW = 'user/UNFOLLOW';
 const FOLLOWING_IN_PROGRESS = 'user/FOLLOWING_IN_PROGRESS';
 const SET_INITIAL_STATE = 'user/SET_INITIAL_STATE';
+const SET_TOTAL_PAGES = 'user/SET_TOTAL_PAGES';
 
 const initialState = {
   users: null as UserType[] | null,
   isFetching: true,
   count: 40,
   page: 1,
+  pages: [] as number[],
   totalPage: 0,
   followingInProgress: [] as number[],
 };
@@ -44,6 +46,14 @@ export const usersReducer = (state = initialState, action: ActionsTypes): Initia
       return {
         ...state,
         page: action.page,
+      };
+    }
+    case SET_TOTAL_PAGES: {
+      return {
+        ...state,
+        pages: Array(action.totalPages)
+          .fill(null)
+          .map((el, index) => index + 1),
       };
     }
     case FOLLOW: {
@@ -89,6 +99,7 @@ export const usersActions = {
   setFetching: (status: boolean) => ({ type: SET_FETCHING, status } as const),
   setTotalUserCount: (count: number) => ({ type: SET_TOTAL_USER_COUNT, count } as const),
   setPage: (page: number) => ({ type: SET_PAGE, page } as const),
+  setPages: (totalPages: number) => ({ type: SET_TOTAL_PAGES, totalPages } as const),
   follow: (userId: number) => ({ type: FOLLOW, userId } as const),
   unfollow: (userId: number) => ({ type: UNFOLLOW, userId } as const),
   followingInProgress: (status: boolean, userId: number) => ({ type: FOLLOWING_IN_PROGRESS, status, userId } as const),
