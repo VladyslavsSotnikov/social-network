@@ -8,7 +8,7 @@ import { AppStoreType, InferActionsTypes } from '../store';
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 const SET_IS_AUTH = 'auth/SET_IS_AUTH';
-const SET_IS_CAPTCHA_URL = 'auth/SET_IS_CAPTCHA_URL';
+const SET_CAPTCHA_URL = 'auth/SET_CAPTCHA_URL';
 
 const initialState = {
   userData: null as AuthMeDataType | null,
@@ -28,7 +28,7 @@ export const authReducer = (state = initialState, action: ActionsTypes): initial
         ...state,
         isAuth: action.status,
       };
-    case SET_IS_CAPTCHA_URL:
+    case SET_CAPTCHA_URL:
       return {
         ...state,
         captchaUrl: action.captchaUrl,
@@ -41,7 +41,7 @@ export const authReducer = (state = initialState, action: ActionsTypes): initial
 const actions = {
   setUserData: (data: AuthMeDataType | null) => ({ type: 'auth/SET_USER_DATA', data } as const),
   setIsAuth: (status: boolean) => ({ type: SET_IS_AUTH, status } as const),
-  setCaptchaUrl: (captchaUrl: string | null) => ({ type: SET_IS_CAPTCHA_URL, captchaUrl } as const),
+  setCaptchaUrl: (captchaUrl: string | null) => ({ type: SET_CAPTCHA_URL, captchaUrl } as const),
 };
 
 export const authMe = (): ThunkType => async (dispatch) => {
