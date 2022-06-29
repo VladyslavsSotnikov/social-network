@@ -1,3 +1,5 @@
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { makeStyles } from '@mui/styles';
 import { VFC } from 'react';
 
@@ -9,6 +11,7 @@ type PostProps = {
   date: string;
   text: string;
   like: number;
+  onClickDelete: () => void;
 };
 
 const useStyles = makeStyles({
@@ -17,6 +20,11 @@ const useStyles = makeStyles({
     marginTop: '10px',
     borderRadius: '5px',
     padding: '5px 10px',
+  },
+
+  postHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 
   postInfo: {
@@ -70,18 +78,24 @@ const useStyles = makeStyles({
   },
 });
 
-export const Post: VFC<PostProps> = ({ author, date, text, like }) => {
+export const Post: VFC<PostProps> = ({ author, date, text, like, onClickDelete }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.post}>
-      <div className={classes.postInfo}>
-        <img className={classes.postImg} src={man} alt='post-img' />
-        <div className={classes.shortInfo}>
-          <div className={classes.postAuthor}>{author}</div>
-          <div className={classes.postDate}>{date}</div>
+      <div className={classes.postHeader}>
+        <div className={classes.postInfo}>
+          <img className={classes.postImg} src={man} alt='post-img' />
+          <div className={classes.shortInfo}>
+            <div className={classes.postAuthor}>{author}</div>
+            <div className={classes.postDate}>{date}</div>
+          </div>
         </div>
+        <IconButton aria-label='delete' size='small' onClick={onClickDelete}>
+          <DeleteIcon fontSize='small' />
+        </IconButton>
       </div>
+
       <div className={classes.postContent}>
         <div className={classes.postText}>{text}</div>
         <div className={classes.likeWrapper}>

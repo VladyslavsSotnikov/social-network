@@ -13,6 +13,8 @@ const SET_FOLLOWING_IN_PROGRES = 'profile/SET_FOLLOWING_IN_PROGRES';
 const SET_PHOTO = 'profile/SET_PHOTO';
 const SET_IS_AUTHORIZED_USER = 'profile/SET_IS_AUTHORIZED_USER';
 const SET_USER_ID = 'profile/SET_USER_ID';
+const ADD_NEW_POST = 'profile/ADD_NEW_POST';
+const DELETE_POST = 'profile/DELETE_POST';
 const RESET_PROFILE_STATE = 'profile/RESET_PROFILE_STATE';
 
 const initialState = {
@@ -23,6 +25,10 @@ const initialState = {
   followInfo: false,
   isAuthorizedUser: false,
   userId: 0,
+  posts: [
+    { id: 2, author: 'Vladyslav Sotnikov', date: '01.12.2021', text: 'Junior Web UI developer', like: 20 },
+    { id: 1, author: 'Vladyslav Sotnikov', date: '25.11.2020', text: 'Hi! How are you today?', like: 2 },
+  ],
 };
 
 export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -70,8 +76,42 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
         ...state,
         userId: action.userId,
       };
+    case ADD_NEW_POST: {
+      const date = new Date();
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+
+      return {
+        ...state,
+        posts: [
+          {
+            author: 'Vladyslav Sotnikov',
+            id: date.getTime(),
+            like: 0,
+            text: action.text,
+            date: `${day}.${month}.${year}`,
+          },
+          ...state.posts,
+        ],
+      };
+    }
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post.id !== action.id),
+      };
     case RESET_PROFILE_STATE: {
-      return initialState;
+      return {
+        ...state,
+        profile: null,
+        isFeaching: true,
+        followingInProgres: false,
+        status: '',
+        followInfo: false,
+        isAuthorizedUser: false,
+        userId: 0,
+      };
     }
     default:
       return state;
@@ -88,6 +128,8 @@ export const profileActions = {
   setIsAuthorizedUser: (userId: number, authorizedUserId?: number) =>
     ({ type: SET_IS_AUTHORIZED_USER, authorizedUserId, userId } as const),
   setUserId: (userId: number) => ({ type: SET_USER_ID, userId } as const),
+  addNewPost: (text: string) => ({ type: ADD_NEW_POST, text } as const),
+  delatePost: (id: number) => ({ type: DELETE_POST, id } as const),
   resetProfileState: () => ({ type: RESET_PROFILE_STATE } as const),
 };
 

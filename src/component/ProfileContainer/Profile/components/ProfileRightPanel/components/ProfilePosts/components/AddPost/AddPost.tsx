@@ -1,7 +1,9 @@
 import { makeStyles } from '@mui/styles';
-import { useState, useRef } from 'react';
+import { useState, ChangeEvent } from 'react';
+import { useDispatch } from 'react-redux';
 
 import man from '../../../../../../../../../assests/man.svg';
+import { profileActions } from '../../../../../../../../../redux/reducers';
 
 const useStyles = makeStyles({
   root: {
@@ -52,25 +54,35 @@ const useStyles = makeStyles({
 });
 
 export const AddPost = () => {
-  const postRef = useRef();
+  // const postRef = useRef<HTMLDivElement>();
   const [editMode, setEditMode] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const dispatch = useDispatch();
   const classes = useStyles();
 
+  const addNewPost = () => {
+    dispatch(profileActions.addNewPost(inputValue));
+    setInputValue('');
+  };
+  // onBlur={() => setEditMode(false)}
   return (
-    <div className={classes.root} ref={postRef}>
+    <div className={classes.root}>
       <div className={classes.newPost}>
         <img src={man} alt='ava' className={classes.img} />
         <input
           type='text'
           className={classes.input}
           placeholder='Co słychać?'
+          value={inputValue}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => setInputValue(event.target.value)}
           onClick={() => setEditMode(true)}
-          onBlur={() => setEditMode(false)}
         />
       </div>
       {editMode && (
         <div className={classes.buttonWrapper}>
-          <button className={classes.button}>Dodaj</button>
+          <button className={classes.button} onClick={addNewPost}>
+            Dodaj
+          </button>
         </div>
       )}
     </div>
