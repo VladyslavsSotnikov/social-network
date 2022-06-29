@@ -98,9 +98,10 @@ export const getUserProfile =
     const data = await profileAPI.getUserProfile(userId);
 
     dispatch(profileActions.setUserProfile(data));
-    dispatch(getUserStatus(userId));
-    dispatch(getFollowInfo(userId));
-    dispatch(profileActions.setFeaching(false));
+
+    Promise.all([dispatch(getUserStatus(userId)), dispatch(getFollowInfo(userId))]).then(() =>
+      dispatch(profileActions.setFeaching(false))
+    );
   };
 
 export const getUserStatus =

@@ -14,8 +14,8 @@ const useStyles = makeStyles({
   },
 });
 
-const AUTHORIZED_USER_INFO_HEIGHT = 567;
-const NOT_AUTHORIZED_USER_INFO_HEIGHT = 525;
+const AUTHORIZED_USER_INFO_HEIGHT = 533;
+const NOT_AUTHORIZED_USER_INFO_HEIGHT = 491;
 
 export const ProfileInfoLoader = () => {
   const { isAuthorizedUser } = useSelector(({ profile }: AppStoreType) => profile);
