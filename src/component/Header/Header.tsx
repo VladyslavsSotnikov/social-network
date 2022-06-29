@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
+import { Avatar } from '@mui/material';
 
 import { logout } from '../../redux/reducers/auth-reducer';
 import { AppStoreType } from '../../redux/store';
@@ -59,6 +60,7 @@ export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userData } = useSelector(({ auth }: AppStoreType) => auth);
+  const { avatar } = useSelector(({ profile }: AppStoreType) => profile);
   const classes = useStyle();
 
   const onClickLogout = () => {
@@ -73,7 +75,7 @@ export const Header = () => {
         <div className={classes.authInfo}>
           <div className={classes.userName}>{userData?.login}</div>
           <div className={classes.profilePhoto}>
-            <img src={profilePhoto} alt='profilePhoto' />
+            <Avatar src={avatar ?? profilePhoto} sx={{ width: 30, height: 30 }} alt='profilePhoto' />
           </div>
           <button className={classes.logout} onClick={onClickLogout}>
             Log out

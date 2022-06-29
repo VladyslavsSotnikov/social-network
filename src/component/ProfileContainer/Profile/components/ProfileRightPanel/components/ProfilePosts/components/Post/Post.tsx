@@ -1,10 +1,12 @@
-import { IconButton } from '@mui/material';
+import { Avatar, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { makeStyles } from '@mui/styles';
 import { VFC } from 'react';
+import { useSelector } from 'react-redux';
 
 import likeImg from '../../../../../../../../../assests/like.svg';
 import man from '../../../../../../../../../assests/man.svg';
+import { AppStoreType } from '../../../../../../../../../redux/store';
 
 type PostProps = {
   author: string;
@@ -80,13 +82,14 @@ const useStyles = makeStyles({
 });
 
 export const Post: VFC<PostProps> = ({ id, author, date, text, like, onClickDelete }) => {
+  const { avatar } = useSelector(({ profile }: AppStoreType) => profile);
   const classes = useStyles();
 
   return (
     <div className={classes.post}>
       <div className={classes.postHeader}>
         <div className={classes.postInfo}>
-          <img className={classes.postImg} src={man} alt='post-img' />
+          <Avatar src={avatar ?? man} sx={{ width: 25, height: 25, marginRight: '15px' }} alt='post-img' />
           <div className={classes.shortInfo}>
             <div className={classes.postAuthor}>{author}</div>
             <div className={classes.postDate}>{date}</div>

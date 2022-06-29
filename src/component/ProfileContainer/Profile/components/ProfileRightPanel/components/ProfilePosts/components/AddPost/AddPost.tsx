@@ -1,9 +1,11 @@
+import { Avatar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState, ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import man from '../../../../../../../../../assests/man.svg';
 import { profileActions } from '../../../../../../../../../redux/reducers';
+import { AppStoreType } from '../../../../../../../../../redux/store';
 
 const useStyles = makeStyles({
   root: {
@@ -16,12 +18,6 @@ const useStyles = makeStyles({
   newPost: {
     display: 'flex',
     alignItems: 'center',
-  },
-
-  img: {
-    width: '25px',
-    height: '25px',
-    marginRight: '15px',
   },
 
   input: {
@@ -54,7 +50,8 @@ const useStyles = makeStyles({
 });
 
 export const AddPost = () => {
-  // const postRef = useRef<HTMLDivElement>();
+  const { avatar } = useSelector(({ profile }: AppStoreType) => profile);
+
   const [editMode, setEditMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();
@@ -68,7 +65,7 @@ export const AddPost = () => {
   return (
     <div className={classes.root}>
       <div className={classes.newPost}>
-        <img src={man} alt='ava' className={classes.img} />
+        <Avatar src={avatar ?? man} sx={{ width: 25, height: 25, marginRight: '15px' }} alt='ava' />
         <input
           type='text'
           className={classes.input}
