@@ -1,6 +1,5 @@
 @import 'variables';
 @import 'normalize';
-@import 'component/all';
 
 body {
   background-color: $background;
@@ -10,8 +9,4 @@ body {
 // Remove the page shift to the left when the scrollbar appears
 html {
   overflow-y: scroll;
-}
-
-.content__wrapper--profile {
-  height: auto;
 }

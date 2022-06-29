@@ -21,6 +21,16 @@ const useStyles = makeStyles({
       backgroundColor: '#6A98CC',
     },
   },
+
+  input: {
+    display: 'block',
+    width: '0.1px',
+    height: '0.1px',
+    opacity: 0,
+    overflow: 'hidden',
+    position: 'absolute',
+    zIndex: -1,
+  },
 });
 
 export const ChangePhotoButton: VFC<PropsType> = ({ sendPhotoToServer }) => {
@@ -31,7 +41,7 @@ export const ChangePhotoButton: VFC<PropsType> = ({ sendPhotoToServer }) => {
       <label htmlFor='photo' className={classes.commonButton}>
         Zmień zdięcie
       </label>
-      <input type='file' id='photo' onChange={sendPhotoToServer} />
+      <input type='file' id='photo' className={classes.input} onChange={sendPhotoToServer} />
     </div>
   );
 };

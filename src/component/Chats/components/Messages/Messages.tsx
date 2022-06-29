@@ -42,6 +42,19 @@ const useStyles = makeStyles({
     minWidth: '300px',
     marginRight: '30px',
   },
+
+  sendMessageBtn: {
+    width: '100px',
+    padding: '5px 0',
+    color: '#fff',
+    backgroundColor: '#5181b8',
+    border: 'none',
+    borderRadius: '2px',
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: '#6a98cc',
+    },
+  },
 });
 
 const messages = [
@@ -70,8 +83,7 @@ export const Messages: VFC = () => {
       </div>
       <div>
         <input type='text' className={classes.messageInput} placeholder='Wpisz wiadomość ...' />
-        <button type='submit' className='chats__message-btn'>
-          {' '}
+        <button type='submit' className={classes.sendMessageBtn}>
           Odeśij
         </button>
       </div>
