@@ -1,6 +1,9 @@
+import { Alert } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { VFC } from 'react';
+import { useSelector } from 'react-redux';
 import { ProfileDataType } from '../../../../../models';
+import { AppStoreType } from '../../../../../redux/store';
 import { ProfileInfo, ProfileInfoLoader, ProfilePosts } from './components';
 
 type PropsType = {
@@ -22,6 +25,7 @@ const useStyles = makeStyles({
 
 export const ProfileRightPanel: VFC<PropsType> = ({ isFeaching, profile }) => {
   const classes = useStyles();
+  const { isAuthorizedUser } = useSelector(({ profile }: AppStoreType) => profile);
 
   if (isFeaching) {
     return (
@@ -34,7 +38,7 @@ export const ProfileRightPanel: VFC<PropsType> = ({ isFeaching, profile }) => {
   return (
     <div className={classes.root}>
       <ProfileInfo profile={profile} />
-      <ProfilePosts />
+      {isAuthorizedUser ? <ProfilePosts /> : <Alert severity='warning'>Nie mam jeszcze postów</Alert>}
     </div>
   );
 };
