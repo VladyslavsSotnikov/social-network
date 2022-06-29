@@ -11,7 +11,8 @@ type PostProps = {
   date: string;
   text: string;
   like: number;
-  onClickDelete: () => void;
+  id: number;
+  onClickDelete: (id: number) => void;
 };
 
 const useStyles = makeStyles({
@@ -78,7 +79,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Post: VFC<PostProps> = ({ author, date, text, like, onClickDelete }) => {
+export const Post: VFC<PostProps> = ({ id, author, date, text, like, onClickDelete }) => {
   const classes = useStyles();
 
   return (
@@ -91,7 +92,7 @@ export const Post: VFC<PostProps> = ({ author, date, text, like, onClickDelete }
             <div className={classes.postDate}>{date}</div>
           </div>
         </div>
-        <IconButton aria-label='delete' size='small' onClick={onClickDelete}>
+        <IconButton aria-label='delete' size='small' onClick={() => onClickDelete(id)}>
           <DeleteIcon fontSize='small' />
         </IconButton>
       </div>

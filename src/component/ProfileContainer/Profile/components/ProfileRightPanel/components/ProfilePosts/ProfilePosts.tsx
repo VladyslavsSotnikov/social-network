@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { profileActions } from '../../../../../../../redux/reducers';
 import { AppStoreType } from '../../../../../../../redux/store';
@@ -8,16 +9,20 @@ export const ProfilePosts = () => {
   const { posts } = useSelector(({ profile }: AppStoreType) => profile);
   const dispatch = useDispatch();
 
-  const onClickDelete = (id: number) => {
-    dispatch(profileActions.delatePost(id));
-  };
+  const onClickDelete = useCallback(
+    (id: number) => {
+      dispatch(profileActions.delatePost(id));
+    },
+    [dispatch]
+  );
   return (
     <>
       <AddPost />
       {posts.map((post) => (
         <Post
           key={post.id}
-          onClickDelete={() => onClickDelete(post.id)}
+          id={post.id}
+          onClickDelete={onClickDelete}
           author={post.author}
           date={post.date}
           text={post.text}
