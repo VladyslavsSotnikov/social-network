@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 });
 
 export const AddPost = () => {
-  const { avatar } = useSelector(({ profile }: AppStoreType) => profile);
+  const { avatar } = useSelector(({ auth }: AppStoreType) => auth);
 
   const [editMode, setEditMode] = useState(false);
   const [inputValue, setInputValue] = useState('');

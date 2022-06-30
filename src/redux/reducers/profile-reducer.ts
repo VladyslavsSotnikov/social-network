@@ -11,7 +11,6 @@ const SET_USER_STATUS = 'profile/SET_USER_STATUS';
 const SET_FOLLOW_INFO = 'profile/SET_FOLLOW_INFO';
 const SET_FOLLOWING_IN_PROGRES = 'profile/SET_FOLLOWING_IN_PROGRES';
 const SET_PHOTO = 'profile/SET_PHOTO';
-const SET_AVATAR = 'profile/SET_AVATAR';
 const SET_IS_AUTHORIZED_USER = 'profile/SET_IS_AUTHORIZED_USER';
 const SET_USER_ID = 'profile/SET_USER_ID';
 const ADD_NEW_POST = 'profile/ADD_NEW_POST';
@@ -26,7 +25,6 @@ const initialState = {
   followInfo: false,
   isAuthorizedUser: false,
   userId: 0,
-  avatar: null as string | null,
   posts: [
     { id: 2, author: 'Vladyslav Sotnikov', date: '01.12.2021', text: 'Junior Web UI developer', like: 20 },
     { id: 1, author: 'Vladyslav Sotnikov', date: '25.11.2020', text: 'Hi! How are you today?', like: 2 },
@@ -67,11 +65,6 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
           ...state.profile,
           photos: action.photos,
         } as ProfileDataType,
-      };
-    case SET_AVATAR:
-      return {
-        ...state,
-        avatar: action.photo,
       };
     case SET_IS_AUTHORIZED_USER:
       return {
@@ -132,7 +125,6 @@ export const profileActions = {
   setFollowInfo: (status: boolean) => ({ type: SET_FOLLOW_INFO, status } as const),
   setFollowingInProgres: (status: boolean) => ({ type: SET_FOLLOWING_IN_PROGRES, status } as const),
   setPhoto: (photos: PhotosType) => ({ type: SET_PHOTO, photos } as const),
-  setAvatar: (photo: string | null) => ({ type: SET_AVATAR, photo } as const),
   setIsAuthorizedUser: (userId: number, authorizedUserId?: number) =>
     ({ type: SET_IS_AUTHORIZED_USER, authorizedUserId, userId } as const),
   setUserId: (userId: number) => ({ type: SET_USER_ID, userId } as const),
@@ -148,7 +140,6 @@ export const getUserProfile =
     const data = await profileAPI.getUserProfile(userId);
 
     dispatch(profileActions.setUserProfile(data));
-    dispatch(profileActions.setAvatar(data.photos.small));
     Promise.all([dispatch(getUserStatus(userId)), dispatch(getFollowInfo(userId))]).then(() =>
       dispatch(profileActions.setFeaching(false))
     );

@@ -2,18 +2,20 @@ import { FormAction, stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
 import { CapcthaCodeResult, ResultCodesEnum } from '../../API/API';
 
-import { authAPI } from '../../API/index';
+import { authAPI, profileAPI } from '../../API/index';
 import { AuthMeDataType } from '../../models';
 import { AppStoreType, InferActionsTypes } from '../store';
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 const SET_IS_AUTH = 'auth/SET_IS_AUTH';
 const SET_CAPTCHA_URL = 'auth/SET_CAPTCHA_URL';
+const SET_AVATAR = 'auth/SET_AVATAR';
 
 const initialState = {
   userData: null as AuthMeDataType | null,
   isAuth: false,
   captchaUrl: null as string | null,
+  avatar: null as string | null,
 };
 
 export const authReducer = (state = initialState, action: ActionsTypes): initialStateType => {
@@ -33,6 +35,11 @@ export const authReducer = (state = initialState, action: ActionsTypes): initial
         ...state,
         captchaUrl: action.captchaUrl,
       };
+    case SET_AVATAR:
+      return {
+        ...state,
+        avatar: action.photo,
+      };
     default:
       return state;
   }
@@ -42,13 +49,17 @@ const actions = {
   setUserData: (data: AuthMeDataType | null) => ({ type: 'auth/SET_USER_DATA', data } as const),
   setIsAuth: (status: boolean) => ({ type: SET_IS_AUTH, status } as const),
   setCaptchaUrl: (captchaUrl: string | null) => ({ type: SET_CAPTCHA_URL, captchaUrl } as const),
+  setAvatar: (photo: string | null) => ({ type: SET_AVATAR, photo } as const),
 };
 
 export const authMe = (): ThunkType => async (dispatch) => {
   const { data, resultCode } = await authAPI.authMe();
 
   if (resultCode === ResultCodesEnum.Success) {
+    const profile = await profileAPI.getUserProfile(data.id);
+
     dispatch(actions.setUserData(data));
+    dispatch(actions.setAvatar(profile.photos.small));
     dispatch(actions.setIsAuth(true));
   }
 };
@@ -81,6 +92,7 @@ export const logout = (): ThunkType => async (dispatch) => {
   if (resultCode === ResultCodesEnum.Success) {
     dispatch(actions.setUserData(null));
     dispatch(actions.setIsAuth(false));
+    dispatch(actions.setAvatar(null));
   }
 };
 

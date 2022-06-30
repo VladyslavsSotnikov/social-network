@@ -82,7 +82,7 @@ const useStyles = makeStyles({
 });
 
 export const Post: VFC<PostProps> = ({ id, author, date, text, like, onClickDelete }) => {
-  const { avatar } = useSelector(({ profile }: AppStoreType) => profile);
+  const { avatar } = useSelector(({ auth }: AppStoreType) => auth);
   const classes = useStyles();
 
   return (

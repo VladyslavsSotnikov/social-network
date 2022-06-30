@@ -59,8 +59,7 @@ const useStyle = makeStyles({
 export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userData } = useSelector(({ auth }: AppStoreType) => auth);
-  const { avatar } = useSelector(({ profile }: AppStoreType) => profile);
+  const { userData, avatar } = useSelector(({ auth }: AppStoreType) => auth);
   const classes = useStyle();
 
   const onClickLogout = () => {
