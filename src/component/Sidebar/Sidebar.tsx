@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { Home, Man, Message } from './icons';
 
-const useStyle = makeStyles({
+const useStyles = makeStyles({
   sidebar: {
     width: '120px',
   },
@@ -34,7 +34,8 @@ const useStyle = makeStyles({
 });
 
 export const Sidebar = () => {
-  const classes = useStyle();
+  const classes = useStyles();
+
   const setClassName = ({ isActive }: { isActive: boolean }) =>
     isActive ? clsx(classes.navItem, classes.activeNavItem) : classes.navItem;
 

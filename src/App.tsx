@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import { Header, Loader, Login, Sidebar, Content } from './component';
-import { initializedTC } from './redux/reducers/app-reducer';
 import { AppStoreType } from './redux/store';
-import { useNavigate } from 'react-router-dom';
+import { initializedTC } from './redux/reducers/app-reducer';
+
+import { Login } from './screens';
+import { Header, Sidebar, Content } from './component';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -46,7 +48,7 @@ export const App = () => {
   if (!initialized) {
     return (
       <div className={classes.wrapper}>
-        <Loader />
+        <CircularProgress />
       </div>
     );
   }

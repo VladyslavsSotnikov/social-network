@@ -1,3 +1,3 @@
-export * from './Home';
-export * from './Man';
-export * from './Message';
+export * from './Home/Home';
+export * from './Man/Man';
+export * from './Message/Message';
